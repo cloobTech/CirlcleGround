@@ -3,5 +3,5 @@ from typing import Literal
 
 class CreateAdminSchema(BaseModel):
     """Admin schema"""
-    full_name: str
+    pass
     

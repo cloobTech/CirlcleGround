@@ -2,11 +2,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from models.base import Base
 from pydantic import EmailStr
-
+from typing import Type, TypeVar
 
 class BaseRepository:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, model, session: AsyncSession):
         self.session = session
+        self.model = model
+
+
     def add(self, session: AsyncSession, obj):
         session.add(obj)
     
@@ -15,8 +18,8 @@ class BaseRepository:
             self.add(session, obj)
         await session.commit()
     
-    async def get_by_location(self, session: AsyncSession, cls: Base):
-        smtp = select(cls)
+    async def get_by_class(self, session: AsyncSession, model: Base):
+        smtp = select(model)
         result = await session.execute(smtp)
         return result.scalars().all()
     
@@ -54,8 +57,8 @@ class BaseRepository:
         return result
     
     
-    async def get_by_email(self, session, model, email: EmailStr):
-        result = await session.execute(select(model).where(model.email == email))
+    async def get_by_email(self, session, cls: Base, email: EmailStr):
+        result = await session.execute(select(cls).where(cls.email == email))
         return result.scalar_one_or_none()
     
     async def verify(self, session: AsyncSession, cls: Base, token):

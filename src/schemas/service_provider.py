@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 from typing import Literal
 
-class CreateAdminSchema(BaseModel):
+class CreateServiceProviderSchema(BaseModel):
     """Admin schema"""
-    full_name: str
+    skills: str
+    preferred_location: str
+    tools_needed: str
     
