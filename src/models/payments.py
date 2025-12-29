@@ -7,10 +7,10 @@ from enums.enums import Status
 class Payment(Basemodel, Base):
     __tablename__ = "payments"
 
-    booking_id = Mapped[str] = mapped_column(ForeignKey("bookings.id"))
-    amount: Mapped[str] = mapped_column()
+    booking_id = Mapped[str] = mapped_column(ForeignKey("bookings.id"), nullable=False)
+    amount: Mapped[str] = mapped_column(nullable=False)
     # payment_status: Mapped[str] = mapped_column(SAEnum(Status), default=Status.NOT_PAID)
-    payment_method: Mapped[str] = mapped_column()
+    payment_method: Mapped[str] = mapped_column(nullable=False)
 
 
     booking = relationship("Booking", back_populates="payment")

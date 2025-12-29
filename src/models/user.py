@@ -11,10 +11,14 @@ class User(Basemodel, Base):
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     is_email_verfied: Mapped[bool] = mapped_column(default=False)
     reset_token: Mapped[str] = mapped_column(default=False, nullable=True)
-    role: Mapped[str] = mapped_column()
+    role: Mapped[str] = mapped_column(nullable=False)
 
     
-    #relationships(One-many)
+    #relationships(One-one)
     customer: Mapped[Optional["Customer"]] = relationship(back_populates="user", uselist=False)
-    # service_provider: Mapped[Optional["Service Provider"]] = relationship(back_populates="user", uselist=False)
     host: Mapped[Optional["Host"]] = relationship(back_populates="user", uselist=False)
+
+    #(one-many)
+    booking: Mapped[Optional["Booking"]] = relationship(back_populates="user", uselist=True)
+
+    review: Mapped[Optional["Review"]] = relationship(back_populates="user", uselist=True)

@@ -10,6 +10,12 @@ class Booking(Basemodel, Base):
     status: Mapped[str] = mapped_column(SAEnum(Status), default=Status.NOT_PAID)
 
 
+    #relationships
+    user : Mapped[Optional[Optional["User"]]] = relationship(back_populates="booking", uselist=False)
+
+
     payment: Mapped[Optional["Payment"]] = relationship(back_populates="booking", uselist=False)
+
+    review:Mapped[Optional["Review"]] = relationship(back_populates="booking", uselist=False)
 
     

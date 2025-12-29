@@ -8,7 +8,11 @@ from models.association import space_amenity_link
 class Space(Basemodel, Base):
     __tablename__ = "spaces"
 
-    location_id: Mapped[Optional[str]] = mapped_column(ForeignKey("locations.id"))
+    location_id: Mapped[Optional[str]] = mapped_column(ForeignKey("locations.id"), nullable=False)
+    
 
 
-    amenities= relationship("Amenity", secondary=space_amenity_link, back_populates="spaces", lazy="selectin")
+    location: Mapped[Optional["Location"]] = relationship( back_populates="space")
+    amenities: Mapped[Optional["Amenities"]] = relationship(secondary=space_amenity_link, back_populates="spaces", lazy="selectin")
+    review:Mapped[Optional["Review"]] = relationship(back_populates="space")
+    
