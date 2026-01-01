@@ -10,4 +10,7 @@ class Amenity(Basemodel, Base):
     name: Mapped[str] = mapped_column()
 
 
-    spaces= relationship("Space", secondary=space_amenity_link, back_populates="amenities", lazy="selectin")
+    space_amenities: Mapped[list["SpaceAmenity"]] = relationship(
+        back_populates="amenities",
+        cascade="all, delete-orphan"
+    )

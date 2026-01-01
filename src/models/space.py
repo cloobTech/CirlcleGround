@@ -12,7 +12,9 @@ class Space(Basemodel, Base):
     
 
 
-    location: Mapped[Optional["Location"]] = relationship( back_populates="space")
-    amenities: Mapped[Optional["Amenities"]] = relationship(secondary=space_amenity_link, back_populates="spaces", lazy="selectin")
-    review:Mapped[Optional["Review"]] = relationship(back_populates="space")
+    location: Mapped["Location"] = relationship( back_populates="spaces")
+
+
+    review:Mapped[list["Review"]] = relationship(back_populates="spaces")
+
     

@@ -12,6 +12,5 @@ class Payment(Basemodel, Base):
     # payment_status: Mapped[str] = mapped_column(SAEnum(Status), default=Status.NOT_PAID)
     payment_method: Mapped[str] = mapped_column(nullable=False)
 
-
-    booking = relationship("Booking", back_populates="payment")
+    booking: Mapped["Booking"] = relationship(back_populates="payment")
     

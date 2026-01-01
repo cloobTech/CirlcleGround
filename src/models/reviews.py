@@ -13,6 +13,6 @@ class Review(Basemodel, Base):
     comment: Mapped[str] = mapped_column(nullable=False)
 
 
-    user: Mapped[Optional["User"]] = relationship(back_populates="review")
-    booking: Mapped[Optional["Booking"]] = relationship(back_populates="review")
-    space: Mapped[Optional["Space"]] = relationship(back_populates="review")
+    user: Mapped[["User"]] = relationship(back_populates="review")
+    # booking: Mapped["Booking"] = relationship(back_populates="review")
+    space: Mapped["Space"] = relationship(back_populates="review")
