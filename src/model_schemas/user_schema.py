@@ -1,7 +1,10 @@
 from pydantic import BaseModel, EmailStr, model_validator
 from typing import Literal
+
+
 class CreateUserSchema(BaseModel):
-    fullname: str
+    first_name: str
+    last_name: str
     email: EmailStr
     password: str
     role: Literal["customer, service provider"]

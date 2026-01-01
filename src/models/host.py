@@ -7,7 +7,6 @@ class Host(Basemodel, Base):
     __tablename__ = "hosts"
 
     user_id: Mapped[Optional[str]] = mapped_column(ForeignKey("users.id"), nullable=False, unique=True)
-    password: Mapped[str] = mapped_column(nullable=False)
     is_verified: Mapped[str] = mapped_column(default=False)
     
 

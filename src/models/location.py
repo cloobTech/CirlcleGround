@@ -5,10 +5,10 @@ from models.base import Basemodel, Base
 class Location(Basemodel, Base):
     __tablename__ = "locations"
 
+    country: Mapped[str] = mapped_column(nullable=False)
     city: Mapped[str] = mapped_column(nullable=False)
     state: Mapped[str] = mapped_column(nullable=False)
-
     
-    spaces: Mapped[list["Space"]] = relationship(back_populates="location")
+    spaces: Mapped[list["Space"]] = relationship(back_populates="location", cascade="all, delete-orphan")
 
     

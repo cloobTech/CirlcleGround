@@ -12,8 +12,14 @@ class DaysOfTheWeek(Enum):
     THURSDAY = "thursday"
     FRIDAY = "friday"
 
-class Status(Enum):
+class PaymentStatus(str, Enum):
+    PENDING = "pending"
+    SUCCESS = "success"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
+
+class BookingStatus(str, Enum):
     PENDING = "pending"
     CONFIRMED = "confirmed"
-    REVERSED = "cancelled"
-    NOT_PAID = "not_paid"
+    CANCELLED = "cancelled"
+    EXPIRED = "expired"

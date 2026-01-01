@@ -16,10 +16,11 @@ class User(Basemodel, Base):
 
     
     #relationships(One-one)
-    customer: Mapped["Customer"] = relationship(back_populates="user", uselist=False)
-    host: Mapped["Host"] = relationship(back_populates="user", uselist=False)
+    customer: Mapped["Customer"] = relationship(back_populates="user", uselist=False, cascade="all, delete-orphan")
+
+    host: Mapped["Host"] = relationship(back_populates="user", uselist=False, cascade="all, delete-orphan")
 
     #(one-many)
-    booking: Mapped[list["Booking"]] = relationship(back_populates="user", uselist=True)
+    bookings: Mapped[list["Booking"]] = relationship(back_populates="user", cascade="all, delete-orphan")
 
-    review: Mapped[list["Review"]] = relationship(back_populates="user", uselist=True)
+    reviews: Mapped[list["Review"]] = relationship(back_populates="user", cascade="all, delete-orphan")
