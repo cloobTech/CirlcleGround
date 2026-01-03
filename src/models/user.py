@@ -12,6 +12,7 @@ class User(Basemodel, Base):
     password: Mapped[str] = mapped_column(nullable=False)
     is_email_verfied: Mapped[bool] = mapped_column(default=False)
     reset_token: Mapped[str] = mapped_column(default=False, nullable=True)
+    is_deleted: Mapped[bool] = mapped_column(default=False)
     role: Mapped[str] = mapped_column(nullable=False)
 
     

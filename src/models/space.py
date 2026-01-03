@@ -12,10 +12,11 @@ class Space(Basemodel, Base):
     description: Mapped[str] = mapped_column(nullable=False)
     price: Mapped[str] = mapped_column(nullable=False)
     max_guests: Mapped[str] = mapped_column(nullable=False)
-    
+    is_deleted: Mapped[bool] = mapped_column(default=False)
 
 
 
     location: Mapped["Location"] = relationship( back_populates="spaces")
 
     reviews:Mapped[list["Review"]] = relationship(back_populates="space", cascade="all, delete-orphan")
+    

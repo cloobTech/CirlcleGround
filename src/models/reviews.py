@@ -11,6 +11,8 @@ class Review(Basemodel, Base):
     space_id: Mapped[str] = mapped_column(ForeignKey("spaces.id"), nullable=False)
 
     comment: Mapped[str] = mapped_column(nullable=False)
+    is_deleted: Mapped[bool] = mapped_column(default=False)
+    
 
 
     user: Mapped["User"] = relationship(back_populates="review")
