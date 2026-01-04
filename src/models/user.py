@@ -1,7 +1,6 @@
 from models.base import Basemodel, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String
-from typing import Optional
+# 
 
 class User(Basemodel, Base):
     __tablename__ ="users"
@@ -12,12 +11,13 @@ class User(Basemodel, Base):
     password: Mapped[str] = mapped_column(nullable=False)
     is_email_verfied: Mapped[bool] = mapped_column(default=False)
     reset_token: Mapped[str] = mapped_column(default=False, nullable=True)
+    preferred_location: Mapped[str] = mapped_column(nullable=False)
     is_deleted: Mapped[bool] = mapped_column(default=False)
     role: Mapped[str] = mapped_column(nullable=False)
 
     
     #relationships(One-one)
-    customer: Mapped["Customer"] = relationship(back_populates="user", uselist=False, cascade="all, delete-orphan")
+    # customer: Mapped["Customer"] = relationship(back_populates="user", uselist=False, cascade="all, delete-orphan")
 
     host: Mapped["Host"] = relationship(back_populates="user", uselist=False, cascade="all, delete-orphan")
 

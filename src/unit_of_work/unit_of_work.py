@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from repository.customer_repo import 
+from repositories.customer_repo import 
 class UnitOfWork:
     def __init__(self, session: AsyncSession):
         self.session = session
