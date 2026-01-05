@@ -17,9 +17,16 @@ class PaymentStatus(str, Enum):
     SUCCESS = "success"
     FAILED = "failed"
     CANCELLED = "cancelled"
+    REFUNDED = "refunded"
 
 class BookingStatus(str, Enum):
     PENDING = "pending"
     CONFIRMED = "confirmed"
     CANCELLED = "cancelled"
     EXPIRED = "expired"
+
+class UserRole(str, Enum):
+    ADMIN = "admin"
+    CUSTOMER = "customer"
+    HOST = "host"
+    

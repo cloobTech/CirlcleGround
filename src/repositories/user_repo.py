@@ -9,16 +9,20 @@ class UserRepository(BaseRepository[User]):
 
     def __init__(self, session: AsyncSession) -> None:
         super().__init__(User, session)
+        
     
-    async def get_all_users(self, user_id: str):
-        users = self.get_all(user_id)
+    async def get_all_users(self):
+        """to fetch all users from database"""
+        users = self.get_all()
         return users
         
     async def get_user_by_email(self, email: EmailStr):
+        """get user by email"""
         user = await self.get_by_email(email)
         return user
     
     async def update_password(self, user_id: str, hashed_password: str): 
+        """update user password"""
         user = await self.get_by_id(user_id)
         if not user:
             return False
@@ -28,6 +32,7 @@ class UserRepository(BaseRepository[User]):
         return 
     
     async def verify_user(self, token: str, user_id: str):
+        """verify user"""
         user = await self.get_by_id(user_id)
         if not user:
             return False

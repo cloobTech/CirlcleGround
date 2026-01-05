@@ -4,6 +4,7 @@ from sqlalchemy import String, ForeignKey, Enum as SAEnum
 from typing import Optional
 from enums.enums import PaymentStatus
 
+
 class Payment(Basemodel, Base):
     __tablename__ = "payments"
 
