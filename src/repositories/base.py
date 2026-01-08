@@ -64,3 +64,8 @@ class BaseRepository(Generic[ModelType]):
     async def verify_reset_token(self, token: str):
         result = await self.session.execute(select(self.model).where(self.model.reset_token == token))
         return result
+    
+    async def get_by_phone_number(self, phonenumber: str):
+       result = await self.session.execute(select(self.model).where(self.model.phone_number == phonenumber))
+       return result
+    

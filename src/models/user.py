@@ -17,7 +17,6 @@ class User(Basemodel, Base):
     location: Mapped[str] = mapped_column(nullable=False)
     phone_number: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-    confirm_password: Mapped[str] = mapped_column(nullable=False)
     role: Mapped[str] = mapped_column(nullable=False, default="user")
     is_user_verified: Mapped[bool] = mapped_column(nullable=False, default=False)
     is_email_verfied: Mapped[bool] = mapped_column(default=False)

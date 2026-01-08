@@ -26,7 +26,5 @@ def encode_to_bytes(plain_password: str):
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """function to verify password"""
     encoded_password = encode_to_bytes(plain_password)
-    if bcrypt.checkpw(encoded_password, hashed_password):
-        print("User successully logged in")
-    else:
-        print("Incorrect password")
+    return bcrypt.checkpw(encoded_password, hashed_password)
+    

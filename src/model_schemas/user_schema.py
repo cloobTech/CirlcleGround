@@ -19,6 +19,14 @@ class CreateUserSchema(BaseModel):
                 dict_value[field] = dict_value[field].lower()
         return dict_value
     
+    @model_validator(mode="before")
+    def passwords_match(cls, values):
+        password = values.get("password")
+        confirm_password = values.get("confirm_password")
+        if password and confirm_password and password != confirm_password:
+            raise ValueError("Passwords do not match")
+        return values
+    
 
 
 class UserLoginSchema(BaseModel):
