@@ -1,8 +1,13 @@
-from models.base import Basemodel, Base
+from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey
 from typing import Optional
-from models.association import space_amenity_link
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from src.models.space_amenities import SpaceAmenity
+
 
 
 class Amenity(Basemodel, Base):

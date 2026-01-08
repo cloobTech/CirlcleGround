@@ -1,6 +1,12 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from models.base import Basemodel, Base
-# from typing import Optional, List
+from src.models.basemodel import Basemodel, Base
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from src.models.space import Space
+
+
 
 class Location(Basemodel, Base):
     __tablename__ = "locations"

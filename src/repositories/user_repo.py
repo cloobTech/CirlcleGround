@@ -1,8 +1,8 @@
-from repositories.base import BaseRepository
+from src.repositories.base import BaseRepository
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.user import User
+from src.models.user import User
 from pydantic import EmailStr
 
 class UserRepository(BaseRepository[User]):

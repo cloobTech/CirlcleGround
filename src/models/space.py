@@ -1,9 +1,20 @@
-from models.base import Basemodel, Base
+from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey
-from enums.enums import DaysOfTheWeek
+from src.enums.enums import DaysOfTheWeek
 from typing import Optional
+
+from typing import TYPE_CHECKING
 # from models.association import space_amenity_link
+
+
+if TYPE_CHECKING:
+    from src.models.location import Location
+    from src.models.reviews import Review
+    from src.models.space_amenities import SpaceAmenity
+
+    
+
 
 class Space(Basemodel, Base):
     __tablename__ = "spaces"
@@ -19,4 +30,9 @@ class Space(Basemodel, Base):
     location: Mapped["Location"] = relationship( back_populates="spaces")
 
     reviews:Mapped[list["Review"]] = relationship(back_populates="space", cascade="all, delete-orphan")
+
+    space_amenities: Mapped[list["SpaceAmenity"]] = relationship(
+        back_populates="spaces",
+        cascade="all, delete-orphan"
+    )
     

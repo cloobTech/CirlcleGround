@@ -1,7 +1,16 @@
-from models.base import Basemodel, Base
+from src.models.basemodel import Basemodel, Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Optional
+
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from src.models.user import User
+    from src.models.space import Space
+
+
 
 class Review(Basemodel, Base):
     __tablename__ ="reviews"
@@ -15,6 +24,6 @@ class Review(Basemodel, Base):
     
 
 
-    user: Mapped["User"] = relationship(back_populates="review")
+    user: Mapped["User"] = relationship(back_populates="reviews")
     # booking: Mapped["Booking"] = relationship(back_populates="review")
     space: Mapped["Space"] = relationship(back_populates="reviews")

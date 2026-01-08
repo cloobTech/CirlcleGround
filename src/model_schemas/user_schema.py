@@ -3,11 +3,13 @@ from typing import Literal
 
 
 class CreateUserSchema(BaseModel):
-    first_name: str
-    last_name: str
+    name: str
     email: EmailStr
+    phone_number: str
     password: str
-    role: Literal["customer, service provider"]
+    confirm_password: str
+    location: str
+    role: Literal["host", "guest"]
 
     @model_validator(mode='before')
     def normalize_case(cls, dict_value):
@@ -16,3 +18,9 @@ class CreateUserSchema(BaseModel):
             if field in dict_value and isinstance(dict_value[field], str):
                 dict_value[field] = dict_value[field].lower()
         return dict_value
+    
+
+
+class UserLoginSchema(BaseModel):
+    identifier: str
+    password: str

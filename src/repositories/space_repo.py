@@ -1,5 +1,5 @@
-from models.space import Space
-from repositories.base import BaseRepository
+from src.models.space import Space
+from src.repositories.base import BaseRepository
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession

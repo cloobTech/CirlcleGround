@@ -1,5 +1,5 @@
-from repositories.base import BaseRepository
-from models.booking import Booking
+from src.repositories.base import BaseRepository
+from src.models.booking import Booking
 from sqlalchemy.ext.asyncio import AsyncSession
 
 

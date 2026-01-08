@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
-from models.base import Base
+from src.models.basemodel import Base
 from pydantic import EmailStr
 from typing import Type, TypeVar, Generic
 
@@ -26,7 +26,7 @@ class BaseRepository(Generic[ModelType]):
         return result.all()
 
     async def get_by_email(self, email: EmailStr):
-        result = await self.session.execute(select(ModelType).where(ModelType.email == email))
+        result = await self.session.execute(select(self.model).where(self.model.email == email))
         return result.scalar_one_or_none()
 
     async def get_by_id(self, id: str):
@@ -61,6 +61,6 @@ class BaseRepository(Generic[ModelType]):
 
         return obj
     
-    async def verify(self, model: ModelType, token: str):
-        result = await self.session.execute(select(model).where(model.reset_token == token))
+    async def verify_reset_token(self, token: str):
+        result = await self.session.execute(select(self.model).where(self.model.reset_token == token))
         return result

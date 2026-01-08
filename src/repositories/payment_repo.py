@@ -1,5 +1,5 @@
-from repositories.base import BaseRepository
-from models.payments import Payment
+from src.repositories.base import BaseRepository
+from src.models.payments import Payment
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
