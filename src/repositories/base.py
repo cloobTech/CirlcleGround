@@ -67,5 +67,5 @@ class BaseRepository(Generic[ModelType]):
     
     async def get_by_phone_number(self, phonenumber: str):
        result = await self.session.execute(select(self.model).where(self.model.phone_number == phonenumber))
-       return result
+       return result.scalar_one_or_none()
     

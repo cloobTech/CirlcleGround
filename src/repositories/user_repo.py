@@ -58,4 +58,8 @@ class UserRepository(BaseRepository[User]):
 
         user.is_deleted = False
         return True
+    
+    async def get_user_by_phone_number(self, phonenumber: str):
+        user = await self.get_by_phone_number(phonenumber)
+        return user
       

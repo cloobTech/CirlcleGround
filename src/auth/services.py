@@ -37,16 +37,17 @@ class AuthService:
         else:
             try:
                 # provide a default region if your users are mostly in one country, e.g. "US"
-                num = phonenumbers.parse(identifier, "US")
+                num = phonenumbers.parse(identifier, "NG")
                 if phonenumbers.is_valid_number(num):
-                    e164 = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.E164)
-                    user = await self.uow.user_repo.get_by_phone_number(e164)
+                    phonenumber = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.E164)
+                    user = await self.uow.user_repo.get_user_by_phone_number(phonenumber)
             except NumberParseException:
-                pass
+                raise InvalidCredentialsError(
+                    details={"recommendations": "Phone number could not be parsed"}
+                )
 
         if not user: 
             raise InvalidCredentialsError(details={"recommendations": "Ensure user passes the correct credentials"})
-        print(user.password)
         if not verify_password(login_details.password, user.password):
             raise InvalidCredentialsError(details={"recommendations": "Ensure user passes the correct password"})
 
