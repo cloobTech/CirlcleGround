@@ -15,10 +15,11 @@ class UnitOfWork:
 
     
     async def __aenter__(self):
-        # await self.session.begin()
+        await self.session.begin()
         return self
     
     async def __aexit__(self, exc_type, exc, tb):
         if exc_type is not None:
             await self.session.rollback()
-        await self.session.commit()
+        else:
+            await self.session.commit()

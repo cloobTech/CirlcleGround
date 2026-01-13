@@ -46,5 +46,5 @@ class CreateUserSchema(BaseModel):
 
 
 class UserLoginSchema(BaseModel):
-    identifier: str
+    username: str
     password: str
