@@ -3,6 +3,7 @@ from src.repositories.booking_repo import BookingRepository
 from src.repositories.payment_repo import PaymentRepository
 from src.repositories.space_repo import SpaceRepository
 from src.repositories.user_repo import UserRepository
+from src.repositories.location_repo import LocationRepository
 
 class UnitOfWork:
     def __init__(self, session: AsyncSession):
@@ -12,6 +13,7 @@ class UnitOfWork:
         self.space_repo = SpaceRepository(session)
         self.booking_repo = BookingRepository(session)
         self.payment_repo = PaymentRepository(session)
+        self.location_repo = LocationRepository(session)
 
     
     async def __aenter__(self):

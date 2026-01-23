@@ -1,6 +1,6 @@
 from src.repositories.base import BaseRepository
 
-from sqlalchemy import select
+# from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.user import User
 from pydantic import EmailStr
@@ -62,4 +62,3 @@ class UserRepository(BaseRepository[User]):
     async def get_user_by_phone_number(self, phonenumber: str):
         user = await self.get_by_phone_number(phonenumber)
         return user
-      

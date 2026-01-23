@@ -1,3 +1,3 @@
-from src.storage.database import DBstorage
+from src.storage.database import Database
 
-db = DBstorage()
+db = Database()

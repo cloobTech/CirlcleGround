@@ -1,5 +1,6 @@
-from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from src.models.basemodel import Basemodel, Base
+from src.enums.enums import UserRole
 
 from typing import TYPE_CHECKING
 
@@ -12,12 +13,11 @@ class User(Basemodel, Base):
     __tablename__ ="users"
 
     name: Mapped[str] = mapped_column(nullable=False)
-    # last_name: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
     location: Mapped[str] = mapped_column(nullable=False)
     phone_number: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-    role: Mapped[str] = mapped_column(nullable=False, default="user")
+    role: Mapped[str] = mapped_column(nullable=False, default=UserRole.CUSTOMER)
     is_user_verified: Mapped[bool] = mapped_column(nullable=False, default=False)
     is_email_verfied: Mapped[bool] = mapped_column(default=False)
     reset_token: Mapped[str] = mapped_column(default=False, nullable=True)

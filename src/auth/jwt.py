@@ -14,21 +14,20 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     #            "message": "Error generating jwt"}
 
 
-def decode_access_token(token: str, credential_exceptions):
+def decode_access_token(token: str, credential_exceptions: Exception):
     try:
         payload = jwt.decode(token, config.SECRET_KEY, algorithms=config.ALGORITHM)
-        user_id: str = payload.get("user_id")
-        if user_id is None:
-            return None
-        return user_id 
+    
+        return payload
     except JWTError as exc:
         raise credential_exceptions from exc
     
 
 def retrieve_token(user):
     payload = {
-        "user_id": user.id,
-        "user_role": user.role
+        "sub": str(user.id),
+        "role": user.role
     }
+    
     access_token = create_access_token(payload)
     return access_token

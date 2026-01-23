@@ -5,22 +5,18 @@ from src.core.exceptions import InvalidCredentialsError
 from phonenumbers.phonenumberutil import NumberParseException
 
 
-class CreateUserSchema(BaseModel):
-    name: str
+class BaseUser(BaseModel):
     email: EmailStr
+
+
+class CreateUserSchema(BaseUser):
+    name: str
     phone_number: str
     password: str
     confirm_password: str
     location: str
-    role: Literal["host", "guest"]
+    
 
-    @model_validator(mode='before')
-    def normalize_case(cls, dict_value):
-        """ To change the values to lower case before validation"""
-        for field in ['role']:
-            if field in dict_value and isinstance(dict_value[field], str):
-                dict_value[field] = dict_value[field].lower()
-        return dict_value
     
     @model_validator(mode="before")
     def passwords_match(cls, values):
@@ -45,6 +41,21 @@ class CreateUserSchema(BaseModel):
         return values
 
 
-class UserLoginSchema(BaseModel):
+class LoginUser(BaseModel):
     username: str
     password: str
+
+
+class ReadUser(BaseUser):
+    name: str
+    phone_number: str
+    location: str
+    role: str
+
+class UpdateUser(BaseUser):
+    name: str
+    phone_number: str
+    location: str
+    role: str 
+
+

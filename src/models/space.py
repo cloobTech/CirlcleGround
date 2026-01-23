@@ -20,6 +20,7 @@ class Space(Basemodel, Base):
     __tablename__ = "spaces"
 
     location_id: Mapped[str] = mapped_column(ForeignKey("locations.id"), nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
     price: Mapped[str] = mapped_column(nullable=False)
     max_guests: Mapped[str] = mapped_column(nullable=False)

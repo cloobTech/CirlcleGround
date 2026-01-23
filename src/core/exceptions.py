@@ -15,6 +15,10 @@ class UserNotFound(CircleGround):
     def __init__(self, message="service provider not found", details=None):
         super().__init__(message=message, details=details)
 
+class StoreAlreadyExistsError(CircleGround):
+    def __init__(self, message="store already exist", details=None):
+        super().__init__(message=message, details=details)
+        
 class InvalidCredentialsError(CircleGround):
     def __init__(self, message="Invalid Credentials", details=None):
         super().__init__(message=message, details=details)

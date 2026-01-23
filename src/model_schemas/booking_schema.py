@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+class BaseBooking(BaseModel):
+    pass
 
 class CreateBookingSchema(BaseModel):
     guest_id: str

@@ -20,7 +20,7 @@ class SpaceRepository(BaseRepository[Space]):
         space = await self.get_by_id(space_id)
         return space
     
-    async def get_space_by_owner(self, guest_id: str):
+    async def get_space_by_id(self, guest_id: str):
         space = await self.get_by_id(guest_id)
         return space
     

@@ -1,12 +1,13 @@
+from datetime import datetime, timezone
+import phonenumbers 
+from phonenumbers.phonenumberutil import NumberParseException
+from fastapi.security import OAuth2PasswordRequestForm
 from src.models.user import User
-from src.model_schemas.user_schema import CreateUserSchema, UserLoginSchema
+from src.model_schemas.user_schema import CreateUserSchema, LoginUser
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import UserAlreadyExistsError, InvalidCredentialsError
 from src.auth.security import verify_password, get_password_hash
 from src.auth.jwt import retrieve_token
-from datetime import datetime, timezone
-import phonenumbers 
-from phonenumbers.phonenumberutil import NumberParseException
 import re
 
 class AuthService:
@@ -26,9 +27,10 @@ class AuthService:
         created_user = await self.uow_factory.user_repo.create(user)
         return created_user
         
-    async def login(self, login_details: UserLoginSchema):
+    async def login(self, login_details: OAuth2PasswordRequestForm):
         username = login_details.username.strip()
         password = login_details.password
+
 
         user = None
 
@@ -53,5 +55,9 @@ class AuthService:
 
         user.last_login = datetime.now(timezone.utc)
         access_token = retrieve_token(user)
-        return access_token
+        print(access_token)
+        return {
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
         
