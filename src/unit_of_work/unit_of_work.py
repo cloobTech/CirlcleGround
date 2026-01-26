@@ -5,6 +5,7 @@ from src.repositories.space_repo import SpaceRepository
 from src.repositories.user_repo import UserRepository
 from src.repositories.location_repo import LocationRepository
 
+
 class UnitOfWork:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -14,10 +15,11 @@ class UnitOfWork:
         self.booking_repo = BookingRepository(session)
         self.payment_repo = PaymentRepository(session)
         self.location_repo = LocationRepository(session)
+        
 
     
     async def __aenter__(self):
-        await self.session.begin()
+        # await self.session.begin()
         return self
     
     async def __aexit__(self, exc_type, exc, tb):

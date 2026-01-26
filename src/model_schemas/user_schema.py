@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, model_validator
+from pydantic import BaseModel, EmailStr, model_validator, ConfigDict
 from typing import Literal
 import phonenumbers
 from src.core.exceptions import InvalidCredentialsError
@@ -47,15 +47,16 @@ class LoginUser(BaseModel):
 
 
 class ReadUser(BaseUser):
+    model_config = ConfigDict(from_attributes=True)
+
     name: str
     phone_number: str
     location: str
     role: str
+
 
 class UpdateUser(BaseUser):
     name: str
     phone_number: str
     location: str
     role: str 
-
-

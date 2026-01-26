@@ -24,13 +24,11 @@ class User(Basemodel, Base):
     location: Mapped[str] = mapped_column(nullable=False)
     last_login: Mapped[str] = mapped_column(default=False)
     is_deleted: Mapped[bool] = mapped_column(default=False)
+    is_super_admin: Mapped[bool] = mapped_column(default=False, nullable=False)
 
 
 
     
-    
-
-
     
 
 

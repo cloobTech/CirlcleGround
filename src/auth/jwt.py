@@ -1,5 +1,5 @@
 from datetime import timedelta, datetime, timezone
-from src.core.pydanctic_confirguration import config
+from src.core.pydantic_confirguration import config
 from jose import jwt, JWTError
 
 

@@ -7,6 +7,10 @@ class Database:
         self.__engine = create_async_engine(db_url, echo=False)
         self.__session_maker = async_sessionmaker(self.__engine, expire_on_commit=False)
 
+    @property
+    def session_maker(self):
+        return self.__session_maker
+
     @asynccontextmanager
     async def get_session(self):
         async with self.__session_maker() as session:

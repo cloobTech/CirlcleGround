@@ -12,5 +12,5 @@ class PaymentRepository(BaseRepository[Payment]):
         return payment
     
     async def get_all_payment(self):
-        payments = await self.get_all(Payment)
+        payments = await self.get_all()
         return payments

@@ -16,9 +16,9 @@ class SpaceRepository(BaseRepository[Space]):
        spaces = await self.get_all()
        return spaces
     
-    async def get_space(self, space_id: str):
-        space = await self.get_by_id(space_id)
-        return space
+    # async def get_space(self, space_id: str):
+    #     space = await self.get_by_id(space_id)
+    #     return space
     
     async def get_space_by_id(self, guest_id: str):
         space = await self.get_by_id(guest_id)

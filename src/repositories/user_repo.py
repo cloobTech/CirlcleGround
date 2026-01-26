@@ -1,6 +1,5 @@
 from src.repositories.base import BaseRepository
-
-# from sqlalchemy import select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.user import User
 from pydantic import EmailStr
@@ -29,14 +28,14 @@ class UserRepository(BaseRepository[User]):
         
         user.password = hashed_password
         hashed_password = hashed_password
-        return 
+        return user
     
     async def verify_user(self, token: str, user_id: str):
         """verify user"""
         user = await self.get_by_id(user_id)
         if not user:
             return False
-        verified_user = self.verify(token)
+        verified_user = self.verify_reset_token(token)
         if not verified_user:
             return False
         
@@ -62,3 +61,9 @@ class UserRepository(BaseRepository[User]):
     async def get_user_by_phone_number(self, phonenumber: str):
         user = await self.get_by_phone_number(phonenumber)
         return user
+    
+    async def get_super_admin(self):
+        result = await self.session.execute(select(User).where(User.is_super_admin == True))
+        return result.scalar_one_or_none()
+    
+    

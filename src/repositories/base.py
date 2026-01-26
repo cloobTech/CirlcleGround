@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
 from src.models.basemodel import Base
-from pydantic import EmailStr
-from typing import Type, TypeVar, Generic
+from pydantic import EmailStr, BaseModel
+from typing import Type, TypeVar, Generic, Dict, Union
 
 ModelType = TypeVar("ModelType", bound=Base)
 
@@ -45,17 +45,17 @@ class BaseRepository(Generic[ModelType]):
         
         return True
     
-    async def update(self, id: str, data: dict):
-        if not data:
-            return None
-
+    async def update(self, id: str, new_data: Union[BaseModel]):
         obj = await self.get_by_id(id)
         if not obj:
             return None
+        
+        update_obj = new_data.model_dump()
+
 
         IGNORE_LIST = {"id", "created_at", "updated_at"}
 
-        for key, value in data.items():
+        for key, value in update_obj.items():
             if key not in IGNORE_LIST:
                 setattr(obj, key, value)
 
@@ -65,7 +65,7 @@ class BaseRepository(Generic[ModelType]):
         result = await self.session.execute(select(self.model).where(self.model.reset_token == token))
         return result
     
-    async def get_by_phone_number(self, phonenumber: str):
-       result = await self.session.execute(select(self.model).where(self.model.phone_number == phonenumber))
+    async def get_by_phone_number(self, phone_number: str):
+       result = await self.session.execute(select(self.model).where(self.model.phone_number == phone_number))
        return result.scalar_one_or_none()
     

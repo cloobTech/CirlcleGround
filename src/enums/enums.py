@@ -29,4 +29,5 @@ class UserRole(str, Enum):
     ADMIN = "admin"
     CUSTOMER = "customer"
     HOST = "host"
+    SUPER_ADMIN = "super_admin"
     
