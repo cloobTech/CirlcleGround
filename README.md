@@ -14,7 +14,10 @@ Base Url or local development
 <summary>Authentication</summary>
 
 - [Login User](docs/api/auth/login_user.md)
--
+- [Register User](docs/api/auth/register_user.md)
+- [Request Token](docs/api/auth/request_token.md)
+- [Get Current User](docs/api/auth/get_current_user.md)
+- [Reset Password](docs/api/auth/reset_password.md)
 
 
 </details>

@@ -34,3 +34,12 @@ class InvalidCredentialsError(CircleGround):
 class DatabaseConnectionError(CircleGround):
     def __init__(self, message="failed to connect to database", details=None):
         super().__init__(message=message, details=details)
+
+class PasswordMismatchError(CircleGround):
+    def __init__(self, message="Password mismatch", details=None):
+        super().__init__(message=message, details=details)
+
+class InvalidResetTokenError(CircleGround):
+    def __init__(self, message="Invalid reset token", details=None):
+        super().__init__(message=message, details=details)
+        

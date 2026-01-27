@@ -1,16 +1,18 @@
 from datetime import datetime, timezone
+from jose import JWTError
 import phonenumbers 
 from phonenumbers.phonenumberutil import NumberParseException
 from fastapi.security import OAuth2PasswordRequestForm
 from src.models.user import User
+from src.auth.schemas.reset_password_schema import ResetPasswordSchema
 from src.model_schemas.user_schema import CreateUserSchema, LoginUser
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import UserAlreadyExistsError, InvalidCredentialsError
-from src.auth.security import verify_password, get_password_hash
-from src.auth.jwt import retrieve_token
+from src.auth.security import verify_password, get_password_hash, verify_password
+from src.auth.jwt import retrieve_token, decode_access_token
 from src.services.user_services  import UserService
 from src.enums.enums import UserRole
-from src.core.exceptions import PermissionDeniedError
+from src.core.exceptions import PermissionDeniedError, PasswordMismatchError, InvalidResetTokenError
 import re
 
 
@@ -65,3 +67,25 @@ class AuthService:
             "access_token": access_token,
             "token_type": "bearer"
         }
+     async def reset_password(self, data: ResetPasswordSchema):
+        verified_password = verify_password(data.p)
+        if data.password != data.confirm_password:
+            raise PasswordMismatchError()
+
+        try:
+            payload = decode_access_token(data.token)
+            user_id = payload.get("user_id")
+
+            if not user_id:
+                raise InvalidResetTokenError()
+
+        except JWTError:
+            raise InvalidResetTokenError()
+
+        user = await self.uow.users_repo.get_by_id(user_id)
+
+        if not user:
+            raise UserNotFoundError()
+
+        user.password = hash_password(data.password)
+        await self.uow.users_repo.update(user)

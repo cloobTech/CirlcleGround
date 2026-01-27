@@ -15,3 +15,5 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     """function to verify password"""
     encoded_password = encode_to_bytes(plain_password)
     return bcrypt.checkpw(encoded_password, hashed_password)
+
+def confirm_password()
