@@ -22,7 +22,7 @@ from src.api.v1.routes.location import location_router
 
 app = FastAPI(
     title="CircleGround App Backend",
-    description="Backend API for Cirground App - Election Monitoring Solution",
+    description="Backend API for Cirground App - Workspace listing solution",
     version="1.0.0",
     docs_url="/",
     redoc_url=None,
