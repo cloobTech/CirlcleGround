@@ -20,16 +20,19 @@ class AuthService:
         self.uow_factory = uow_factory
         self.service = UserService(uow_factory)
     
-    async def register_customer(self, user_data: CreateUserSchema):
-        return await self.service.create_user(user_data, role=UserRole.CUSTOMER)
     
-    async def create_admin(self, user_data: CreateUserSchema):
-        return await self.service.create_user(user_data, role=UserRole.ADMIN)
+    async def create_admin(self, user_data: CreateUserSchema, current_user: User)->list[User]: 
+        async with self.uow_factory:
+            if current_user.role !=UserRole.SUPER_ADMIN:
+                raise PermissionDeniedError(message="Access denied: Only Super admins can create an admin", details={
+                    "recommendation": "Make sure you're passing the correct super admin_id"
+                })
+            return await self.service.create_user(user_data, role=UserRole.ADMIN)
         
-    async def login(self, login_details: OAuth2PasswordRequestForm):
-        username = login_details.username.strip()
+    async def login(self, login_details: LoginUser):
+        async with self.uow_factory:
+             username = login_details.username.strip()
         password = login_details.password
-        print(username)
         user = None
 
         if "@" in username:

@@ -8,15 +8,16 @@ class SpaceService:
     def __init__(self, uow_factory: UnitOfWork) -> None:
         self.uow_factory = uow_factory
     
-    async def create_space(self, store_data: CreateSpaceSchema):
-        store = await self.uow_factory.space_repo.get_space_by_id(store_data.id)
-        if store:
-            raise StoreAlreadyExistsError(message="Store already exists in database", details= {
-                "recommendation": "admin should provide another store details"
-            })
-        data = store_data.model_dump()
-        new_store = CreateSpaceSchema(**data)
-        created_store = await self.uow_factory.space_repo.create(new_store)
-        return created_store
+    async def create_space(self, space_data: CreateSpaceSchema):
+       async with self.uow_factory:
+            space = await self.uow_factory.space_repo.get_space_by_id(space_data.id)
+            if space:
+                raise StoreAlreadyExistsError(message="Store already exists in database", details= {
+                    "recommendation": "admin should provide another space details"
+                })
+            data = space_data.model_dump()
+            new_space = CreateSpaceSchema(**data)
+            created_space = await self.uow_factory.space_repo.create(new_space)
+            return created_space
 
     

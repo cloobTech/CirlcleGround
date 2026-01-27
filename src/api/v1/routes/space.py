@@ -11,6 +11,5 @@ space_router = APIRouter(prefix="/api/v1/spaces", tags=["Spaces"])
 
 @space_router.post("/")
 async def list_space(space_data: CreateSpaceSchema, service: SpaceService = Depends(get_space_service), user: User = Depends(require_admin)):
-    async with service.uow_factory:
-        response = await service.create_space(space_data)
+    response = await service.create_space(space_data)
     return response

@@ -27,7 +27,7 @@ class BookingStatus(str, Enum):
 
 class UserRole(str, Enum):
     ADMIN = "admin"
-    CUSTOMER = "customer"
+    GUEST_USER = "guest_user"
     HOST = "host"
     SUPER_ADMIN = "super_admin"
     
