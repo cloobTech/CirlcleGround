@@ -86,9 +86,10 @@ class AuthService:
             
             user.last_login = datetime.now(timezone.utc)
             access_token = retrieve_token(user)
-            
+            token_response = TokenResponse(access_token=access_token)
+            print(token_response)
             return TokenResponse(
-                token=access_token
+                access_token=access_token
             )
     async def verify_user_email(self, token: str):
         async with self.uow_factory:

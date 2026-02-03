@@ -24,6 +24,7 @@ class BaseRepository(Generic[ModelType]):
 
         result = await self.session.scalars(stmt)
         return result.all()
+    
 
     async def get_by_email(self, email: EmailStr):
         result = await self.session.execute(select(self.model).where(self.model.email == email))
@@ -45,7 +46,7 @@ class BaseRepository(Generic[ModelType]):
         
         return True
     
-    async def update(self, id: str, new_data: dict):
+    async def update(self, id: str, new_data):
         obj = await self.get_by_id(id)
         if not obj:
             return None

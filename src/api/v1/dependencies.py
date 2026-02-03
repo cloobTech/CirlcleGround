@@ -4,6 +4,7 @@ from fastapi import Depends, HTTPException, status
 from src.storage import db
 from src.enums.enums import UserRole
 from src.models.user import User
+from src.model_schemas.user_schema import ReadUser
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.auth.jwt import decode_access_token
 from src.auth.services import AuthService
@@ -55,7 +56,7 @@ async def get_current_user(
     user = await uow.user_repo.get_by_id(user_id)
     if not user:
         raise credential_exceptions
-    return user
+    return ReadUser.model_validate(user)
 
 
 async def require_admin(user: User = Depends(get_current_user)):
@@ -73,3 +74,10 @@ async def require_super_admin(user: User = Depends(get_current_user)):
             detail="super_admin access required"
         )
     return user
+
+async def require_super_admin_or_admin(user: User = Depends(get_current_user)):
+    if user.role not in [UserRole.SUPER_ADMIN, UserRole.ADMIN]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="super_admin or admin access required"
+        )

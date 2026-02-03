@@ -55,11 +55,3 @@ class ReadUser(BaseUser):
     phone_number: str
     location: str
     role: str
-
-
-class UpdateUser(BaseUser):
-    first_name: str
-    last_name: str
-    phone_number: str
-    location: str
-    role: str 

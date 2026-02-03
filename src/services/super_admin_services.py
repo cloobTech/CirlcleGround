@@ -1,19 +1,20 @@
 from src.models.user import User
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.model_schemas.user_schema import ReadUser, CreateUserSchema
-from src.services.user_services import UserService
+from src.auth.services import AuthService
 from src.enums.enums import UserRole
 from src.core.exceptions import UserAlreadyExistsError
-from src.auth.security import get_password_hash
+from src.auth.security import hash_password
 
 class SuperAdminService:
     def __init__(self, uow_factory: UnitOfWork):
         self.uow_factory = uow_factory
-        self.service = UserService(uow_factory)
+        self.auth_service = AuthService(uow_factory)
 
-    async def create_first_super_admin(self):        
+    async def create_first_super_admin(self, background_tasks):        
         user_data = CreateUserSchema(
-            name="Emmanuel",
+            first_name="Emmanuel",
+            last_name="Nwokoma",
             email="emmanuelnwokoma364@gmail.com",
             phone_number="09038457350",
             password="1234567890",
@@ -28,6 +29,5 @@ class SuperAdminService:
         if existing_super_admin or exisiting_user:
             raise UserAlreadyExistsError()
         
-        super_admin = await self.service.create_user(user_data, role=UserRole.SUPER_ADMIN)
+        super_admin = await self.auth_service.create_user(user_data, background_tasks, role=UserRole.SUPER_ADMIN)
         return ReadUser.model_validate(super_admin)
-
