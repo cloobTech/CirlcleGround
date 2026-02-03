@@ -20,26 +20,7 @@ class UserRepository(BaseRepository[User]):
         user = await self.get_by_email(email)
         return user
     
-    async def update_password(self, user_id: str, hashed_password: str): 
-        """update user password"""
-        user = await self.get_by_id(user_id)
-        if not user:
-            return False
-        
-        user.password = hashed_password
-        hashed_password = hashed_password
-        return user
     
-    async def verify_user(self, token: str, user_id: str):
-        """verify user"""
-        user = await self.get_by_id(user_id)
-        if not user:
-            return False
-        verified_user = self.verify_reset_token(token)
-        if not verified_user:
-            return False
-        
-        user.is_email_verfied = True
         
     async def deactivate_user(self, user_id: str):
         """soft delete a user"""
@@ -51,19 +32,21 @@ class UserRepository(BaseRepository[User]):
     
     async def restore_user(self, user_id: str):
         """Restore a soft-deleted user."""
-        user = await self.session.get(User, user_id)
+        user = await self.session.get(user_id)
         if not user or not hasattr(user, "is_deleted"):
             return False
 
         user.is_deleted = False
         return True
     
-    async def get_user_by_phone_number(self, phonenumber: str):
-        user = await self.get_by_phone_number(phonenumber)
-        return user
+    async def get_user_by_phone_number(self, phone_number: str):
+        result = await self.session.execute(select(self.model).where(self.model.phone_number == phone_number))
+        return result.scalar_one_or_none()
     
     async def get_super_admin(self):
         result = await self.session.execute(select(User).where(User.is_super_admin == True))
         return result.scalar_one_or_none()
     
-    
+    async def verify_token(self, token: str):
+        result = await self.session.execute(select(User).where(User.verification_token == token))
+        return result.scalar_one_or_none()

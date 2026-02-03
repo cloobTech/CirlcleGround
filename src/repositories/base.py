@@ -45,27 +45,15 @@ class BaseRepository(Generic[ModelType]):
         
         return True
     
-    async def update(self, id: str, new_data: Union[BaseModel]):
+    async def update(self, id: str, new_data: dict):
         obj = await self.get_by_id(id)
         if not obj:
             return None
-        
-        update_obj = new_data.model_dump()
-
 
         IGNORE_LIST = {"id", "created_at", "updated_at"}
 
-        for key, value in update_obj.items():
+        for key, value in new_data.items():
             if key not in IGNORE_LIST:
                 setattr(obj, key, value)
 
         return obj
-    
-    async def verify_reset_token(self, token: str):
-        result = await self.session.execute(select(self.model).where(self.model.reset_token == token))
-        return result
-    
-    async def get_by_phone_number(self, phone_number: str):
-       result = await self.session.execute(select(self.model).where(self.model.phone_number == phone_number))
-       return result.scalar_one_or_none()
-    

@@ -10,7 +10,8 @@ class BaseUser(BaseModel):
 
 
 class CreateUserSchema(BaseUser):
-    name: str
+    first_name: str
+    last_name: str
     phone_number: str
     password: str
     confirm_password: str
@@ -49,14 +50,16 @@ class LoginUser(BaseModel):
 class ReadUser(BaseUser):
     model_config = ConfigDict(from_attributes=True)
 
-    name: str
+    first_name: str
+    last_name: str
     phone_number: str
     location: str
     role: str
 
 
 class UpdateUser(BaseUser):
-    name: str
+    first_name: str
+    last_name: str
     phone_number: str
     location: str
     role: str 

@@ -2,7 +2,7 @@ import bcrypt
 
 
 
-def get_password_hash(password: str) -> str:
+def hash_password(password: str) -> str:
     
     hashed_password =  bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
     return hashed_password
@@ -15,5 +15,3 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     """function to verify password"""
     encoded_password = encode_to_bytes(plain_password)
     return bcrypt.checkpw(encoded_password, hashed_password)
-
-def confirm_password()

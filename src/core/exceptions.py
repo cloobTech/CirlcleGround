@@ -40,6 +40,10 @@ class PasswordMismatchError(CircleGround):
         super().__init__(message=message, details=details)
 
 class InvalidResetTokenError(CircleGround):
-    def __init__(self, message="Invalid reset token", details=None):
+    def __init__(self, message="Invalid or expired reset token", details=None):
+        super().__init__(message=message, details=details)
+
+class EmailServiceError(CircleGround):
+    def __init__(self, message="Error sending email", details=None):
         super().__init__(message=message, details=details)
         

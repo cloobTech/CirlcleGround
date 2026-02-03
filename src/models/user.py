@@ -12,7 +12,8 @@ if TYPE_CHECKING:
 class User(Basemodel, Base):
     __tablename__ ="users"
 
-    name: Mapped[str] = mapped_column(nullable=False)
+    first_name: Mapped[str] = mapped_column(nullable=False)
+    last_name: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
     location: Mapped[str] = mapped_column(nullable=False)
     phone_number: Mapped[str] = mapped_column(nullable=False)
@@ -20,7 +21,8 @@ class User(Basemodel, Base):
     role: Mapped[str] = mapped_column(nullable=False, default=UserRole.GUEST_USER)
     is_user_verified: Mapped[bool] = mapped_column(nullable=False, default=False)
     is_email_verfied: Mapped[bool] = mapped_column(default=False)
-    reset_token: Mapped[str] = mapped_column(default=False, nullable=True)
+    verification_token_expires_at: Mapped[str] = mapped_column(default=False, nullable=True)
+    verification_token: Mapped[str] = mapped_column(default=False, nullable=True)
     location: Mapped[str] = mapped_column(nullable=False)
     last_login: Mapped[str] = mapped_column(default=False)
     is_deleted: Mapped[bool] = mapped_column(default=False)

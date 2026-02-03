@@ -10,6 +10,7 @@ from src.auth.services import AuthService
 from src.services.space_services import SpaceService
 from src.services.user_services import UserService
 from src.services.location_service import LocationService
+from src.utils.token_utils import TokenUtils
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
@@ -32,6 +33,10 @@ def get_space_service(uow: UnitOfWork = Depends(get_uow)):
 
 def get_location_service(uow: UnitOfWork = Depends(get_uow)):
     return LocationService(uow)
+
+def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
+    return TokenUtils(uow)
+
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
