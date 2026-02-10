@@ -25,5 +25,5 @@ class SpaceRepository(BaseRepository[Space]):
         return space
     
     async def update_space(self, space_id: str, data: dict):
-        updated_space = await self.update(space_id, data)
+        updated_space = await self.update(id=space_id, data=data)
         return updated_space

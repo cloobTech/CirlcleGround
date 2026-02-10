@@ -1,26 +1,25 @@
-# import asyncio
-# from sqlalchemy.ext.asyncio import AsyncSession
-# from src.storage import db
-
-# from fastapi import BackgroundTasks
-# from src.services.super_admin_services import SuperAdminService
-# from src.model_schemas.user_schema import CreateUserSchema, ReadUser
-# from src.enums.enums import UserRole
-
-# from src.api.v1.dependencies import get_session, get_uow
-# from src.models.user import User
-# from src.unit_of_work.unit_of_work import UnitOfWork
-# from src.core.exceptions import UserAlreadyExistsError
-
-
-
 from fastapi import FastAPI
 from src.api.v1.routes.auth import auth_router
 from src.api.v1.routes.user import user_router
 from src.api.v1.routes.space import space_router
 from src.api.v1.routes.location import location_router
+from contextlib import asynccontextmanager
+from src.core.pydantic_confirguration import config
+from src.api.v1.register_exceptions import register_exception_handlers
 
 
+from src.storage import db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize event bus and subscriptions
+
+    if config.DEV_ENV == 'development':
+        await db.create_tables()
+    yield
+    # Cleanup actions can be added here if necessary
+    await db.cleanup()
 
 app = FastAPI(
     title="CircleGround App Backend",
@@ -28,17 +27,20 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/",
     redoc_url=None,
+    lifespan=lifespan,
+
 )
 
+register_exception_handlers(app)
 
-app.include_router(user_router) 
+
+app.include_router(user_router)
 
 app.include_router(space_router)
 
 app.include_router(location_router)
 
 app.include_router(auth_router)
-
 
 
 # async def main():

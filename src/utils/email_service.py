@@ -8,23 +8,25 @@ from src.core.exceptions import EmailServiceError
 
 class EmailService:
     def get_email_details(self):
-        return yagmail.SMTP(
-            user=config.MAIL_FROM,
-            password=config.MAIL_PASSWORD
-        )
+        # return yagmail.SMTP(
+        #     user=config.MAIL_FROM,
+        #     password=config.MAIL_PASSWORD
+        # )
+        pass
     def send_email(self, to: EmailStr, subject: str, contents: str | list):
-        try:
-                yag = self.get_email_details()
-                yag.send(to=to, subject=subject, contents=contents)
-                return{
-                    "status": "success",
-                    "message": "email successfully sent"
-                }
-        except Exception as e:
+        # try:
+        #         yag = self.get_email_details()
+        #         yag.send(to=to, subject=subject, contents=contents)
+        #         return{
+        #             "status": "success",
+        #             "message": "email successfully sent"
+        #         }
+        # except Exception as e:
              
-             raise EmailServiceError(
-                  message="Error sending email",
-                  details= e
-             )
+        #      raise EmailServiceError(
+        #           message="Error sending email",
+        #           details= e
+        #      )
+        pass
 
 email_service = EmailService()    

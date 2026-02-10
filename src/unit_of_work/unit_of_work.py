@@ -15,13 +15,11 @@ class UnitOfWork:
         self.booking_repo = BookingRepository(session)
         self.payment_repo = PaymentRepository(session)
         self.location_repo = LocationRepository(session)
-        
 
-    
     async def __aenter__(self):
         # await self.session.begin()
         return self
-    
+
     async def __aexit__(self, exc_type, exc, tb):
         if exc_type is not None:
             await self.session.rollback()

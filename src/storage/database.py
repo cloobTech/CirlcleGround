@@ -16,7 +16,7 @@ class Database:
         async with self.__session_maker() as session:
             yield session
 
-    async def create_table(self):
+    async def create_tables(self):
         """Creating a table in the database"""
         async with self.__engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
@@ -24,3 +24,7 @@ class Database:
     async def drop_tables(self):
         async with self.__engine.begin() as conn:
             await conn.run_sync(Base.metadata.drop_all)
+
+    async def cleanup(self) -> None:
+        """Cleanup database resources"""
+        await self.__engine.dispose()

@@ -1,7 +1,8 @@
+from datetime import datetime
+from sqlalchemy import Enum, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.models.basemodel import Basemodel, Base
+from src.models.basemodel import Base, Basemodel, SoftDeleteMixin
 from src.enums.enums import UserRole
-
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -9,34 +10,48 @@ if TYPE_CHECKING:
     from src.models.reviews import Review
 
 
-class User(Basemodel, Base):
-    __tablename__ ="users"
+class User(Basemodel, Base, SoftDeleteMixin):
+    __tablename__ = "users"
 
     first_name: Mapped[str] = mapped_column(nullable=False)
     last_name: Mapped[str] = mapped_column(nullable=False)
-    email: Mapped[str] = mapped_column(nullable=False)
-    location: Mapped[str] = mapped_column(nullable=False)
-    phone_number: Mapped[str] = mapped_column(nullable=False)
+    email: Mapped[str] = mapped_column(nullable=False, unique=True)
+    phone_number: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
-    role: Mapped[str] = mapped_column(nullable=False, default=UserRole.GUEST_USER)
-    is_email_verfied: Mapped[bool] = mapped_column(default=False)
-    verification_token_expires_at: Mapped[str] = mapped_column(default=False, nullable=True)
-    verification_token: Mapped[str] = mapped_column(default=False, nullable=True)
-    location: Mapped[str] = mapped_column(nullable=False)
-    last_login: Mapped[str] = mapped_column(default=False)
-    is_deleted: Mapped[bool] = mapped_column(default=False)
+    latitude: Mapped[float | None] = mapped_column(nullable=True)
+    longitude: Mapped[float | None] = mapped_column(nullable=True)
+    location: Mapped[str | None] = mapped_column(nullable=True)
+
+    role: Mapped[UserRole] = mapped_column(
+        Enum(UserRole),
+        default=UserRole.GUEST_USER
+    )
+
+    is_email_verified: Mapped[bool] = mapped_column(default=False)
+
+    verification_token: Mapped[str | None] = mapped_column(
+        nullable=True,
+        default=None
+    )
+
+    verification_token_expires_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True
+    )
+
+    last_login: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True
+    )
+
     is_super_admin: Mapped[bool] = mapped_column(default=False, nullable=False)
 
+    bookings: Mapped[list["Booking"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
 
-
-    
-    
-
-
-    #(one-many)
-    bookings: Mapped[list["Booking"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-
-    reviews: Mapped[list["Review"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-
-    
-    
+    reviews: Mapped[list["Review"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )

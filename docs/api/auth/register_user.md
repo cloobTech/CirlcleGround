@@ -25,8 +25,9 @@ The request should be made with `Content-Type: application/json` and include the
 | `name`             | string | Yes      | The full name of the user                    |
 | `phone_number`     | string | Yes      | The phone number of the user                 |
 | `password`         | string | Yes      | The password of the user                     |
-| `confirm_password` | string | Yes      | Must match the `password` field              |
-| `location`         | string | Yes      | The user’s location                          |
+| `location`         | string | No       | The user’s location (derived from lat & lon) |
+| `latitude`         | float  | No       | The user’s location latitude                 |
+| `longitude`        | float  | No       | The user’s location longitude                |
 
 
 
@@ -37,8 +38,9 @@ The request should be made with `Content-Type: application/json` and include the
   "name": "John Doe",
   "phone_number": "+2348012345678",
   "password": "strongpassword",
-  "confirm_password": "strongpassword",
-  "location": "Lagos, Nigeria"
+  "location": "Lagos, Nigeria",
+  "latitude": 0.724363,
+  "longitude": 3.758866,
 }
 ```
 ## Response

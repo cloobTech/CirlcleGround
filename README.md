@@ -3,7 +3,7 @@
 ### Base Url
 
 Live Base Url
-`https://agedata-vista-1.onrender.com/api/v1`
+`N/A`
 
 Base Url or local development
 `http://localhost:8000/api/v1`
