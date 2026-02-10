@@ -19,7 +19,7 @@ class SoftDeleteMixin:
 class Basemodel:
     id: Mapped[str] = mapped_column(
         String(60), nullable=False, primary_key=True, default=lambda: str(uuid4()))
-    created_at: Mapped[str] = mapped_column(
+    created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc))
-    updated_at: Mapped[str] = mapped_column(
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc))

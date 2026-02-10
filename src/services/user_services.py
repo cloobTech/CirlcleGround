@@ -1,11 +1,5 @@
-from src.models.user import User
-from src.schemas.user_schema import CreateUserSchema, ReadUser
+from src.schemas.user_schema import ReadUser
 from src.unit_of_work.unit_of_work import UnitOfWork
-from src.core.exceptions import UserAlreadyExistsError
-from src.enums.enums import UserRole
-from src.auth.security import hash_password
-from src.utils.email_service import email_service
-from src.utils.email_templates import verify_email_template
 
 
 class UserService:

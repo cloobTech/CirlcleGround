@@ -1,20 +1,19 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from src.api.v1.routes.auth import auth_router
 from src.api.v1.routes.user import user_router
 from src.api.v1.routes.space import space_router
 from src.api.v1.routes.location import location_router
-from contextlib import asynccontextmanager
-from src.core.pydantic_confirguration import config
 from src.api.v1.register_exceptions import register_exception_handlers
-
-
+from src.core.pydantic_confirguration import config
+from src.events.bootstrap import bootstrap_events_initializer
 from src.storage import db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize event bus and subscriptions
-
+    bootstrap_events_initializer()
     if config.DEV_ENV == 'development':
         await db.create_tables()
     yield

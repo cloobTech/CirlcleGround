@@ -1,32 +1,41 @@
-import yagmail
-from pydantic import EmailStr
+from jinja2 import Environment, FileSystemLoader
+import resend
 from src.core.pydantic_confirguration import config
-from src.core.exceptions import EmailServiceError
+import os
 
+resend.api_key = config.RESEND_API_KEY
 
+# Setup Jinja2 environment
+template_env = Environment(
+    loader=FileSystemLoader(os.path.join(
+        os.path.dirname(__file__), "../templates"))
+)
 
 
 class EmailService:
-    def get_email_details(self):
-        # return yagmail.SMTP(
-        #     user=config.MAIL_FROM,
-        #     password=config.MAIL_PASSWORD
-        # )
-        pass
-    def send_email(self, to: EmailStr, subject: str, contents: str | list):
-        # try:
-        #         yag = self.get_email_details()
-        #         yag.send(to=to, subject=subject, contents=contents)
-        #         return{
-        #             "status": "success",
-        #             "message": "email successfully sent"
-        #         }
-        # except Exception as e:
-             
-        #      raise EmailServiceError(
-        #           message="Error sending email",
-        #           details= e
-        #      )
-        pass
+    """Wrapper around Resend API with template support."""
 
-email_service = EmailService()    
+    @staticmethod
+    def send_email(email_list: list, subject: str, template_name: str, context: dict = {}):
+        template = template_env.get_template(template_name)
+        html_body = template.render(**context)
+
+        try:
+            resend.Emails.send({
+                "from": config.MAIL_FROM,
+                "to": email_list,
+                "subject": subject,
+                "html": html_body,
+            })
+        except Exception as e:
+            print(f"[EmailService] Error sending email: {e}")
+            raise
+
+
+# # Example usage
+# EmailService.send_email(
+#     email_list=['belkid98@gmail.com'],
+#     subject='Test Subject from Resend (API)',
+#     template_name='test_template.html',
+#     context={'name': 'John Doe'}
+# )

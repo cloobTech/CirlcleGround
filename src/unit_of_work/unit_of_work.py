@@ -4,11 +4,15 @@ from src.repositories.payment_repo import PaymentRepository
 from src.repositories.space_repo import SpaceRepository
 from src.repositories.user_repo import UserRepository
 from src.repositories.location_repo import LocationRepository
+from src.events.bus import event_bus
+from src.events.base import DomainEvent
 
 
 class UnitOfWork:
     def __init__(self, session: AsyncSession):
         self.session = session
+        self.event_bus = event_bus
+        self._pending_events: list[DomainEvent] = []
 
         self.user_repo = UserRepository(session)
         self.space_repo = SpaceRepository(session)
@@ -16,12 +20,37 @@ class UnitOfWork:
         self.payment_repo = PaymentRepository(session)
         self.location_repo = LocationRepository(session)
 
+    def collect_event(self, event: DomainEvent) -> None:
+        self._pending_events.append(event)
+
     async def __aenter__(self):
-        # await self.session.begin()
+        await self.session.begin()
         return self
 
-    async def __aexit__(self, exc_type, exc, tb):
-        if exc_type is not None:
-            await self.session.rollback()
-        else:
+    async def __aexit__(self, exc_type, exc, tb) -> None:
+        try:
+            if exc_type is not None:
+                await self.session.rollback()
+                self._pending_events.clear()
+                await self.session.close()
+                return
+
             await self.session.commit()
+        # except IntegrityError as e:
+        #     print(exc_type, exc, tb)
+        #     await self.session.rollback()
+        #     self._pending_events.clear()
+        #     raise UniqueViolationError("Duplicate record") from e
+        except Exception:
+            await self.session.rollback()
+            self._pending_events.clear()
+            raise
+        finally:
+            await self.session.close()
+
+        # publish only if event_bus exists
+        if self.event_bus is not None:
+            for ev in self._pending_events:
+                await self.event_bus.publish(ev)
+
+        self._pending_events.clear()

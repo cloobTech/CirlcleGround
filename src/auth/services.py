@@ -2,6 +2,7 @@ from datetime import datetime, timezone, timedelta
 from pydantic import EmailStr
 import phonenumbers
 from phonenumbers.phonenumberutil import NumberParseException
+from src.events.user_events import UserCreatedEvent
 from src.models.user import User
 from src.auth.schema import TokenResponse
 from src.schemas.user_schema import CreateUserSchema, LoginUser, ReadUser
@@ -11,10 +12,8 @@ from src.auth.security import verify_password, hash_password
 from src.auth.jwt import retrieve_token
 from src.services.user_services import UserService
 from src.enums.enums import UserRole
-from src.core.exceptions import PermissionDeniedError, PasswordMismatchError, UserNotFound, UserAlreadyExistsError
+from src.core.exceptions import PermissionDeniedError, UserNotFound, UserAlreadyExistsError
 from src.utils.token_utils import TokenUtils
-from src.utils.email_service import email_service
-from src.utils.email_templates import request_reset_password_template, verify_email_template
 
 
 class AuthService:
@@ -35,9 +34,12 @@ class AuthService:
             user_data.password = hash_password(user_data.password)
             data = user_data.model_dump()
             user = User(**data)
-            verification_token = await token_utils.user_verfication_token(user)
+            verification_token = await token_utils.user_verfication_token(user, expiry_time=10)
             created_user = await self.uow_factory.user_repo.create(user)
-            # celery task
+            # celery task (send verification token to user via mail)
+            if verification_token:
+                self.uow_factory.collect_event(UserCreatedEvent(
+                    first_name=user.first_name, last_name=user.last_name, email=user.email, token=verification_token, event_type="NEW_USER_CREATED"))
 
             return ReadUser.model_validate(created_user)
 
@@ -113,12 +115,12 @@ class AuthService:
             }
 
             await self.uow_factory.user_repo.update(id=user.id, data=updated_data)
-            background_tasks.add_task(
-                email_service.send_email,
-                to=user.email,
-                subject="Reset Password",
-                contents=request_reset_password_template(user, token)
-            )
+            # background_tasks.add_task(
+            #     email_service.send_email,
+            #     to=user.email,
+            #     subject="Reset Password",
+            #     contents=request_reset_password_template(user, token)
+            # )
             return {
                 "status": "success",
                 "message": "Token successfully sent"
