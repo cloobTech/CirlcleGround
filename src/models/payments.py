@@ -1,9 +1,9 @@
+from typing import TYPE_CHECKING
 from src.models.basemodel import Basemodel, Base
 from src.enums.enums import PaymentStatus
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import String, ForeignKey, Enum as SAEnum
+from sqlalchemy import ForeignKey, Enum as SAEnum
 
-from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:

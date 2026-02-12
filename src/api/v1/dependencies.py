@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException, status
 from src.storage import db
 from src.enums.enums import UserRole
 from src.models.user import User
-from src.schemas.user_schema import ReadUser
+from src.schemas.user_schema import ReadUser, UserProfile
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.auth.jwt import decode_access_token
 from src.auth.services import AuthService
@@ -49,7 +49,7 @@ def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
     uow: UnitOfWork = Depends(get_uow),
-) -> User:
+) -> UserProfile:
     credential_exceptions = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate token",
@@ -63,7 +63,7 @@ async def get_current_user(
     user = await uow.user_repo.get_by_id(user_id)
     if not user:
         raise credential_exceptions
-    return ReadUser.model_validate(user)
+    return UserProfile.model_validate(user)
 
 
 async def require_admin(user: User = Depends(get_current_user)):

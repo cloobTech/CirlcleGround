@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Table, Column
+from sqlalchemy import ForeignKey
 from src.models.basemodel import Basemodel,Base
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 
@@ -18,6 +18,5 @@ class SpaceAmenity(Basemodel,Base):
 
 
     spaces: Mapped["Space"] = relationship(back_populates="space_amenities")
-
     amenities: Mapped["Amenity"] = relationship(back_populates="space_amenities")
     

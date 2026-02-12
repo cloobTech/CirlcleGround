@@ -12,4 +12,4 @@ class BookingRepository(BaseRepository[Booking]):
     async def get_user_bookings(self, guest_id: str) -> list[Booking]:
         stmt = select(Booking).where(Booking.guest_id == guest_id)
         result = await self.session.execute(stmt)
-        return result.scalars().all()
+        return list(result.scalars().all())

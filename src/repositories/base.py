@@ -18,6 +18,10 @@ class BaseRepository(Generic[ModelType]):
         self.session.add(obj)
         return obj
 
+    async def bulk_create(self, objs: list[ModelType]):
+        self.session.add_all(objs)
+        return objs
+
     async def get_all(self, include_deleted: bool = False) -> list[ModelType]:
         stmt = select(self.model)
         if self.supports_soft_delete and not include_deleted:

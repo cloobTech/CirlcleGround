@@ -3,6 +3,7 @@ import phonenumbers
 from src.core.exceptions import InvalidCredentialsError
 from phonenumbers.phonenumberutil import NumberParseException
 from src.enums.enums import UserRole
+from datetime import datetime
 
 
 class BaseUser(BaseModel):
@@ -54,5 +55,22 @@ class ReadUser(BaseModel):
     phone_number: str
     location: str
     role: UserRole
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UserProfile(BaseModel):
+    id: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    phone_number: str
+    location: str | None = None
+    latitude: float | None = None
+    longitude: float | None = None
+    role: UserRole
+    is_email_verified: bool 
+    is_super_admin: bool 
+    last_login: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)

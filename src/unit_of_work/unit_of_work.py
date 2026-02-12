@@ -4,6 +4,12 @@ from src.repositories.payment_repo import PaymentRepository
 from src.repositories.space_repo import SpaceRepository
 from src.repositories.user_repo import UserRepository
 from src.repositories.location_repo import LocationRepository
+from src.repositories.amenity_repo import AmenityRepository
+from src.repositories.custom_amenity_repo import CustomAmenityRepository
+from src.repositories.space_rule import SpaceRuleRepository
+from src.repositories.space_pricing_repo import SpacePricingRepository
+from src.repositories.space_image_repo import SpaceImageRepository
+from src.repositories.space_addon_repo import SpaceAddonRepository
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
 
@@ -19,6 +25,12 @@ class UnitOfWork:
         self.booking_repo = BookingRepository(session)
         self.payment_repo = PaymentRepository(session)
         self.location_repo = LocationRepository(session)
+        self.amenity_repo = AmenityRepository(session)
+        self.custom_amenity_repo = CustomAmenityRepository(session)
+        self.space_rule_repo = SpaceRuleRepository(session)
+        self.space_pricing_repo = SpacePricingRepository(session)
+        self.space_image_repo = SpaceImageRepository(session)
+        self.space_addon_repo = SpaceAddonRepository(session)
 
     def collect_event(self, event: DomainEvent) -> None:
         self._pending_events.append(event)

@@ -2,6 +2,7 @@ from src.models.location import Location
 from src.schemas.location_schema import LocationSchema
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import LocationAlreadyExistsError
+from src.services.geocode.providers.nominatim import NominatimProvider
 
 
 class LocationService:
@@ -23,3 +24,7 @@ class LocationService:
             location = Location(**data)
             created_location = await self.uow_factory.location_repo.create(location)
             return created_location
+
+    async def search_location(self, address: str):
+        nominatim_provider = NominatimProvider()
+        return await nominatim_provider.geocode(address)

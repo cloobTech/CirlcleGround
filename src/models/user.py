@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.models.booking import Booking
     from src.models.reviews import Review
+    from src.models.space import Space
 
 
 class User(Basemodel, Base, SoftDeleteMixin):
@@ -21,6 +22,7 @@ class User(Basemodel, Base, SoftDeleteMixin):
     latitude: Mapped[float | None] = mapped_column(nullable=True)
     longitude: Mapped[float | None] = mapped_column(nullable=True)
     location: Mapped[str | None] = mapped_column(nullable=True)
+    profile_image: Mapped[str | None] = mapped_column(nullable=True)
 
     role: Mapped[UserRole] = mapped_column(
         Enum(UserRole),
@@ -53,5 +55,10 @@ class User(Basemodel, Base, SoftDeleteMixin):
 
     reviews: Mapped[list["Review"]] = relationship(
         back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    spaces: Mapped[list["Space"]] = relationship(
+        back_populates="host",
         cascade="all, delete-orphan"
     )
