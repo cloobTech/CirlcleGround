@@ -10,7 +10,6 @@ if TYPE_CHECKING:
 class SpaceAddon(Basemodel, Base):
     __tablename__ = "space_addons"
 
-    id: Mapped[str] = mapped_column(primary_key=True)
     space_id: Mapped[str] = mapped_column(
         ForeignKey("spaces.id"), nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)

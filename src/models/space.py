@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from src.models.space_addon import SpaceAddon
     from src.models.custom_amenity import CustomAmenity
     from src.models.booking import Booking
+    from src.models.space_use_case import SpaceUseCase
 
 
 class Space(Basemodel, Base):
@@ -64,6 +65,9 @@ class Space(Basemodel, Base):
         back_populates="space", cascade="all, delete-orphan")
 
     bookings: Mapped[list["Booking"]] = relationship(
+        back_populates="space", cascade="all, delete-orphan")
+
+    use_cases: Mapped[list["SpaceUseCase"]] = relationship(
         back_populates="space", cascade="all, delete-orphan")
 
     # NOT CHECKED YET

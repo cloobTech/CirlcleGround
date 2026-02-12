@@ -78,3 +78,10 @@ class SpaceStatus(str, Enum):
     PUBLISHED = "published"
     PENDING = "pending"
     REJECTED = "rejected"
+
+
+class ImageStatus(str, Enum):
+    PENDING = "pending"
+    COMPLETED = "completed"
+    PROCESSING = "processing"
+    FAILED = "failed"

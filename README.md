@@ -20,4 +20,12 @@ Base Url or local development
 - [Reset Password](docs/api/auth/reset_password.md)
 
 
+<!-- Spaces -->
+- [Create Space](docs/api/spaces/create_spaces.md)
+</details>
+<!-- Spaces -->
+<details>
+<summary>Create Spaces</summary>
+
+- [Create Space](docs/api/spaces/create_spaces.md)
 </details>

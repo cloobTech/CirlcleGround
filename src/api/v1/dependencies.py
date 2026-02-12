@@ -12,12 +12,13 @@ from src.services.space_services import SpaceService
 from src.services.user_services import UserService
 from src.services.location_service import LocationService
 from src.utils.token_utils import TokenUtils
+from typing import AsyncGenerator
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 
-async def get_session():
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with db.get_session() as session:
         yield session
 
@@ -60,7 +61,9 @@ async def get_current_user(
     user_id = payload.get("sub")
     if user_id is None:
         raise credential_exceptions
-    user = await uow.user_repo.get_by_id(user_id)
+    async with uow:
+        user = await uow.user_repo.get_by_id(user_id)
+
     if not user:
         raise credential_exceptions
     return UserProfile.model_validate(user)

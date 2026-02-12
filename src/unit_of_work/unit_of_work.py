@@ -10,6 +10,8 @@ from src.repositories.space_rule import SpaceRuleRepository
 from src.repositories.space_pricing_repo import SpacePricingRepository
 from src.repositories.space_image_repo import SpaceImageRepository
 from src.repositories.space_addon_repo import SpaceAddonRepository
+from src.repositories.space_usecase_repo import SpaceUseCaseRepository
+from src.repositories.space_amenity_repo import SpaceAmenityRepository
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
 
@@ -31,6 +33,8 @@ class UnitOfWork:
         self.space_pricing_repo = SpacePricingRepository(session)
         self.space_image_repo = SpaceImageRepository(session)
         self.space_addon_repo = SpaceAddonRepository(session)
+        self.space_usecase_repo = SpaceUseCaseRepository(session)
+        self.space_amenity_repo = SpaceAmenityRepository(session)
 
     def collect_event(self, event: DomainEvent) -> None:
         self._pending_events.append(event)
@@ -54,6 +58,8 @@ class UnitOfWork:
         #     self._pending_events.clear()
         #     raise UniqueViolationError("Duplicate record") from e
         except Exception:
+            print(exc_type, exc, tb)
+            print("rollback")
             await self.session.rollback()
             self._pending_events.clear()
             raise
