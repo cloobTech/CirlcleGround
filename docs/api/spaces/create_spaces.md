@@ -6,6 +6,9 @@
 
 ### Request Parameters
 
+
+
+
 | Parameter                     | Type             | Required | Description                     | Example / Notes                                                       |
 | ----------------------------- | ---------------- | -------- | ------------------------------- | --------------------------------------------------------------------- |
 | `space.id`                    | string           | ✅       | Unique ID of the space          | `"space-uuid-1234"`                                                   |

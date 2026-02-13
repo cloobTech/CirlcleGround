@@ -20,11 +20,12 @@ The request should be made with `Content-Type: application/json` and include the
 
 ### Request Body Parameters
 
-| Name               | Type   | Required | Description                                  |
-|--------------------|--------|----------|----------------------------------------------|
-| `name`             | string | Yes      | The full name of the user                    |
-| `phone_number`     | string | Yes      | The phone number of the user                 |
-| `password`         | string | Yes      | The password of the user                     |
+| Parameter               | Type   | Required | Description                                  |Example/Notes          |
+|--------------------|--------|----------|----------------------------------------------|-----------------------|
+| `first_name`       | string | Yes      | The first name of the user                   |`"Emmanuel"`           |
+| `last_name`        | string | Yes      | The last name of the user                    |`"Nwokoma"`            |
+| `phone_number`     | string | Yes      | The phone number of the user                 |`"09098765443"`        |
+| `password`         | string | Yes      | The password of the user                     |`"strongpassword6%43"` |
 | `location`         | string | No       | The user’s location (derived from lat & lon) |
 | `latitude`         | float  | No       | The user’s location latitude                 |
 | `longitude`        | float  | No       | The user’s location longitude                |
@@ -35,7 +36,8 @@ The request should be made with `Content-Type: application/json` and include the
 
 ```json
 {
-  "name": "John Doe",
+  "first_name": "John",
+  "last_name": "Doe",
   "phone_number": "+2348012345678",
   "password": "strongpassword",
   "location": "Lagos, Nigeria",

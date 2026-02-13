@@ -12,11 +12,14 @@ This request should be made with `Content-Type: application/json` and include th
 
 ### Form Data Parameters
 
-| Name        | Type   | Required | Description                                                                         |
-| ----------- | ------ | -------- | ----------------------------------------------------------------------------------- |
-| `token`  | string | Yes      | Password reset token                                                           |
-| `password`  | string | Yes      | The password of the user.                                                           |
-| `confirm_password`  | string | Yes      | Must match the password of the user.  
+
+| Parameter       | Type   | Required | Description                     |Example/Note
+|---------------- |--------|----------|---------------------------------|-----------------------|
+| `user_id`       | string |Yes       | Registered email address        | `"johndoe@gmail.com"` |
+| `new_password`  | string |Yes       | New password of the user        |`"strongPassword&65"`  |
+
+
+
 
 ## Response
 
@@ -33,24 +36,6 @@ This request should be made with `Content-Type: application/json` and include th
 
 ### Error
 
-
-#### Invalid or Expired Token
-
-- **Status Code:** `400 Bad Request`
-```json
-{
-  "detail": "Invalid or expired reset token"
-}
-```
-
-#### Password Mismatch
-
-- ****Status Code:** `400 Bad Request`
-```json
-{
-  "detail": "Passwords do not match"
-}
-```
 
 #### Validation Error
 - **Status Code:** `422 Unprocessable Entity`

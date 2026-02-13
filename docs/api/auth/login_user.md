@@ -12,10 +12,10 @@ The request should be made with `Content-Type: multipart/form-data` and include 
 
 ### Form Data Parameters
 
-| Name        | Type   | Required | Description                                                                         |
-| ----------- | ------ | -------- | ----------------------------------------------------------------------------------- |
-| `username`  | string | Yes      | The email or phone number of the user.                                                              |
-| `password`  | string | Yes      | The password of the user.                                                           |
+| Name        | Type   | Required | Description                                          |Example/Notes          |
+| ----------- | ------ | -------- | ---------------------------------------------------- |-----------------------|
+| `username`  | string | Yes      | The email or phone number of the user                |`"user1"`              |
+| `password`  | string | Yes      | The password of the user.                            |`"strongpassword6%43"` |
 
 
 ## Response
