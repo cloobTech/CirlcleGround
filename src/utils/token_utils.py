@@ -14,7 +14,7 @@ class TokenUtils:
     def generate_token(self, length: int = 6):
         return ''.join(secrets.choice(string.digits) for _ in range(length))
 
-    async def user_verfication_token(self, user: User, expiry_time: int = 3):
+    async def user_verification_token(self, user: User, expiry_time: int = 3):
         token = self.generate_token()
         user.verification_token = str(token)
         user.verification_token_expires_at = datetime.now(
@@ -32,7 +32,6 @@ class TokenUtils:
 
         if expiry_time < datetime.now(timezone.utc):
             raise InvalidResetTokenError(message="Token has expired")
-        
         user.verification_token = None
         user.verification_token_expires_at = None
         return user

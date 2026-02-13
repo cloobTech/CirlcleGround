@@ -57,15 +57,17 @@ async def forgot_password(
     background_tasks: BackgroundTasks,
     auth_service: AuthService = Depends(get_auth_service)
 ):
+    """forgot password"""
     response = await auth_service.request_password_reset(email, background_tasks)
     return response
 
 
 @auth_router.post("/verify-reset-token")
-async def verify_reset_token(
+async def verify_verification_token(
     token: str,
     token_utils: TokenUtils = Depends(get_token_utils)
 ):
+    """Verify verification token"""
     response = await token_utils.verify_token(token)
     return response
 
@@ -79,6 +81,12 @@ async def verify_email(
     response = await auth_service.verify_user_email(token)
     return response
 
-
-# @auth_router.post("/reset_password")
-# async def set_new_password(self, new_password, confirm_password)
+@auth_router.post("/reset-password")
+async def reset_password(
+    user_id: str,
+    new_password: str,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    response = await auth_service.reset_password(user_id, new_password)
+    return response
+    

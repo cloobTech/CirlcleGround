@@ -19,5 +19,4 @@ class SpaceAddon(Basemodel, Base):
 
     space: Mapped['Space'] = relationship(
         back_populates="space_addons",
-
     )

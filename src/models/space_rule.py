@@ -13,4 +13,5 @@ class SpaceRule(Basemodel, Base):
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
 
+
     space: Mapped["Space"] = relationship(back_populates="rules")

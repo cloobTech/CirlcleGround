@@ -12,4 +12,6 @@ class SpaceUseCase(Basemodel, Base):
     space_id: Mapped[str] = mapped_column(ForeignKey("spaces.id"))
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
+
+    
     space: Mapped["Space"] = relationship(back_populates="use_cases")
