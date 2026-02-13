@@ -2,7 +2,7 @@ from datetime import datetime, timezone, timedelta
 from pydantic import EmailStr
 import phonenumbers
 from phonenumbers.phonenumberutil import NumberParseException
-from src.events.user_events import UserCreatedEvent
+from src.events.user_events import UserCreatedEvent, RequestPasswordResetEvent
 from src.models.user import User
 from src.auth.schema import TokenResponse
 from src.schemas.user_schema import CreateUserSchema, LoginUser, ReadUser
@@ -17,6 +17,7 @@ from src.utils.token_utils import TokenUtils
 
 
 class AuthService:
+    """Authentication service"""
     def __init__(self, uow_factory: UnitOfWork) -> None:
         self.uow_factory = uow_factory
         self.service = UserService(uow_factory)
@@ -44,6 +45,7 @@ class AuthService:
             return ReadUser.model_validate(created_user)
 
     async def create_admin(self, user_data: CreateUserSchema, current_user: User):
+        """To create admin"""
         async with self.uow_factory:
             if current_user.role != UserRole.SUPER_ADMIN:
                 raise PermissionDeniedError(message="Access denied: Only Super admins can create an admin", details={
@@ -53,6 +55,7 @@ class AuthService:
             return await self.create_user(user_data)
 
     async def login(self, login_details: LoginUser):
+        """Login"""
         async with self.uow_factory:
             password = login_details.password
             user = None
@@ -65,17 +68,16 @@ class AuthService:
                         details={"recommendations": "Phone number is required"}
                     )
                 try:
-                    # provide a default region if your users are mostly in one country, e.g. "US"
                     num = phonenumbers.parse(login_details.phone_number, "NG")
                     if phonenumbers.is_valid_number(num):
                         phonenumber = phonenumbers.format_number(
                             num, phonenumbers.PhoneNumberFormat.E164)
                         user = await self.uow_factory.user_repo.get_user_by_phone_number(phonenumber)
-                except NumberParseException:
+                except NumberParseException as exc:
                     raise InvalidCredentialsError(
                         details={
                             "recommendations": "Phone number could not be parsed"}
-                    )
+                    ) from exc
 
             if not user:
                 raise InvalidCredentialsError(
@@ -92,14 +94,17 @@ class AuthService:
             )
 
     async def verify_user_email(self, token: str):
+        """Verify user email"""
         async with self.uow_factory:
             token_utils = TokenUtils(self.uow_factory)
             verified_user = await token_utils.verify_token(token)
             if not verified_user:
                 return False
             verified_user.is_email_verified = True
+            return True
 
-    async def request_password_reset(self, email: EmailStr, background_tasks):
+    async def request_password_reset(self, email: EmailStr):
+        """Request password reset"""
         async with self.uow_factory:
             token_utils = TokenUtils(self.uow_factory)
             user = await self.uow_factory.user_repo.get_user_by_email(email)
@@ -107,26 +112,23 @@ class AuthService:
                 raise UserNotFound(details={
                     "recommendations": "Ensure user passes the correct email"
                 })
-            token = await token_utils.user_verfication_token(user)
+            verification_token = await token_utils.user_verification_token(user)
+            self.uow_factory.collect_event(RequestPasswordResetEvent(
+                    first_name=user.first_name, last_name=user.last_name, email=user.email, token=verification_token, event_type="PASSWORD_RESET"))
             expires_at = datetime.now(timezone.utc) + timedelta(minutes=15)
             updated_data = {
-                "reset_token": token,
-                "reset_token_expires_at": expires_at
+                "verification_token": verification_token,
+                "verification_token_expires_at": expires_at
             }
 
             await self.uow_factory.user_repo.update(id=user.id, data=updated_data)
-            # background_tasks.add_task(
-            #     email_service.send_email,
-            #     to=user.email,
-            #     subject="Reset Password",
-            #     contents=request_reset_password_template(user, token)
-            # )
             return {
                 "status": "success",
                 "message": "Token successfully sent"
             }
 
     async def reset_password(self, user_id, new_password):
+        """Reset password"""
         async with self.uow_factory:
             user = await self.uow_factory.user_repo.get_by_id(user_id)
             if not user:
@@ -137,3 +139,4 @@ class AuthService:
                 "status": "success",
                 "message": "Your password has been updated successfully"
             }
+        
