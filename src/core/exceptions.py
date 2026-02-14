@@ -7,6 +7,12 @@ class CircleGround(Exception):
     message: str
     details: Optional[Any] = None
 
+
+class EntityNotFound(CircleGround):
+    def __init__(self, message="entity not found", details=None):
+        super().__init__(message=message, details=details)
+
+
 class UserAlreadyExistsError(CircleGround):
     def __init__(self, message="user already exist", details=None):
         super().__init__(message=message, details=details)

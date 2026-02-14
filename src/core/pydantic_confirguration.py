@@ -12,6 +12,8 @@ class PydanticConfiguration(BaseSettings):
     MAIL_FROM: str = "4Eo9f@example.com"
     MAIL_PASSWORD: str = "password"
     DEV_ENV: str = 'development'
+    DATABASE_URL: str = ""
+
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8")

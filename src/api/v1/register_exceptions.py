@@ -6,6 +6,7 @@ from src.core.exceptions import (
     InvalidCredentialsError,
     PermissionDeniedError,
     DatabaseConnectionError,
+    EntityNotFound
 )
 
 from src.api.v1.exception_handler import (
@@ -32,6 +33,8 @@ def register_exception_handlers(app: FastAPI):
     app.add_exception_handler(InvalidCredentialsError,
                               invalid_credentials_handler)
     app.add_exception_handler(PermissionDeniedError, permission_denied_handler)
+    app.add_exception_handler(EntityNotFound, entity_not_found_handler)
+    
 
     # Token-related
 

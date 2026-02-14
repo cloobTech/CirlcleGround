@@ -72,6 +72,7 @@ class SpacePriceType(str, Enum):
 
 
 class SpaceStatus(str, Enum):
+    TEMP = "temp"
     DRAFT = "draft"
     ACTIVE = "active"
     INACTIVE = "inactive"

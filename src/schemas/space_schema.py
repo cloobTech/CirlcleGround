@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 class SpaceSchema(BaseModel):
-    id: str
     location_id: str
     name: str
     description: str
@@ -12,7 +11,6 @@ class SpaceSchema(BaseModel):
     max_guests: str
     space_type: SpaceType = SpaceType.OTHERS
     category: SpaceCategory = SpaceCategory.OTHERS
-    status: SpaceStatus = SpaceStatus.DRAFT
     is_verified: bool = False
     square_feet: int
     length: int
@@ -58,9 +56,13 @@ class SpaceCustomAmenitySchema(BaseModel):
 
 class CreateSpaceSchema(BaseModel):
     space: SpaceSchema
+
+
+class UpdateSpaceAtCreation(BaseModel):
     use_cases: list[SpaceUseCaseSchema] = []
     rules: list[SpaceRuleSchema] = []
     pricings: list[SpacePricingSchema]
     addons: list[SpaceAddonSchema] = []
     custom_amenities: list[SpaceCustomAmenitySchema] = []
     amenity_ids: list[str] = []
+    status: SpaceStatus

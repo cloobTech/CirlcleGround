@@ -1,5 +1,6 @@
 import httpx
 from src.services.geocode.base import GeoProvider
+import asyncio
 
 
 class NominatimProvider(GeoProvider):
@@ -15,6 +16,7 @@ class NominatimProvider(GeoProvider):
             })
 
         if r.status_code != 200:
+            print(r.status_code)
             return None
 
         data = r.json()

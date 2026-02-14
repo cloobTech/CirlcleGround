@@ -26,7 +26,8 @@ class Space(Basemodel, Base):
 
     location_id: Mapped[str] = mapped_column(
         ForeignKey("locations.id"), nullable=False)
-    host_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    host_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id"), nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
     price: Mapped[float] = mapped_column(nullable=False)
@@ -35,7 +36,8 @@ class Space(Basemodel, Base):
         Enum(SpaceType), nullable=False, default=SpaceType.OTHERS)
     category: Mapped[SpaceCategory] = mapped_column(
         Enum(SpaceCategory), nullable=False, default=SpaceCategory.OTHERS)
-    status: Mapped[SpaceStatus] = mapped_column(nullable=False)
+    status: Mapped[SpaceStatus] = mapped_column(
+        Enum(SpaceStatus), nullable=False, default=SpaceStatus.TEMP)
     is_verified: Mapped[bool] = mapped_column(default=False)
     square_feet: Mapped[int] = mapped_column(nullable=False)
     length: Mapped[int] = mapped_column(nullable=False)
