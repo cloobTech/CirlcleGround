@@ -1,6 +1,6 @@
 ## Endpoint
 
-`POST /auth/verification-token`
+`POST /api/v1/auth/verification-token`
 
 ## Description
 

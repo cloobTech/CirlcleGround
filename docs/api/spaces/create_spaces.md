@@ -1,6 +1,6 @@
 # Create a Space
 
-**Endpoint:** `POST /spaces`  
+**Endpoint:** `POST /api/v1/spaces`  
 **Description:** Create a new space with basic initial data
 **Content-Type:** `application/json`
 

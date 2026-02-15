@@ -1,7 +1,7 @@
 # Get Current Authenticated User
 
 ## Endpoint
-`GET /auth/me`
+`GET /api/v1/auth/me`
 
 ---
 

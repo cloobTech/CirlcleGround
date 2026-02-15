@@ -2,7 +2,7 @@
 
 ## Endpoint
 
-`POST /auth/login`
+`POST /api/v1/auth/login`
 
 ## Description
 

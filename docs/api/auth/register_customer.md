@@ -2,7 +2,7 @@
 
 ## Endpoint
 
-`POST /auth/register`
+`POST /api/v1/auth/register`
 
 ---
 
