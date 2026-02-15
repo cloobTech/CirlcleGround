@@ -48,3 +48,7 @@
   
 }
 ```
+
+**Note** - creating a new space, is a two step process that includes the following:
+- initializing the space with the request data above
+- update the newly created space with some optional data ([See Documentation](update_newly_created_space.md))
