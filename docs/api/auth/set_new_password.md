@@ -1,6 +1,6 @@
 ## Endpoint
 
-`POST /auth/set-new-password`
+`POST /api/v1/auth/set-new-password`
 
 ## Description
 

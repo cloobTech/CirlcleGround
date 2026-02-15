@@ -1,7 +1,7 @@
 # Delete Space Image
 
-**Endpoint:** `DELETE /api/spaces/{space_id}/images`
-**Description:** This endpoint allows users to delete more than one images from a space in a single request. This is useful for bulk operations and cleaning up unwanted images.
+**Endpoint:** `DELETE /api/v1/spaces/{space_id}/images`
+**Description:** This endpoint allows users to delete  one image from a space in a  request.
 **Content-Type:** `application/json`
 
 
@@ -9,7 +9,7 @@
 
 | Name        | Type   | Required | Description                                     |
 | ----------- | ------ | -------- | ----------------------------------------------- |
-| `image_id` | list   | Yes      | space_id of the different spaces    |
+| `image_id`  | string | Yes      | space_id of the different spaces                |
 
 
 ## Response

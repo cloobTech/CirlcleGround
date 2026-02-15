@@ -1,7 +1,7 @@
 # Request Password Reset Token
 
 ## Endpoint
-`POST /auth/request-password-token`
+`POST /api/v1/auth/request-password-token`
 
 ---
 

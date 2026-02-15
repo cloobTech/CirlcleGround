@@ -1,6 +1,6 @@
 # Upload Space Images
 
-**Endpoint:** `POST /spaces/{space_id}/images`
+**Endpoint:** `POST /api/v1/spaces/{space_id}/images`
 **Description:** The Upload Space Images endpoint allows users to upload multiple images for a specific space. Images are processed asynchronously in the background, allowing for quick response times even with large files.
 **Content-Type:** `multipart/form-data`
 

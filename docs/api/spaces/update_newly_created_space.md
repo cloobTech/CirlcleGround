@@ -1,6 +1,6 @@
 # Update newly created a Space
 
-**Endpoint:** `POST /spaces/{space_id}`  
+**Endpoint:** `POST /api/v1/spaces/{space_id}`  
 **Description:** update a new space with all related data (pricings, addons, use cases, rules, amenities).  
 **Content-Type:** `application/json`
 
