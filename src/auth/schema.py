@@ -1,7 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class TokenResponse(BaseModel):
     """Token Response"""
     
     access_token: str
     token_type: str = "Bearer"
+
+class VerificationForm(BaseModel):
+    email: EmailStr

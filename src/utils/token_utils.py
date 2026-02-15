@@ -1,4 +1,5 @@
 from datetime import datetime, timezone, timedelta
+from pydantic import EmailStr
 import secrets
 import string
 from src.schemas.user_schema import ReadUser
@@ -29,6 +30,10 @@ class TokenUtils:
         expiry_time = user.verification_token_expires_at
         if not expiry_time:
             raise InvalidResetTokenError(message="Token has expired")
+
+        
+        if expiry_time.tzinfo is None:
+            expiry_time = expiry_time.replace(tzinfo=timezone.utc)
 
         if expiry_time < datetime.now(timezone.utc):
             raise InvalidResetTokenError(message="Token has expired")

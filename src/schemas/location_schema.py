@@ -5,3 +5,5 @@ class LocationSchema(BaseModel):
     country: str
     city: str
     state: str
+    latitude: float
+    longitude: float

@@ -1,3 +1,5 @@
+# Login
+
 ## Endpoint
 
 `POST /auth/login`

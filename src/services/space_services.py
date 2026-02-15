@@ -14,7 +14,7 @@ class SpaceService:
 
         return {
             "id": new_space.id,
-            "message": "Space created successfully  "
+            "message": "Space created successfully "
         }
 
     async def update_new_space(self, space_id: str, data: UpdateSpaceAtCreation):

@@ -74,3 +74,9 @@ class UserProfile(BaseModel):
     last_login: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
+
+class UpdateUserSchema(BaseModel):
+    first_name: str | None = None
+    last_name: str | None = None
+    phone_number: str | None= None
+    location: str | None= None

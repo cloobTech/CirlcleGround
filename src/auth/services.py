@@ -71,11 +71,11 @@ class AuthService:
                         phonenumber = phonenumbers.format_number(
                             num, phonenumbers.PhoneNumberFormat.E164)
                         user = await self.uow_factory.user_repo.get_user_by_phone_number(phonenumber)
-                except NumberParseException:
+                except NumberParseException as exc:
                     raise InvalidCredentialsError(
                         details={
                             "recommendations": "Phone number could not be parsed"}
-                    )
+                    ) from exc
 
             if not user:
                 raise InvalidCredentialsError(
@@ -98,6 +98,7 @@ class AuthService:
             if not verified_user:
                 return False
             verified_user.is_email_verified = True
+            return verified_user
 
     async def request_password_reset(self, email: EmailStr, background_tasks):
         async with self.uow_factory:
@@ -109,9 +110,10 @@ class AuthService:
                 })
             token = await token_utils.user_verfication_token(user)
             expires_at = datetime.now(timezone.utc) + timedelta(minutes=15)
+            print(token)
             updated_data = {
-                "reset_token": token,
-                "reset_token_expires_at": expires_at
+                "verification_token": token,
+                "verification_token_expires_at": expires_at
             }
 
             await self.uow_factory.user_repo.update(id=user.id, data=updated_data)

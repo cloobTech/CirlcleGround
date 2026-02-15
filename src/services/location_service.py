@@ -26,6 +26,5 @@ class LocationService:
             return created_location
 
     async def search_location(self, address: str):
-        print(address)
         nominatim_provider = NominatimProvider()
         return await nominatim_provider.geocode(address)

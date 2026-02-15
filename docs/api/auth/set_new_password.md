@@ -1,6 +1,6 @@
 ## Endpoint
 
-`POST /auth/reset-password`
+`POST /auth/set-new-password`
 
 ## Description
 

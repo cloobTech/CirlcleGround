@@ -1,3 +1,8 @@
+# import asyncio
+# from fastapi import BackgroundTasks
+# from src.services.super_admin_services import SuperAdminService
+# from src.api.v1.dependencies import get_uow
+
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.api.v1.routes.auth import auth_router
@@ -45,11 +50,11 @@ app.include_router(auth_router)
 # async def main():
 #     background_tasks = BackgroundTasks()
 #     async_session = db.session_maker()
-#     async with async_session as session:
-#         async with get_uow(session) as uow:
-#             service = SuperAdminService(uow)
-#             super_admin = await service.create_first_super_admin(background_tasks)
-#             print(super_admin)
+    
+#     async with get_uow(async_session) as uow:
+#         service = SuperAdminService(uow)
+#         super_admin = await service.create_first_super_admin(background_tasks)
+#         print(super_admin)
 
 
 # if __name__ == "__main__":
