@@ -21,9 +21,6 @@ Base Url or local development
 - [Set New Password](docs/api/auth/set_new_password.md)
 - [Verify Verification token](docs/api/auth/verify_verification_token.md)
 
-
-<!-- Spaces -->
-- [Create Space](docs/api/spaces/create_spaces.md)
 </details>
 <!-- Spaces -->
 <details>
@@ -34,5 +31,11 @@ Base Url or local development
 - [Delete Space](docs/api/spaces/delete_space.md)
 - [Upload Images](docs/api/spaces/upload_images.md)
 
+</details>
+<!-- Spaces -->
+<details>
+<summary>Location</summary>
+
+- [Seacrh Location](docs/api/location/search_location.md)
 
 </details>

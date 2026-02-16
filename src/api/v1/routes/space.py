@@ -4,6 +4,7 @@ from src.schemas.space_image_schema import DeleteSpaceImage
 from src.models.user import User
 from src.services.space_services import SpaceService
 from src.services.space_image_service import SpaceImageService
+from src.services.booking_services import BookingService
 from src.api.v1.dependencies import get_space_service, get_current_user, get_uow
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.tasks.image_upload import upload_image
@@ -50,3 +51,21 @@ async def delete_space_image(image_id: str,  uow: UnitOfWork = Depends(get_uow))
     space_image_service = SpaceImageService(uow)
     response = await space_image_service.delete_single_space_image(image_id)
     return response
+
+
+@space_router.get("/{space_id}/bookings")
+async def get_space_bookings(space_id: str, uow: UnitOfWork = Depends(get_uow), current_user: User = Depends(get_current_user)):
+    booking_service = BookingService(uow)
+    response = await booking_service.get_space_bookings(space_id=space_id, user_id=current_user.id)
+    return response
+
+
+@space_router.get("/{space_id}/available-dates")
+async def get_all_spaces(space_id: str, uow: UnitOfWork = Depends(get_uow)):
+    booking_service = BookingService(uow)
+    response = await booking_service.get_space_available_dates(space_id=space_id)
+    return response
+
+
+# TODO: add pagination
+# TODO: add calendar  view

@@ -2,7 +2,7 @@
 
 ## Enpoint
 
-`GET /location/search-location`
+`GET /locations/search`
 
 ## Description
 
@@ -12,18 +12,17 @@ The Search Location endpoint allows you to search for geographical locations and
 
 This request should be made with `Content-Type: application/json` header and include the following parameters:
 
-
 ### Form Data Parameters
 
-| Name        | Type   | Required | Description                                                                         |
-| ----------- | ------ | -------- | ----------------------------------------------------------------------------------- |
-| `address`  | string | Yes      | Address or location to search for                |
+| Name      | Type   | Required | Description                       |
+| --------- | ------ | -------- | --------------------------------- |
+| `address` | string | Yes      | Address or location to search for |
 
 ## Response
 
 ### Success Response
 
--  **Status Code:** `200 OK`
+- **Status Code:** `200 OK`
 - **Body:** A JSON object containing the following details:
 
 ```json
@@ -42,6 +41,7 @@ This request should be made with `Content-Type: application/json` header and inc
 ### Error Response
 
 #### Location not found
+
 - **Status Code:** `404 Not Found`
 
 ```json
@@ -51,17 +51,21 @@ This request should be made with `Content-Type: application/json` header and inc
 ```
 
 #### Invalid address format
+
 - **Status Code:** `422 Unprocessable Entity`
+
 ```json
 {
-    "detail": ""
+  "detail": ""
 }
 ```
 
 #### Internal Server Error
+
 - **Status Code:** `500 Internal Server Error`
+
 ```json
 {
-    "detail": "An error occurred while processing your request"
+  "detail": "An error occurred while processing your request"
 }
 ```

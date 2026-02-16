@@ -29,6 +29,8 @@ class BookingStatus(str, Enum):
     CANCELLED = "cancelled"
     COMPLETED = "completed"
     EXPIRED = "expired"
+    ACTIVE = "active"
+    INACTIVE = "inactive"
 
 
 class UserRole(str, Enum):
@@ -86,3 +88,10 @@ class ImageStatus(str, Enum):
     COMPLETED = "completed"
     PROCESSING = "processing"
     FAILED = "failed"
+
+
+class BookingPaymentStatus(str, Enum):
+    UNPAID = "unpaid"
+    PAID = "paid"
+    REFUNDED = "refunded"
+    PARTIALLY_PAID = "partially_paid"

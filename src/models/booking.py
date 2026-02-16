@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import ForeignKey, Enum, DateTime
-from src.enums.enums import BookingStatus
+from src.enums.enums import BookingStatus, BookingPaymentStatus
 
 
 if TYPE_CHECKING:
@@ -17,11 +17,15 @@ class Booking(Basemodel, Base):
     guest_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
     space_id: Mapped[str] = mapped_column(ForeignKey("spaces.id"))
     status: Mapped[BookingStatus] = mapped_column(
-        Enum(BookingStatus), default=BookingStatus.EXPIRED)
+        Enum(BookingStatus), default=BookingStatus.PENDING)
     start_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     end_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     cancelled_time: Mapped[DateTime] = mapped_column(DateTime, nullable=True)
     currency: Mapped[str] = mapped_column(nullable=False, default="NGN")
+    total_price: Mapped[float] = mapped_column(nullable=False)
+    payment_status: Mapped[BookingPaymentStatus] = mapped_column(
+        Enum(BookingPaymentStatus), default=BookingPaymentStatus.UNPAID
+    )
 
     # relationships
     user: Mapped["User"] = relationship(

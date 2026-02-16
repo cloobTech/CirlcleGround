@@ -38,6 +38,19 @@ def entity_not_found_handler(request: Request, exc: Exception):
     )
 
 
+def conflict_handler(request: Request, exc: Exception):
+
+    return JSONResponse(
+        status_code=status.HTTP_409_CONFLICT,
+        content=ErrorResponse(
+            error="conflict",
+            message=getattr(exc, "message", ""),
+            details=getattr(exc, "details", None),
+
+        ).model_dump(),
+    )
+
+
 def invalid_credentials_handler(request: Request, exc: Exception):
 
     return JSONResponse(

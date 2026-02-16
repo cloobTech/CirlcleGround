@@ -6,7 +6,8 @@ from src.core.exceptions import (
     InvalidCredentialsError,
     PermissionDeniedError,
     DatabaseConnectionError,
-    EntityNotFound
+    EntityNotFound,
+    ConflictError
 )
 
 from src.api.v1.exception_handler import (
@@ -21,7 +22,8 @@ from src.api.v1.exception_handler import (
     http_exception_handler,
     internal_server_error_handler,
     database_connection_error_handler,
-    invalid_coverage_selection
+    invalid_coverage_selection,
+    conflict_handler
 )
 
 
@@ -34,7 +36,7 @@ def register_exception_handlers(app: FastAPI):
                               invalid_credentials_handler)
     app.add_exception_handler(PermissionDeniedError, permission_denied_handler)
     app.add_exception_handler(EntityNotFound, entity_not_found_handler)
-    
+    app.add_exception_handler(ConflictError, conflict_handler)
 
     # Token-related
 
