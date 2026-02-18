@@ -8,8 +8,10 @@ from src.enums.enums import BookingStatus, BookingPaymentStatus
 
 if TYPE_CHECKING:
     from src.models.user import User
-    from src.models.payments import Payment
+    # from src.models.payments import Payment
     from src.models.space import Space
+    from src.models.booking_history import BookingStatusHistory
+    from src.models.booking_addon import BookingAddon
 
 
 class Booking(Basemodel, Base):
@@ -31,9 +33,18 @@ class Booking(Basemodel, Base):
     user: Mapped["User"] = relationship(
         back_populates="bookings", uselist=False)
 
-    payment: Mapped["Payment"] = relationship(
-        back_populates="booking", uselist=False, cascade="all, delete-orphan")
-
     space: Mapped["Space"] = relationship(back_populates="bookings")
 
+    history_status: Mapped[list["BookingStatusHistory"]] = relationship(
+        back_populates="booking",
+        cascade="all, delete-orphan"
+
+    )
+
+    booking_addons: Mapped[list["BookingAddon"]] = relationship(
+        back_populates="booking",
+    )
+
+    # payment: Mapped["Payment"] = relationship(
+    #     back_populates="booking", )
     # review:Mapped["Review"] = relationship(back_populates="booking", uselist=False)

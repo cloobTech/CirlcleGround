@@ -27,6 +27,7 @@ Base Url or local development
 <summary>Spaces</summary>
 
 - [Create Space](docs/api/spaces/create_spaces.md)
+- [Update A New Space](docs/api/spaces/update_newly_created_space.md)
 - [Delete Multiple Spaces](docs/api/spaces/delete_multiple_spaces.md)
 - [Delete Space](docs/api/spaces/delete_space.md)
 - [Upload Images](docs/api/spaces/upload_images.md)

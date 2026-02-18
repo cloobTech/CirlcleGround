@@ -56,6 +56,10 @@ class BookingService:
                 )
             new_booking = Booking(
                 **booking_data.model_dump(), guest_id=guest_id)
+            
+            for addon_id in booking_data.addon_ids:
+                await uow.booking_addon_repo.create(new_booking.id, addon_id)
+
             return await self.uow_factory.booking_repo.create(new_booking)
 
     async def delete_booking(self, booking_id: str, user_id: str):

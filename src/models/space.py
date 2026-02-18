@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from src.models.custom_amenity import CustomAmenity
     from src.models.booking import Booking
     from src.models.space_use_case import SpaceUseCase
+    from src.models.space_blackout import SpaceBlackout
+    from src.models.space_operating_hour import SpaceOperatingHour
 
 
 class Space(Basemodel, Base):
@@ -71,6 +73,14 @@ class Space(Basemodel, Base):
 
     use_cases: Mapped[list["SpaceUseCase"]] = relationship(
         back_populates="space", cascade="all, delete-orphan")
+    
+    operating_hours: Mapped[list["SpaceOperatingHour"]] = relationship(
+        back_populates="space", cascade="all, delete-orphan")
+    
+    blackouts: Mapped[list["SpaceBlackout"]] = relationship(
+        back_populates="space", cascade="all, delete-orphan")
+    
+
 
     # NOT CHECKED YET
 

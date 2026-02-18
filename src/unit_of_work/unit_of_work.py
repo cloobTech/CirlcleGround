@@ -12,6 +12,10 @@ from src.repositories.space_image_repo import SpaceImageRepository
 from src.repositories.space_addon_repo import SpaceAddonRepository
 from src.repositories.space_usecase_repo import SpaceUseCaseRepository
 from src.repositories.space_amenity_repo import SpaceAmenityRepository
+from src.repositories.booking_history_status_repo import BookingHistoryStatusRepository
+from src.repositories.space_operating_hour_repo import SpaceOperatingHourRepository
+from src.repositories.space_blackout_repo import SpaceBlackoutRepository
+from src.repositories.booking_addon_repo import BookingAddonRepository
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
 
@@ -35,6 +39,11 @@ class UnitOfWork:
         self.space_addon_repo = SpaceAddonRepository(session)
         self.space_usecase_repo = SpaceUseCaseRepository(session)
         self.space_amenity_repo = SpaceAmenityRepository(session)
+        self.booking_history_status_repo = BookingHistoryStatusRepository(
+            session)
+        self.space_operating_hour_repo = SpaceOperatingHourRepository(session)
+        self.space_blackout_repo = SpaceBlackoutRepository(session)
+        self.booking_addon_repo = BookingAddonRepository(session)
 
     def collect_event(self, event: DomainEvent) -> None:
         self._pending_events.append(event)

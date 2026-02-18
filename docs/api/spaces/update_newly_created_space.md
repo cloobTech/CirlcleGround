@@ -6,29 +6,35 @@
 
 ### Request Parameters
 
-| Parameter               | Type             | Required | Description                     | Example / Notes                                                                       |
-| ----------------------- | ---------------- | -------- | ------------------------------- | ------------------------------------------------------------------------------------- |
-| `pricings`              | list of objects  | ✅       | List of pricing rules           | See `SpacePricingSchema` below                                                        |
-| `pricings.price_type`   | enum (lowercase) | ✅       | Type of pricing                 | `"hourly"`, `"daily"`, `"weekly"`, `"monthly"`                                        |
-| `pricings.price`        | float            | ✅       | Price for this period           | `500`                                                                                 |
-| `pricings.currency`     | string           | ❌       | Currency code                   | `"NGN"` (default)                                                                     |
-| `pricings.start_date`   | datetime         | ✅       | Start of pricing period         | `"2026-02-12T09:00:00Z"`                                                              |
-| `pricings.end_date`     | datetime         | ✅       | End of pricing period           | `"2026-02-12T17:00:00Z"`                                                              |
-| `addons`                | list of objects  | ❌       | Extra services for the space    | See `SpaceAddonSchema`                                                                |
-| `addons.name`           | string           | ✅       | Name of addon                   | `"Breakfast"`                                                                         |
-| `addons.description`    | string           | ❌       | Description of addon            | `"Continental breakfast included"`                                                    |
-| `addons.price`          | float            | ✅       | Price for the addon             | `1000`                                                                                |
-| `addons.currency`       | string           | ❌       | Currency code                   | `"NGN"` (default)                                                                     |
-| `use_cases`             | list of objects  | ❌       | defined use cases               | See `SpaceUseCaseSchema`                                                              |
-| `use_cases.name`        | string           | ✅       | Name of use case                | `"Business Trip"`                                                                     |
-| `use_cases.description` | string           | ❌       | Description of use case         | `"Perfect for short business trips"`                                                  |
-| `rules`                 | list of objects  | ❌       | Rules for the space             | See `SpaceRuleSchema`                                                                 |
-| `rules.title`           | string           | ✅       | Title of the rule               | `"No Smoking"`                                                                        |
-| `rules.description`     | string           | ❌       | Rule description                | `"Smoking is strictly prohibited inside the space."`                                  |
-| `custom_amenities`      | list of objects  | ❌       | Custom amenities added by owner | See `SpaceCustomAmenitySchema`                                                        |
-| `custom_amenities.name` | string           | ✅       | Name of custom amenity          | `"Smart TV with Netflix"`                                                             |
-| `amenity_ids`           | list of strings  | ❌       | IDs of main amenities from DB   | `["amenity-uuid-1", "amenity-uuid-2"]`                                                |
-| `status`                | enum (lowercase) | ❌       | Status of space                 | `"draft"`, `"pending"`, `"available"`, `"published"`, `"rejected` (default `"draft"`) |
+| Parameter                     | Type             | Required | Description                     | Example / Notes                                                                       |
+| ----------------------------- | ---------------- | -------- | ------------------------------- | ------------------------------------------------------------------------------------- |
+| `pricings`                    | list of objects  | ✅       | List of pricing rules           | See `SpacePricingSchema` below                                                        |
+| `pricings.price_type`         | enum (lowercase) | ✅       | Type of pricing                 | `"hourly"`, `"daily"`, `"weekly"`, `"monthly"`                                        |
+| `pricings.price`              | float            | ✅       | Price for this period           | `500`                                                                                 |
+| `pricings.currency`           | string           | ❌       | Currency code                   | `"NGN"` (default)                                                                     |
+| `pricings.start_date`         | datetime         | ✅       | Start of pricing period         | `"2026-02-12T09:00:00Z"`                                                              |
+| `pricings.end_date`           | datetime         | ✅       | End of pricing period           | `"2026-02-12T17:00:00Z"`                                                              |
+| `addons`                      | list of objects  | ❌       | Extra services for the space    | See `SpaceAddonSchema`                                                                |
+| `addons.name`                 | string           | ✅       | Name of addon                   | `"Breakfast"`                                                                         |
+| `addons.description`          | string           | ❌       | Description of addon            | `"Continental breakfast included"`                                                    |
+| `addons.price`                | float            | ✅       | Price for the addon             | `1000`                                                                                |
+| `addons.currency`             | string           | ❌       | Currency code                   | `"NGN"` (default)                                                                     |
+| `use_cases`                   | list of objects  | ❌       | defined use cases               | See `SpaceUseCaseSchema`                                                              |
+| `use_cases.name`              | string           | ✅       | Name of use case                | `"Business Trip"`                                                                     |
+| `use_cases.description`       | string           | ❌       | Description of use case         | `"Perfect for short business trips"`                                                  |
+| `rules`                       | list of objects  | ❌       | Rules for the space             | See `SpaceRuleSchema`                                                                 |
+| `rules.title`                 | string           | ✅       | Title of the rule               | `"No Smoking"`                                                                        |
+| `rules.description`           | string           | ❌       | Rule description                | `"Smoking is strictly prohibited inside the space."`                                  |
+| `custom_amenities`            | list of objects  | ❌       | Custom amenities added by owner | See `SpaceCustomAmenitySchema`                                                        |
+| `custom_amenities.name`       | string           | ✅       | Name of custom amenity          | `"Smart TV with Netflix"`                                                             |
+| `amenity_ids`                 | list of strings  | ❌       | IDs of main amenities from DB   | `["amenity-uuid-1", "amenity-uuid-2"]`                                                |
+| `status`                      | enum (lowercase) | ❌       | Status of space                 | `"draft"`, `"pending"`, `"available"`, `"published"`, `"rejected` (default `"draft"`) |
+| `operation_hours`             | list of objects  | ✅       | Space Operating Hours           | See `...`                                                                             |
+| `operation_hours.day_of_week` | int              | ✅       | Day of the week                 | `0, 1, 2, 3, 4, 5 or 6 (where 0 = Monday, 1 = Tuesday ... 6 = Sunday)`                |
+| `operation_hours.open_time`   | time             | ✅       | Opening Hours                   | `08:00`                                                                               |
+| `operation_hours.close_time`  | time             | ✅       | Opening Hours                   | `22:00`                                                                               |
+| `operation_hours.is_closed`   | boolean          | ✅       | closed or opened days           | `true, false`                                                                         |
+| `status`                      | enum (lowercase) | ❌       | Status of space                 | `"draft"`, `"pending"`, `"available"`, `"published"`, `"rejected` (default `"draft"`) |
 
 ```json
 {
@@ -91,6 +97,32 @@
     }
   ],
   "amenity_ids": ["amenity-uuid-1", "amenity-uuid-2", "amenity-uuid-3"],
+  "operation_hours": [
+    {
+      "day_of_week": 0,
+      "open_time": "09:00:00",
+      "close_time": "17:00:00",
+      "is_closed": false
+      // monday
+    },
+    {
+      "day_of_week": 1,
+      "open_time": "09:00:00",
+      "close_time": "17:00:00",
+      "is_closed": false
+      // tuesday
+    },
+
+    ...
+    {
+      "day_of_week": 6,
+      "open_time": null,
+      "close_time": null,
+      "is_closed": true,
+      // sunday
+    }
+  ],
+
   "status": "draft"
 }
 ```

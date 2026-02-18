@@ -31,6 +31,8 @@ class BookingStatus(str, Enum):
     EXPIRED = "expired"
     ACTIVE = "active"
     INACTIVE = "inactive"
+    CHECKED_IN = "checked_in"
+    CHECKED_OUT = "checked_out"
 
 
 class UserRole(str, Enum):

@@ -22,5 +22,5 @@ class Payment(Basemodel, Base):
 
 
 
-    booking: Mapped["Booking"] = relationship(back_populates="payment")
+    # booking: Mapped["Booking"] = relationship(back_populates="payment")
     

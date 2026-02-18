@@ -49,9 +49,16 @@ class SpaceService:
             for amenity_id in data.amenity_ids:
                 await uow.space_amenity_repo.create(space.id, amenity_id)
 
+            # create operation hours
+            if len(data.operation_hours) < 7:
+                raise ValueError(
+                    "Operation hours must be provided for all days of the week")
+            for operation_hour in data.operation_hours:
+                await uow.space_operating_hour_repo.create(space.id, operation_hour)
+
             space.status = data.status
 
         return {
-                "id": space.id,
-                "message": "Space updated successfully"
-            }
+            "id": space.id,
+            "message": "Space updated successfully"
+        }
