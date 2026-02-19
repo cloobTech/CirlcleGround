@@ -43,6 +43,8 @@ Include the access token in the request header:
 
 ```json
 {
+  "status": "success",
+  "message": "Current user retrieved successfully",
   "id": "uuid",
   "name": "John Doe",
   "phone_number": "+2348012345678",

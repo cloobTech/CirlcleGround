@@ -97,3 +97,13 @@ class BookingPaymentStatus(str, Enum):
     PAID = "paid"
     REFUNDED = "refunded"
     PARTIALLY_PAID = "partially_paid"
+
+class AmenityCategory(str, Enum):
+    BASIC = "basic"
+    WORKSPACE = "workspace"
+    TECHNOLOGY = "technology"
+    COMFORT = "comfort"
+    SAFETY = "safety"
+    OUTDOOR = "outdoor"
+    PARKING = "parking"
+    CUSTOM = "custom"

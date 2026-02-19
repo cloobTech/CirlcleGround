@@ -8,13 +8,34 @@ AMENITIES = [
 
 
 REGISTER_USER = {
-    "id": "user_123",
+    "id": "user_12345",
     "first_name": "Olamide",
     "last_name": "Bello",
     "password": "password",
     "location": "123 Loc",
     "phone_number": "+233 6248 2022",
     "email": "belkid98@gmail.com"
+}
+
+REGISTER_ADMIN = {
+    "id": "user_1234",
+    "first_name": "Emmanuel",
+    "last_name": "Nwokoma",
+    "password": "password",
+    "location": "123 Loc",
+    "phone_number": "+233 6246 2022",
+    "email": "emmanuelnwokoma364@gmail.com",
+    "role": "admin"
+}
+REGISTER_SUPER_ADMIN = {
+    "id": "user_123456",
+    "first_name": "Miracle",
+    "last_name": "Gini",
+    "password": "password",
+    "location": "123 Loc",
+    "phone_number": "+233 6247 2022",
+    "email": "germany@gmail.com",
+    "role": "super_admin"
 }
 
 

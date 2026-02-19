@@ -1,8 +1,8 @@
-from src.storage import db
 import asyncio
-from scripts.data import AMENITIES, REGISTER_USER, CREATE_SPACE, UPDATE_NEW_SPACE, SPACE_IMAGE
+from scripts.data import AMENITIES, REGISTER_USER, CREATE_SPACE, REGISTER_ADMIN, REGISTER_SUPER_ADMIN, UPDATE_NEW_SPACE, SPACE_IMAGE
 from src.models.amenities import Amenity
 from src.models.user import User
+from src.storage import db
 from src.repositories.amenity_repo import AmenityRepository
 from src.repositories.user_repo import UserRepository
 from src.repositories.space_image_repo import SpaceImageRepository
@@ -15,7 +15,9 @@ from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation, S
 
 async def seed_data():
     # Refresh the database
+    await db.drop_tables()
     await db.create_tables()
+
 
     async with db.get_session() as session:
         uow = UnitOfWork(session)
@@ -29,6 +31,12 @@ async def seed_data():
 
         user_repo = UserRepository(session)
         user = User(**REGISTER_USER)
+        user.password = hash_password(user.password)
+        await user_repo.create(user)
+        print(" =============================== User created ===================================")
+
+        user_repo = UserRepository(session)
+        user = User(**REGISTER_SUPER_ADMIN)
         user.password = hash_password(user.password)
         await user_repo.create(user)
         print(" =============================== User created ===================================")

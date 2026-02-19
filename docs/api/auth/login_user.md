@@ -29,6 +29,8 @@ The request should be made with `Content-Type: multipart/form-data` and include 
 
 ```json
 {
+  "status": "success",
+  "message": "login successful",
   "access_token": "string",
   "refresh_token": "string",
   "token_type": "Bearer"

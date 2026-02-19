@@ -27,6 +27,8 @@ A reset token is generated and sent to the user’s registered email or phone nu
 
 ```json
 {
+  "status": "success",
+  "message": "Request token sent successfully",
   "email": "user@example.com"
 }
 ```

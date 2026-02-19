@@ -5,6 +5,7 @@ from src.storage import db
 from src.enums.enums import UserRole
 from src.models.user import User
 from src.schemas.user_schema import ReadUser, UserProfile
+from src.services.amenity_services import AmenityService
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.auth.jwt import decode_access_token
 from src.auth.services import AuthService
@@ -45,6 +46,9 @@ def get_location_service(uow: UnitOfWork = Depends(get_uow)):
 
 def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
     return TokenUtils(uow)
+
+def get_amenity_service(uow: UnitOfWork = Depends(get_uow)):
+    return AmenityService(uow)
 
 
 async def get_current_user(

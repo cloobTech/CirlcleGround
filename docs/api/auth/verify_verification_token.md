@@ -1,3 +1,4 @@
+# Verify Verification Token
 ## Endpoint
 
 `POST /api/v1/auth/verification-token`
@@ -20,7 +21,9 @@ This request should be made with `Content-Type: application/json` and include th
 
 ```json
 {
-    "token": "123456"
+  "status": "success",
+  "message": "Verification successful",
+  "token": "123456"
 }
 ```
 

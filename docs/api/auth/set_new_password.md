@@ -1,3 +1,5 @@
+# Set New Password
+
 ## Endpoint
 
 `POST /api/v1/auth/set-new-password`
@@ -27,6 +29,7 @@ This request should be made with `Content-Type: application/json` and include th
 
 ```json
 {
+  "status": "success",
   "message": "Password updated successfully"
 }
 ```

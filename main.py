@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 from src.api.v1.routes.auth import auth_router
 from src.api.v1.routes.user import user_router
 from src.api.v1.routes.space import space_router
+from src.api.v1.routes.amenity import amenity_router
 from src.api.v1.routes.location import location_router
 from src.api.v1.register_exceptions import register_exception_handlers
 from src.core.pydantic_confirguration import config
@@ -45,6 +46,8 @@ app.include_router(space_router)
 app.include_router(location_router)
 
 app.include_router(auth_router)
+
+app.include_router(amenity_router)
 
 
 # async def main():

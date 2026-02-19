@@ -1,0 +1,15 @@
+# from src.storage import db
+# import asyncio
+
+# from src.models import user, booking, space, location, space_addon, space_amenities, space_image, space_pricing, space_rule, space_use_case, amenities, custom_amenity, payments, reviews
+
+# async def main(): 
+       
+#     try:
+#         await db.drop_tables()
+#         await db.create_tables()
+
+#     except ValueError as e:
+#         print(e)
+        
+# asyncio.run(main())

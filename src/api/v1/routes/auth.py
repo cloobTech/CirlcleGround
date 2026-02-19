@@ -15,7 +15,7 @@ auth_router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
 
 
 @auth_router.post("/")
-async def create_customer(
+async def create_guest_user(
     user_data: CreateUserSchema,
     auth_service: AuthService = Depends(get_auth_service)
 

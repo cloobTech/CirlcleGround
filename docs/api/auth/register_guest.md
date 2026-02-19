@@ -1,4 +1,4 @@
-# Register Customer
+# Register Guest
 
 ## Endpoint
 
@@ -38,6 +38,8 @@ The request should be made with `Content-Type: application/json` and include the
 
 ```json
 {
+  "status": "success",
+  "message": "Guest user registered successfully"
   "first_name": "John",
   "last_name": "Doe",
   "phone_number": "+2348012345678",
