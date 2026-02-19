@@ -56,6 +56,15 @@ Base Url or local development
 
 </details>
 
+<!-- Amenity -->
+<details>
+<summary>Amenity</summary>
+
+- [Create Amenities](docs/api/amenity/create_amenities.md)
+
+</details>
+
+
 
 
 
