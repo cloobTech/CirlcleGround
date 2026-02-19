@@ -31,12 +31,31 @@ Base Url or local development
 - [Delete Multiple Spaces](docs/api/spaces/delete_multiple_spaces.md)
 - [Delete Space](docs/api/spaces/delete_space.md)
 - [Upload Images](docs/api/spaces/upload_images.md)
+- [Update Newly Created Space](docs/api/spaces/update_newly_created_space.md)
+- [Get All Spaces](docs/api/spaces/get_all_spaces.md)
 
 </details>
-<!-- Spaces -->
+<!-- Location -->
 <details>
 <summary>Location</summary>
 
 - [Seacrh Location](docs/api/location/search_location.md)
+- [Add Location](docs/api/location/add_location.md)
 
 </details>
+
+
+<!-- Booking -->
+<details>
+<summary>Booking</summary>
+
+- [Create Booking](docs/api/booking/create_booking.md)
+- [Delete Booking](docs/api/booking/delete_booking.md)
+- [Get User Booking](docs/api/booking/get_user_booking.md)
+- [Update Booking](docs/api/booking/update_booking.md)
+
+</details>
+
+
+
+
