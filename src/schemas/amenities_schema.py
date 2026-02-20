@@ -9,3 +9,10 @@ class BaseAmenity(BaseModel):
 
 class CreateAmenity(BaseModel):
     amenities: list[BaseAmenity]
+
+
+class DeleteAmenity(BaseModel):
+    amenity_id: str
+
+class DeleteMultipleSpaceAmenities(BaseModel):
+    space_amenities_id : list[DeleteAmenity]

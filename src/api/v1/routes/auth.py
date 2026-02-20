@@ -62,9 +62,9 @@ async def forgot_password(
 @auth_router.post("/verify-verification-token")
 async def verify_verification_token(
     token: str,
-    token_utils: TokenUtils = Depends(get_token_utils)
+    auth_service: AuthService = Depends(get_auth_service)
 ):
-    response = await token_utils.verify_token(token)
+    response = await auth_service.verify_token(token)
     return response
 
 

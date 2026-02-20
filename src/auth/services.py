@@ -12,7 +12,7 @@ from src.auth.security import verify_password, hash_password
 from src.auth.jwt import retrieve_token
 from src.services.user_services import UserService
 from src.enums.enums import UserRole
-from src.core.exceptions import PermissionDeniedError, UserNotFound, UserAlreadyExistsError
+from src.core.exceptions import PermissionDeniedError, UserNotFound, UserAlreadyExistsError, InvalidResetTokenError
 from src.utils.token_utils import TokenUtils
 
 
@@ -93,8 +93,7 @@ class AuthService:
 
     async def verify_user_email(self, token: str):
         async with self.uow_factory:
-            token_utils = TokenUtils(self.uow_factory)
-            verified_user = await token_utils.verify_token(token)
+            verified_user = await self.verify_token(token)
             if not verified_user:
                 return False
             verified_user.is_email_verified = True
@@ -135,3 +134,23 @@ class AuthService:
                 "status": "success",
                 "message": "Your password has been updated successfully"
             }
+    
+    async def verify_token(self, token):
+        user = await self.uow_factory.user_repo.verify_token(token)
+        if not user:
+            raise InvalidResetTokenError(message="Invalid token")
+
+        expiry_time = user.verification_token_expires_at
+        if not expiry_time:
+            raise InvalidResetTokenError(message="Token has expired")
+
+        
+        if expiry_time.tzinfo is None:
+            expiry_time = expiry_time.replace(tzinfo=timezone.utc)
+
+        if expiry_time < datetime.now(timezone.utc):
+            raise InvalidResetTokenError(message="Token has expired")
+        
+        user.verification_token = None
+        user.verification_token_expires_at = None
+        return user

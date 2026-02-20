@@ -10,17 +10,17 @@ class CircleGround(Exception):
 
 
 class EntityNotFound(CircleGround):
-    def __init__(self, message="entity not found", details=None):
+    def __init__(self, message="Entity not found", details=None):
         super().__init__(message=message, details=details)
 
 
 class UserAlreadyExistsError(CircleGround):
-    def __init__(self, message="user already exist", details=None):
+    def __init__(self, message="User already exist", details=None):
         super().__init__(message=message, details=details)
 
 
 class UserNotFound(CircleGround):
-    def __init__(self, message="service provider not found", details=None):
+    def __init__(self, message="Service provider not found", details=None):
         super().__init__(message=message, details=details)
 
 
@@ -28,19 +28,26 @@ class PermissionDeniedError(CircleGround):
     def __init__(self, message="Permission denied", details=None):
         super().__init__(message=message, details=details)
 
+class AmenityNotFoundError(CircleGround):
+    def __init__(self, message="Amenity not found", details=None):
+        super().__init__(message=message, details=details)
+
+class SpaceAmenityNotFoundError(CircleGround):
+    def __init__(self, message="Space amenity not found", details=None):
+        super().__init__(message=message, details=details)
 
 class StoreAlreadyExistsError(CircleGround):
-    def __init__(self, message="store already exist", details=None):
+    def __init__(self, message="Store already exist", details=None):
         super().__init__(message=message, details=details)
 
 
 class ConflictError(CircleGround):
-    def __init__(self, message="conflict", details=None):
+    def __init__(self, message="Conflict", details=None):
         super().__init__(message=message, details=details)
 
 
 class LocationAlreadyExistsError(CircleGround):
-    def __init__(self, message="location already exist", details=None):
+    def __init__(self, message="Location already exist", details=None):
         super().__init__(message=message, details=details)
 
 
@@ -50,7 +57,7 @@ class InvalidCredentialsError(CircleGround):
 
 
 class DatabaseConnectionError(CircleGround):
-    def __init__(self, message="failed to connect to database", details=None):
+    def __init__(self, message="Failed to connect to database", details=None):
         super().__init__(message=message, details=details)
 
 

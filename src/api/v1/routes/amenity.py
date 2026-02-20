@@ -1,6 +1,8 @@
 from fastapi import Depends, APIRouter
 from src.services.amenity_services import AmenityService
 from src.api.v1.dependencies import get_amenity_service, get_current_user
+from src.schemas.space_amenity_schema import BaseSpaceAmenity, MultipleSpaceAmenities
+from src.schemas.amenities_schema import DeleteAmenity, DeleteMultipleSpaceAmenities
 from src.models.user import User
 from src.schemas.amenities_schema import CreateAmenity
 
@@ -16,3 +18,23 @@ async def create_amenity(
 ):
     response = await amenity_service.add_amenities(amenity_data,user=current_user)
     return response
+
+@auth_router.delete("/{amenity_id}")
+async def delete_amenity(
+    amenity_id: DeleteAmenity,
+    current_user: User = Depends(get_current_user),
+    amenity_service: AmenityService = Depends(get_amenity_service)
+):
+    response = await amenity_service.delete_amenity(user=current_user, amenity_id)
+    return response
+
+
+@auth_router.delete("/bulk_delete_amenities")
+async def bulk_delete_amenities(
+    amenities_id: DeleteMultipleSpaceAmenities,
+    current_user: User = Depends(get_current_user),
+    amenity_service: AmenityService = Depends(get_amenity_service)
+):
+    response = await amenity_service.delete_multiple_amenities( amenities_id, user=current_user,)
+    return response
+
