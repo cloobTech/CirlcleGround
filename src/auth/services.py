@@ -100,35 +100,31 @@ class AuthService:
             verified_user.is_email_verified = True
             return verified_user
 
-    async def request_password_reset(self, email: EmailStr, background_tasks):
+    async def request_password_reset_token(self, email: EmailStr):
         async with self.uow_factory:
             token_utils = TokenUtils(self.uow_factory)
             user = await self.uow_factory.user_repo.get_user_by_email(email)
             if not user:
-                raise UserNotFound(details={
-                    "recommendations": "Ensure user passes the correct email"
-                })
+                raise UserNotFound(
+                    message="User with the provided email does not exist",
+                    details={
+                        "recommendations": "Ensure user passes the correct email"
+                    })
             token = await token_utils.user_verfication_token(user)
             expires_at = datetime.now(timezone.utc) + timedelta(minutes=15)
-            print(token)
             updated_data = {
                 "verification_token": token,
                 "verification_token_expires_at": expires_at
             }
 
             await self.uow_factory.user_repo.update(id=user.id, data=updated_data)
-            # background_tasks.add_task(
-            #     email_service.send_email,
-            #     to=user.email,
-            #     subject="Reset Password",
-            #     contents=request_reset_password_template(user, token)
-            # )
+
             return {
                 "status": "success",
                 "message": "Token successfully sent"
             }
 
-    async def reset_password(self, user_id, new_password):
+    async def reset_password(self, user_id: str, new_password: str):
         async with self.uow_factory:
             user = await self.uow_factory.user_repo.get_by_id(user_id)
             if not user:

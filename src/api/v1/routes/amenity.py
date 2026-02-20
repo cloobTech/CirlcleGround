@@ -6,7 +6,7 @@ from src.schemas.amenities_schema import CreateAmenity
 
 
 
-amenity_router = APIRouter(prefix="/api/v1/amenity", tags=["Amenity"])
+amenity_router = APIRouter(prefix="/api/v1/amenities", tags=["Amenity"])
 
 @amenity_router.post("/")
 async def create_amenity(
