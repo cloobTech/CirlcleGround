@@ -1,7 +1,7 @@
-# Delete Amenities
+# Delete Space Amenities
 
-**Endpoint:** `DELETE /api/v1/amenities/{amenity_id}`
-**Description:** This endpoint allows users to delete  one amenity from the database in a  request.
+**Endpoint:** `DELETE /api/v1/space_amenities/{space_amenity_id}`
+**Description:** This endpoint allows users to delete  multiple space amenities from the database in a  request.
 **Content-Type:** `application/json`
 
 
@@ -9,7 +9,7 @@
 
 | Name        | Type   | Required | Description                                     |
 | ----------- | ------ | -------- | ----------------------------------------------- |
-| `amenity_id`  | string | Yes      | amenity_id of the amenity               |
+| `space_amenity_id`  | list | Yes      | space_amenity_id of the different amenities               |
 
 
 ## Response
@@ -18,7 +18,8 @@
 - **Status Code:** `200 OK`
 ```json
 {
-  "message": "Amenity deleted successfully",
+    "message": "space amenities successfully deleted",
+    "total_rows_deleted": "deleted_space_amenities"
 }
 ```
 
@@ -29,7 +30,7 @@
 
 ```json
 {
-  "detail": "amenity_id cannot be empty"
+  "detail": "space_amenity_id cannot be empty"
 }
 ```
 #### Unauthorized
@@ -45,7 +46,7 @@
 - **Status Code:** `403 Forbidden`
 ```json
 {
-  "detail": "You do not have permission to delete amenity"
+  "detail": "You do not have permission to delete space amenities"
 }
 ```
 
@@ -53,7 +54,7 @@
 - **Status Code:** `404 Not Found`
 ```json
 {
-  "detail": "Amenity not found"
+  "detail": "Space Amenity not found"
 }
 ```
 
@@ -61,6 +62,6 @@
 - **Status Code:** `500 Internal Server Error`
 ```json
 {
-  "detail": "An error occurred while deleting the amenity"
+  "detail": "An error occurred while deleting the space amenities"
 }
 ```

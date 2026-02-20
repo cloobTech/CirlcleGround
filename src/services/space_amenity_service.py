@@ -23,10 +23,9 @@ class SpaceAmenityService:
                     "recommendation": "Make sure you pass the correct space amenity ID"
                 }
             )
-        deleted_space_amenities =  await self.uow_factory.space_amenity_repo.delete(space_amenity_id)
+        deleted_space_amenity =  await self.uow_factory.space_amenity_repo.delete(space_amenity_id)
         return {
-            "message": "space amenities successfully deleted",
-            "total_rows_deleted": deleted_space_amenities
+            "message": "space amenity successfully deleted",
         }
         
     async def delete_multiple_space_amenities(self, user: User, space_amenities_id: list[str]):

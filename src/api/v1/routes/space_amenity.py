@@ -5,7 +5,7 @@ from src.api.v1.dependencies import get_space_amenity_service, get_current_user
 from src.models.user import User
 
 
-space_amenity_router = APIRouter(prefix="/api/v1/amenities", tags=["Amenity"])
+space_amenity_router = APIRouter(prefix="/api/v1/space_amenities", tags=["Amenity"])
 
 @auth_router.delete("/space_amenity_id")
 async def delete_space_amenity(

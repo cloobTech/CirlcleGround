@@ -61,6 +61,19 @@ Base Url or local development
 <summary>Amenity</summary>
 
 - [Create Amenities](docs/api/amenity/create_amenities.md)
+- [Delete Amenity](docs/api/amenity/delete_amenity.md)
+- [Delete Amenities](docs/api/amenity/delete_amenities.md)
+
+
+</details>
+
+
+<!-- Space Amenity -->
+<details>
+<summary>Space Amenity</summary>
+
+- [Delete Space Amenity](docs/api/space_amenity/delete_space_amenity.md)
+- [Delete Amenities](docs/api/space_amenity/delete_space_amenities.md)
 
 </details>
 
