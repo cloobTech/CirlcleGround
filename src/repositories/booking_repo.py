@@ -39,5 +39,25 @@ class BookingRepository(BaseRepository[Booking]):
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
     
+    async def get_pending_bookings(self, guest_id: str):
+        stmt = (
+            select(self.model).where(
+            self.model.guest_id == guest_id,
+            self.model.payment_status == BookingStatus.PENDING
+        ).order_by(self.model.created_at.desc())
+        )
+        result = await self.session.execute(stmt)
+        return result.scalars().all()
+    
+    async def get_completed_bookings(self, guest_id: str):
+        stmt = (
+            select(self.model).where(
+            self.model.guest_id == guest_id,
+            self.model.payment_status == BookingStatus.COMPLETED
+        ).order_by(self.model.created_at.desc())
+        )
+        result = await self.session.execute(stmt)
+        return result.scalars().all()
+    
 
 

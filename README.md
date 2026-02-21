@@ -53,6 +53,9 @@ Base Url or local development
 - [Delete Booking](docs/api/booking/delete_booking.md)
 - [Get User Booking](docs/api/booking/get_user_booking.md)
 - [Update Booking](docs/api/booking/update_booking.md)
+- [My Pending Bookings](docs/api/booking/my_pending_bookings.md)
+- [My Completed Bookings](docs/api/booking/my_completed_bookings.md)
+- [User Bookings](docs/api/booking/user_pending_bookings.md)
 
 </details>
 

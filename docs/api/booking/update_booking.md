@@ -7,8 +7,8 @@
 
 ### Request Parameters
 
-| Name        | Type   | Required | Description                                     |
-| ----------- | ------ | -------- | ----------------------------------------------- |
+| Name          | Type   | Required | Description                                     |
+|---------------| ------ | -------- | ----------------------------------------------- |
 | `booking_id`  | string | Yes      | booking_id of the booking to be updated.                |
 
 

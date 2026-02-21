@@ -6,6 +6,7 @@ from src.enums.enums import UserRole
 from src.models.user import User
 from src.schemas.user_schema import ReadUser, UserProfile
 from src.services.amenity_services import AmenityService
+from src.services.booking_services import BookingService
 from src.services.space_amenity_service import SpaceAmenityService
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.auth.jwt import decode_access_token
@@ -47,6 +48,9 @@ def get_location_service(uow: UnitOfWork = Depends(get_uow)):
 
 def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
     return TokenUtils(uow)
+
+def get_booking_service(uow: UnitOfWork = Depends(get_uow)):
+    return BookingService(uow)
 
 def get_amenity_service(uow: UnitOfWork = Depends(get_uow)):
     return AmenityService(uow)
