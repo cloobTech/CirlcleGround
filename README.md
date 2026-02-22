@@ -76,7 +76,7 @@ Base Url or local development
 <summary>Space Amenity</summary>
 
 - [Delete Space Amenity](docs/api/space_amenity/delete_space_amenity.md)
-- [Delete Amenities](docs/api/space_amenity/delete_space_amenities.md)
+- [Delete Amenities](docs/api/space_amenity/delete_multiple_space_amenities.md)
 
 </details>
 
