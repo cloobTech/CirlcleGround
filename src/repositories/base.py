@@ -42,7 +42,7 @@ class BaseRepository(Generic[ModelType]):
             setattr(obj, "is_deleted", True)
             setattr(obj, "deleted_at", datetime.now(timezone.utc))
         else:
-            self.session.delete(obj)
+            await self.session.delete(obj)
 
         return True
 
