@@ -31,25 +31,26 @@ class SpaceAmenityService:
         
     async def delete_multiple_space_amenities(self,space_amenities_id: list[str], user: User):
         """to delete multiple space amenities"""
-        if user.role not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
-            raise PermissionDeniedError(
-                message="Permission Denied",
-                details={
-                    "recommendation": "You must be an admin or super admin to delete space amenities"
-                }
-            )
-        amenities = await self.uow_factory.amenity_repo.get_by_id(space_amenities_id)
-        if not amenities:
-            raise AmenityNotFoundError(
-                message="Amenity not found",
-                details={
-                    "recommendation": "Make sure user is passing the correct amenity ID"
-                }
-            )
-        deleted_space_amenities = await self.uow_factory.space_amenity_repo.delete_multiple_space_amenities(space_amenities_id)
-        return {
-            "message": "space amenities successfully deleted",
-            "total_rows_deleted": deleted_space_amenities
-        }
+        async with self.uow_factory:
+            if user.role not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
+                raise PermissionDeniedError(
+                    message="Permission Denied",
+                    details={
+                        "recommendation": "You must be an admin or super admin to delete space amenities"
+                    }
+                )
+            amenities = await self.uow_factory.space_amenity_repo.get_by_id(space_amenities_id)
+            if not amenities:
+                raise AmenityNotFoundError(
+                    message="Amenity not found",
+                    details={
+                        "recommendation": "Make sure user is passing the correct amenity ID"
+                    }
+                )
+            deleted_space_amenities = await self.uow_factory.space_amenity_repo.delete_multiple_space_amenities(space_amenities_id)
+            return {
+                "message": "space amenities successfully deleted",
+                "total_rows_deleted": deleted_space_amenities
+            }
 
 
