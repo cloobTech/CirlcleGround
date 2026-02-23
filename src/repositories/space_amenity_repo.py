@@ -11,15 +11,16 @@ class SpaceAmenityRepository(BaseRepository[SpaceAmenity]):
     async def create(self, space_id: str, amenitiy_id: str):
         space_amenity = SpaceAmenity(space_id=space_id, amenity_id=amenitiy_id)
         return await super().create(space_amenity)
-    
-    async def delete_multiple_space_amenities(self, space_amenities_id: list[str]):
+
+    async def delete_multiple_space_amenities(self, space_amenity_ids: list[str]):
         """to delete multiple space amenities"""
-        count_stmt = select(func.count()).where(self.model.id.in_(space_amenities_id))
+        count_stmt = select(func.count()).where(
+            self.model.id.in_(space_amenity_ids))
         count = await self.session.execute(count_stmt)
         total = count.scalar_one()
-        await self.session.execute(delete(self.model).where(self.model.id.in_(space_amenities_id)))
+        await self.session.execute(delete(self.model).where(self.model.id.in_(space_amenity_ids)))
         return total
-    
+
     async def get_by_ids(self, ids: list[str]):
         stmt = select(self.model.id).where(self.model.id.in_(ids))
         result = await self.session.execute(stmt)

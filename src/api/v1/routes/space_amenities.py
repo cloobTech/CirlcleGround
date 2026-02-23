@@ -1,12 +1,11 @@
 from fastapi import Depends, APIRouter
-from src.schemas.space_amenity_schema import BaseSpaceAmenity, MultipleSpaceAmenities
+from src.schemas.space_amenity_schema import  MultipleSpaceAmenities
 from src.services.space_amenity_service import SpaceAmenityService
 from src.api.v1.dependencies import get_space_amenity_service, get_current_user
 from src.models.user import User
 
 
 space_amenities_router = APIRouter(prefix="/api/v1/space_amenities", tags=["Space Amenities"])
-
 
 
 @space_amenities_router.delete("/bulk_delete_space_amenities")
