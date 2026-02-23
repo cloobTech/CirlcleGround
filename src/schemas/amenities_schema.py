@@ -14,5 +14,9 @@ class CreateAmenity(BaseModel):
 class DeleteAmenity(BaseModel):
     amenity_id: str
 
-class DeleteMultipleSpaceAmenities(BaseModel):
-    space_amenities_id : list[DeleteAmenity]
+class DeleteMultipleAmenities(BaseModel):
+    amenities_id : list[DeleteAmenity]
+
+    def get_ids(self) -> list[str]:
+        """Extract list of amenity IDs as strings"""
+        return [item.amenity_id for item in self.amenities_id]
