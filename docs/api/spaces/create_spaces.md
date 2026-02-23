@@ -49,6 +49,11 @@
 }
 ```
 
-**Note** - creating a new space, is a two step process that includes the following:
+**Note** - creating a new space, is a two step process that includes sending four (4) https api request:
+- A location_id is required to create a new space, this involves querying the location routes: ([Search Location](../location/search_location.md))
 - initializing the space with the request data above
-- update the newly created space with some optional data ([See Documentation](update_newly_created_space.md))
+- space images is also sent as a background job: ([Upload Images](./upload_images.md))
+- update the newly created space with some optional data: ([See Documentation](update_newly_created_space.md))
+
+
+**We will have a meeting with the frontend engineers to better clarify our thoughts with respect to creating a new space**

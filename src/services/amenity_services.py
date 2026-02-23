@@ -37,7 +37,7 @@ class AmenityService:
                 created_amenities.append(new_amenity)
             return created_amenities
         
-    async def delete_amenity(self, user: User, amenity_id: str):
+    async def delete_amenity(self, amenity_id: str, user: User):
         "to delete an amenity"
         if user.role not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
             raise PermissionDeniedError(
@@ -60,13 +60,21 @@ class AmenityService:
         }
     
 
-    async def delete_multiple_amenities(self, user: User, amenities_id: list[str]):
+    async def delete_multiple_amenities(self, amenities_id: list[str],  user: User):
         """to delete multiple amenities"""
         if user.role not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
             raise PermissionDeniedError(
                 message="Permission Denied",
                 details={
                     "recommendation": "You must be an admin or super admin to delete amenity"
+                }
+            )
+        amenities = await self.uow_factory.amenity_repo.get_by_ids(amenities_id)
+        if not amenities:
+            raise AmenityNotFoundError(
+                message="Amenities not found",
+                details={
+                    "recommendation": "Make sure user is passing the correct amenities ID"
                 }
             )
         deleted_amenities = await self.uow_factory.amenity_repo.delete_multiple_amenities(amenities_id)

@@ -20,5 +20,11 @@ class AmenityRepository(BaseRepository[Amenity]):
         count_stmt = select(func.count()).where(self.model.id.in_(amenities_id))
         count = await self.session.execute(count_stmt)
         total = count.scalar_one()
-        await self.session.execute(delete(self.model).where(self.model.id.in_(amenities_id)))
+        stmt = delete(self.model).where(self.model.id.in_(amenities_id))
+        await self.session.execute(stmt)
         return total
+    
+    async def get_by_ids(self, ids: list[str]):
+        stmt = select(self.model.id).where(self.model.id.in_(ids))
+        result = await self.session.execute(stmt)
+        return result
