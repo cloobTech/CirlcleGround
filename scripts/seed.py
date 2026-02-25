@@ -39,22 +39,24 @@ async def seed_data():
         user = User(**REGISTER_SUPER_ADMIN)
         user.password = hash_password(user.password)
         await user_repo.create(user)
-        print(" =============================== User created ===================================")
+        print(" =============================== Super Admin User created ===================================")
 
         space = SpaceSchema(**CREATE_SPACE)
         space_data = CreateSpaceSchema(space=space)
-        new_space = await space_service.create_space(host_id=user.id, data=space_data)
-        print(new_space)
-        update_space = UpdateSpaceAtCreation(**UPDATE_NEW_SPACE)
-        await space_service.update_new_space(space_id=new_space['id'], data=update_space)
+        space_repo = SpaceRepository(session)
+        new_space = await space_repo.create_space(host_id=user.id, data=space)
+        print(new_space.id)
+        # print(new_space.name)
+        # update_space = UpdateSpaceAtCreation(**UPDATE_NEW_SPACE)
+        # await space_service.update_new_space(space_id=new_space.id, data=update_space)
 
-        space_image_repo = SpaceImageRepository(session)
-        for image in SPACE_IMAGE:
-            await space_image_repo.create(space_id=new_space["id"], order=image["order"])
+        # space_image_repo = SpaceImageRepository(session)
+        # for image in SPACE_IMAGE:
+        #     await space_image_repo.create(space_id=new_space.id, order=image["order"])
 
-        # await space_repo.update(UPDATE_NEW_SPACE)
-        # await space_repo.add_images(SPACE_IMAGE)
-        print(" =============================== Space created ===================================")
+        # # await space_repo.update(UPDATE_NEW_SPACE)
+        # # await space_repo.add_images(SPACE_IMAGE)
+        # print(" =============================== Space created ===================================")
 
         await session.commit()
         print(" =============================== Seeding completed ===================================")

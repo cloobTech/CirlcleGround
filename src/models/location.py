@@ -1,5 +1,4 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import ForeignKey
 from src.models.basemodel import Basemodel, Base
 from typing import TYPE_CHECKING
 
@@ -16,6 +15,10 @@ class Location(Basemodel, Base):
     state: Mapped[str] = mapped_column(nullable=False)
     latitude: Mapped[float] = mapped_column(nullable=False)
     longitude: Mapped[float] = mapped_column(nullable=False)
+    formatted_address: Mapped[str] = mapped_column(nullable=False)
+    original_address: Mapped[str] = mapped_column(nullable=False, unique=True)
+    normalized_address: Mapped[str] = mapped_column(nullable=False)
+    provider: Mapped[str] = mapped_column(nullable=False)
 
     spaces: Mapped[list["Space"]] = relationship(
         back_populates="location", cascade="all, delete-orphan")

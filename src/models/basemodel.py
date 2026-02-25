@@ -23,3 +23,18 @@ class Basemodel:
         DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc))
+
+    def __init__(self, *args, **kwargs):
+        """
+            instantiation of new BaseModel Class
+        """
+        if kwargs:
+            self.__set_attrs(kwargs)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now(timezone.utc)
+            self.updated_at = datetime.now(timezone.utc)
+
+    def __set_attrs(self, kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)

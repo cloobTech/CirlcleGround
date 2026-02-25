@@ -1,7 +1,10 @@
+from sqlalchemy import select, exists
+from sqlalchemy.orm import selectinload, with_loader_criteria
 from src.models.space import Space
+from src.models.booking import Booking
 from src.repositories.base import BaseRepository
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.schemas.space_schema import SpaceSchema
+from src.schemas.space_schema import SpaceSchema, SpaceQueryParams
 
 
 class SpaceRepository(BaseRepository[Space]):
@@ -9,17 +12,38 @@ class SpaceRepository(BaseRepository[Space]):
         super().__init__(Space, session)
 
     async def create_space(self, host_id: str, data: SpaceSchema) -> Space:
+        print("host_id")
         space = Space(host_id=host_id, **data.model_dump())
+        print(space.created_at)
         created_space = await self.create(space)
         return created_space
 
-    # async def list_space(self, space: Space):
-    #     await self.create(space)
-    #     return space
+    async def get_user_spaces(self, user_id: str, params: SpaceQueryParams):
+        stmt = select(Space).where(Space.host_id == user_id)
 
-    # async def get_all_spaces(self):
-    #     spaces = await self.get_all()
-    #     return spaces
+        if params.include_bookings and params.booking_status:
+            stmt = stmt.where(
+                exists().where(
+                    (Booking.space_id == Space.id) &
+                    (Booking.status == params.booking_status)
+                )
+            )
+
+        if params.include_bookings:
+            stmt = stmt.options(
+                selectinload(Space.bookings),
+                with_loader_criteria(
+                    Booking,
+                    Booking.status == params.booking_status,
+                    include_aliases=True,
+                )
+            )
+
+        if params.space_status:
+            stmt = stmt.where(Space.status == params.space_status)
+
+        result = await self.session.execute(stmt)
+        return result.scalars().all()
 
     async def get_space_by_id(self, space_id: str):
         space = await self.get_by_id(space_id)

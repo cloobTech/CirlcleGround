@@ -1,4 +1,4 @@
-from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation
+from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation, SpaceQueryParams
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import StoreAlreadyExistsError
 

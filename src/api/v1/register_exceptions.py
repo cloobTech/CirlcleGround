@@ -7,7 +7,8 @@ from src.core.exceptions import (
     PermissionDeniedError,
     DatabaseConnectionError,
     EntityNotFound,
-    ConflictError
+    ConflictError,
+    UniqueViolationError
 )
 
 from src.api.v1.exception_handler import (
@@ -43,6 +44,9 @@ def register_exception_handlers(app: FastAPI):
     # Database
     app.add_exception_handler(DatabaseConnectionError,
                               database_connection_error_handler)
+
+    # Unique Violation
+    app.add_exception_handler(UniqueViolationError, unique_violation_handler)
 
     # HTTPException
     app.add_exception_handler(HTTPException, http_exception_handler)

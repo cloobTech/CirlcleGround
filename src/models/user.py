@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from src.models.booking import Booking
     from src.models.reviews import Review
     from src.models.space import Space
+    from src.models.wish_list import WishList
 
 
 class User(Basemodel, Base, SoftDeleteMixin):
@@ -60,5 +61,10 @@ class User(Basemodel, Base, SoftDeleteMixin):
 
     spaces: Mapped[list["Space"]] = relationship(
         back_populates="host",
+        cascade="all, delete-orphan"
+    )
+
+    wishlist_items: Mapped[list["WishList"]] = relationship(
+        back_populates="user",
         cascade="all, delete-orphan"
     )

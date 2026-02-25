@@ -9,6 +9,11 @@ class CircleGround(Exception):
     details: Optional[Any] = None
 
 
+class UniqueViolationError(CircleGround):
+    def __init__(self, message="Unique violation", details=None):
+        super().__init__(message=message, details=details)
+
+
 class EntityNotFound(CircleGround):
     def __init__(self, message="Entity not found", details=None):
         super().__init__(message=message, details=details)
@@ -28,13 +33,16 @@ class PermissionDeniedError(CircleGround):
     def __init__(self, message="Permission denied", details=None):
         super().__init__(message=message, details=details)
 
+
 class AmenityNotFoundError(CircleGround):
     def __init__(self, message="Amenity not found", details=None):
         super().__init__(message=message, details=details)
 
+
 class SpaceAmenityNotFoundError(CircleGround):
     def __init__(self, message="Space amenity not found", details=None):
         super().__init__(message=message, details=details)
+
 
 class StoreAlreadyExistsError(CircleGround):
     def __init__(self, message="Store already exist", details=None):

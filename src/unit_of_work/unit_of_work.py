@@ -16,8 +16,11 @@ from src.repositories.booking_history_status_repo import BookingHistoryStatusRep
 from src.repositories.space_operating_hour_repo import SpaceOperatingHourRepository
 from src.repositories.space_blackout_repo import SpaceBlackoutRepository
 from src.repositories.booking_addon_repo import BookingAddonRepository
+from src.repositories.wishlist_repo import WishListRepository
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
+from sqlalchemy.exc import IntegrityError
+from src.core.exceptions import UniqueViolationError
 
 
 class UnitOfWork:
@@ -44,6 +47,7 @@ class UnitOfWork:
         self.space_operating_hour_repo = SpaceOperatingHourRepository(session)
         self.space_blackout_repo = SpaceBlackoutRepository(session)
         self.booking_addon_repo = BookingAddonRepository(session)
+        self.wishlist_repo = WishListRepository(session)
 
     def collect_event(self, event: DomainEvent) -> None:
         self._pending_events.append(event)
@@ -52,20 +56,20 @@ class UnitOfWork:
         await self.session.begin()
         return self
 
-    async def __aexit__(self, exc_type, exc, tb) -> None:
+    async def __aexit__(self, exc_type, exc, tb):
         try:
             if exc_type is not None:
                 await self.session.rollback()
                 self._pending_events.clear()
                 await self.session.close()
-                return
+                return False
 
             await self.session.commit()
-        # except IntegrityError as e:
-        #     print(exc_type, exc, tb)
-        #     await self.session.rollback()
-        #     self._pending_events.clear()
-        #     raise UniqueViolationError("Duplicate record") from e
+            
+        except IntegrityError as e:
+            await self.session.rollback()
+            self._pending_events.clear()
+            raise UniqueViolationError() from e
         except Exception:
             print(exc_type, exc, tb)
             print("rollback")

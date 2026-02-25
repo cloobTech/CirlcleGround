@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from src.enums.enums import SpaceType, SpaceCategory, SpaceStatus, SpacePriceType
+from src.enums.enums import SpaceType, SpaceCategory, SpaceStatus, SpacePriceType, BookingStatus
 from datetime import datetime, time
 
 
@@ -74,3 +74,9 @@ class UpdateSpaceAtCreation(BaseModel):
     amenity_ids: list[str] = []
     status: SpaceStatus
     operation_hours: list[SpaceOperationHourSchema]
+
+
+class SpaceQueryParams(BaseModel):
+    booking_status: BookingStatus | None = None
+    include_bookings: bool = False
+    space_status: SpaceStatus | None = None

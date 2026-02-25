@@ -3,14 +3,17 @@ from src.models.booking import Booking
 from src.enums.enums import BookingStatus
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from src.schemas.booking_schema import BookingQueryParams
 
 
 class BookingRepository(BaseRepository[Booking]):
     def __init__(self, session: AsyncSession) -> None:
         super().__init__(Booking, session)
 
-    async def get_user_bookings(self, guest_id: str) -> list[Booking]:
+    async def get_user_bookings(self, guest_id: str, params: BookingQueryParams) -> list[Booking]:
         stmt = select(Booking).where(Booking.guest_id == guest_id)
+        if params.status:
+            stmt = stmt.where(Booking.status == params.status)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
 
@@ -38,26 +41,23 @@ class BookingRepository(BaseRepository[Booking]):
 
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
-    
+
     async def get_pending_bookings(self, guest_id: str):
         stmt = (
             select(self.model).where(
-            self.model.guest_id == guest_id,
-            self.model.payment_status == BookingStatus.PENDING
-        ).order_by(self.model.created_at.desc())
+                self.model.guest_id == guest_id,
+                self.model.payment_status == BookingStatus.PENDING
+            ).order_by(self.model.created_at.desc())
         )
         result = await self.session.execute(stmt)
         return result.scalars().all()
-    
+
     async def get_completed_bookings(self, guest_id: str):
         stmt = (
             select(self.model).where(
-            self.model.guest_id == guest_id,
-            self.model.payment_status == BookingStatus.COMPLETED
-        ).order_by(self.model.created_at.desc())
+                self.model.guest_id == guest_id,
+                self.model.payment_status == BookingStatus.COMPLETED
+            ).order_by(self.model.created_at.desc())
         )
         result = await self.session.execute(stmt)
         return result.scalars().all()
-    
-
-

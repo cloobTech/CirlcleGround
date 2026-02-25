@@ -5,6 +5,7 @@ from src.models.user import User
 from src.services.space_services import SpaceService
 from src.services.space_image_service import SpaceImageService
 from src.services.booking_services import BookingService
+from src.services.wishlist_service import WishListService
 from src.api.v1.dependencies import get_space_service, get_current_user, get_uow
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.tasks.image_upload import upload_image
@@ -67,5 +68,17 @@ async def get_all_spaces(space_id: str, uow: UnitOfWork = Depends(get_uow)):
     return response
 
 
-# TODO: add pagination
+@space_router.post("/{space_id}/wishlist")
+async def add_to_wishlist(space_id: str, uow: UnitOfWork = Depends(get_uow), current_user: User = Depends(get_current_user)):
+    wishlist_service = WishListService(uow)
+    response = await wishlist_service.add_wishlist(user_id=current_user.id, space_id=space_id)
+    return response
+
+
+@space_router.delete("/{space_id}/wishlist")
+async def remove_from_wishlist(space_id: str, uow: UnitOfWork = Depends(get_uow), current_user: User = Depends(get_current_user)):
+    wishlist_service = WishListService(uow)
+    response = await wishlist_service.remove_wishlist(user_id=current_user.id, space_id=space_id)
+    return response
+
 # TODO: add calendar  view

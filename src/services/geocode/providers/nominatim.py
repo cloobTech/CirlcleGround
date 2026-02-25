@@ -1,6 +1,5 @@
 import httpx
 from src.services.geocode.base import GeoProvider
-import asyncio
 
 
 class NominatimProvider(GeoProvider):
@@ -11,9 +10,11 @@ class NominatimProvider(GeoProvider):
             r = await client.get(url, params={
                 "q": address,
                 "format": "json",
-                # "limit": 1,
+                "limit": 1,
                 "addressdetails": 1
             })
+
+            print(r)
 
         if r.status_code != 200:
             print(r.status_code)
@@ -22,7 +23,7 @@ class NominatimProvider(GeoProvider):
         data = r.json()
         if not data:
             return None
-        
+
         print(f"Nominatim found {len(data)} results for address: {address}")
         print(f"Nominatim found {data} results for address: {address}")
 
@@ -32,10 +33,10 @@ class NominatimProvider(GeoProvider):
             "lat": float(result["lat"]),
             "lng": float(result["lon"]),
             "place_name": result["display_name"],
-            # "address": {
-            #     "country": result["address"]["country"],
-            #     "state": result["address"]["state"],
-            #     "city": result.get("address", {}).get("city") or result.get("address", {}).get("town") or result.get("address", {}).get("village") or result.get("address", {}).get("hamlet") or result.get("address", {}).get("suburb") or result.get("address", {}).get("municipality")
-            # },
+            "address": {
+                "country": result["address"]["country"],
+                # "state": result["address"]["state"],
+                "city": result.get("address", {}).get("city") or result.get("address", {}).get("town") or result.get("address", {}).get("village") or result.get("address", {}).get("hamlet") or result.get("address", {}).get("suburb") or result.get("address", {}).get("municipality")
+            },
             "provider": "nominatim"
         }

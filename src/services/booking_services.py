@@ -1,17 +1,17 @@
 from src.unit_of_work.unit_of_work import UnitOfWork
-from src.schemas.booking_schema import CreateBookingSchema
-from src.core.exceptions import EntityNotFound, ConflictError, PermissionDeniedError, UserNotFound
+from src.schemas.booking_schema import CreateBookingSchema, UpdateBookingSchema, UpdateBookingSchemaByHost, BookingQueryParams
+from src.core.exceptions import EntityNotFound, ConflictError, PermissionDeniedError
 from src.models.booking import Booking
-from src.enums.enums import UserRole
+from src.enums.enums import UserRole, BookingStatus
 
 
 class BookingService:
     def __init__(self, uow_factory: UnitOfWork) -> None:
         self.uow_factory = uow_factory
 
-    async def get_user_bookings(self, guest_id: str):
+    async def get_user_bookings(self, guest_id: str, params: BookingQueryParams):
         async with self.uow_factory:
-            return await self.uow_factory.booking_repo.get_user_bookings(guest_id)
+            return await self.uow_factory.booking_repo.get_user_bookings(guest_id, params)
 
     async def get_space_bookings(self, space_id: str, user_id: str):
         async with self.uow_factory as uow:
@@ -56,7 +56,7 @@ class BookingService:
                 )
             new_booking = Booking(
                 **booking_data.model_dump(), guest_id=guest_id)
-            
+
             for addon_id in booking_data.addon_ids:
                 await uow.booking_addon_repo.create(new_booking.id, addon_id)
 
@@ -76,7 +76,7 @@ class BookingService:
                 )
             return await self.uow_factory.booking_repo.delete(booking_id)
 
-    async def update_booking(self, booking_id: str, user_id: str, data: dict):
+    async def update_booking(self, booking_id: str, user_id: str, data: UpdateBookingSchema):
         async with self.uow_factory:
             booking = await self.uow_factory.booking_repo.get_by_id(booking_id)
             if not booking:
@@ -85,10 +85,43 @@ class BookingService:
                 )
             if booking.guest_id != user_id:
                 raise PermissionDeniedError(
-                    message="Access denied: Only guest can delete booking",
+                    message="Access denied: Only guest can update their bookings",
                     details={"recommendation": "Check user details"},
                 )
-            return await self.uow_factory.booking_repo.update(id=booking_id, data=data)
+            if booking.status != BookingStatus.PENDING:
+                raise ConflictError(
+                    message="Only pending bookings can be updated",
+                    details={"recommendation": "Check booking details"},
+                )
+            await self.uow_factory.booking_repo.update(id=booking_id, data=data.model_dump(exclude_unset=True))
+            return {
+                "message": "Booking updated successfully",
+                "booking_id": booking_id
+            }
+
+    async def update_booking_by_host(self, booking_id: str, user_id: str, data: UpdateBookingSchemaByHost):
+        async with self.uow_factory:
+            booking = await self.uow_factory.booking_repo.get_by_id(booking_id)
+            if not booking:
+                raise EntityNotFound(
+                    message="Booking not found", details={"recommendation": "Check booking details"}
+                )
+            space = await self.uow_factory.space_repo.get_by_id(booking.space_id)
+            if not space:
+                raise EntityNotFound(
+                    message="Space not found", details={"recommendation": "Check space details"}
+                )
+            if space.host_id != user_id:
+                raise PermissionDeniedError(
+                    message="Access denied: Only host can update their bookings",
+                    details={"recommendation": "Check user details"},
+                )
+
+            await self.uow_factory.booking_repo.update(id=booking_id, data=data.model_dump(exclude_unset=True))
+            return {
+                "message": "Booking updated successfully",
+                "booking_id": booking_id
+            }
 
     async def get_space_available_dates(self, space_id: str):
         async with self.uow_factory:
@@ -98,46 +131,3 @@ class BookingService:
                     message="Space not found", details={"recommendation": "Check space details"}
                 )
             return await self.uow_factory.booking_repo.get_space_unavailable_dates(space_id)
-        
-    async def get_my_pending_bookings(self, guest_id):
-        user = await self.uow_factory.booking_repo.get_by_id(guest_id)
-        if not user:
-            raise UserNotFound(
-                message="User not found",
-                details={
-                    "recommendation": "Make sure you pass the correct guest ID"
-                }
-            )
-        pending_bookings = await self.uow_factory.booking_repo.get_pending_bookings(guest_id)
-        return pending_bookings
-    
-    async def get_user_pending_bookings(self, guest_id, user):
-        if user.role not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
-            raise PermissionDeniedError(
-                message="Permission Denied",
-                details={
-                    "recommendation": "You must be an admin or super admin to delete amenity"
-                }
-            )
-        user = await self.uow_factory.booking_repo.get_by_id(guest_id)
-        if not user:
-            raise UserNotFound(
-                message="User not found",
-                details={
-                    "recommendation": "Make sure you pass the correct guest ID"
-                }
-            )
-        user_pending_bookings = await self.uow_factory.booking_repo.get_pending_bookings(guest_id)
-        return user_pending_bookings
-    
-    async def get_my_completed_bookings(self, guest_id):
-        user = await self.uow_factory.booking_repo.get_by_id(guest_id)
-        if not user:
-            raise UserNotFound(
-                message="User not found",
-                details={
-                    "recommendation": "Make sure you pass the correct guest ID"
-                }
-            )
-        pending_bookings = await self.uow_factory.booking_repo.get_completed_bookings(guest_id)
-        return pending_bookings
