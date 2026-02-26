@@ -1,7 +1,7 @@
-# Get Current Authenticated User
+# Get User Profile
 
 ## Endpoint
-`GET /api/v1/auth/me`
+`GET /api/v1/user/me`
 
 ---
 
@@ -9,22 +9,16 @@
 This endpoint returns the currently authenticated user based on the provided
 Bearer access token.
 
-It is used to:
-- Confirm authentication state
-- Fetch the logged-in user's profile
-- Protect routes that require authentication
 
----
 
 ## Authentication
 This endpoint requires **OAuth2 Bearer Token authentication**.
 
 Include the access token in the request header:
 
-
 ---
 
-## Request
+## Request Parameters
 
 ### Headers
 
@@ -44,14 +38,16 @@ Include the access token in the request header:
 ```json
 {
   "status": "success",
-  "message": "Current user retrieved successfully",
-  "id": "uuid",
-  "name": "John Doe",
-  "phone_number": "+2348012345678",
-  "location": "Lagos",
-  "role": "user",
-  "is_verified": true,
-  "created_at": "2026-01-01T12:00:00Z"
+  "message": "User's profile retrieved successfully",
+  "data": {
+    "id": "uuid",
+    "name": "John Doe",
+    "phone_number": "+2348012345678",
+    "location": "Lagos",
+    "role": "user",
+    "is_verified": true,
+    "created_at": "2026-01-01T12:00:00Z"
+  }
 }
 ```
 ### Error Response

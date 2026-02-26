@@ -1,17 +1,22 @@
-# User Pending Bookings
+# Get User Bookings
 
-**Endpoint:** `GET /api/v1/bookings/{guest_id}/user-pending-bookings`
-**Description:** This endpoint allows admins or super admins to get user's pending bookings
+**Endpoint:** `GET /api/v1/users/me/bookings`
+**Description:** This endpoint allows users to get all available spaces
 
 **Content-Type:** `application/json`
 
 
 ### Headers
 
-| Name            | Type   | Required              | Description                                     |
-| --------------- | ------ | ----------------------|------------------------------------------------ |
-| `guest_id`      | string | Yes                   | The ID of the guest.                            |
-| Authorization   | Yes    | Bearer access token   |Authorization token to validate the current user |
+| Name            | Required | Description                      |
+|-----------------|----------|----------------------------------|
+| Authorization   | Yes      | Bearer access token              |
+
+
+### Request Parameters
+| Name                | Type    | Required | Description                                                    |
+|---------------------| --------| -------- | -------------------------------------------------------------- |
+| `status`  | string | Optional      | filter bookings by status.        |
 
 
 ## Response
@@ -21,7 +26,7 @@
 ```json
 {
     "status": "success",
-     "message": "User pending bookings retrieved successfully", 
+     "message": "User bookings retrieved successfully", 
      "data": [
         {
             "booking_id": "bkg_123456", 
@@ -73,7 +78,7 @@
 - **Status Code:** `403 Forbidden`
 ```json
 {
-  "detail": "You do not have permission to get user's pending bookings"
+  "detail": "You do not have permission to get user's bookings"
 }
 ```
 
@@ -81,7 +86,7 @@
 - **Status Code:** `404 Not Found`
 ```json
 {
-  "detail": "User not found"
+  "detail": "Booking not found"
 }
 ```
 
@@ -89,6 +94,6 @@
 - **Status Code:** `500 Internal Server Error`
 ```json
 {
-  "detail": "An error occurred while getting pending bookings"
+  "detail": "An error occurred while getting bookings"
 }
 ```

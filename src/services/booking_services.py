@@ -113,7 +113,7 @@ class BookingService:
                 )
             if space.host_id != user_id:
                 raise PermissionDeniedError(
-                    message="Access denied: Only host can update their bookings",
+                    message="Access denied: Only host can update this bookings",
                     details={"recommendation": "Check user details"},
                 )
 

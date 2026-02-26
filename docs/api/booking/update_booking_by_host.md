@@ -1,7 +1,7 @@
 # Update Booking
 
-**Endpoint:** `PUT /api/v1/bookings/{booking_id}`
-**Description:** This endpoint allows an authenticateed user to update a booking they created.
+**Endpoint:** `PUT /api/v1/bookings/{booking_id}/by-host`
+**Description:** This endpoint allows a host to update a booking.
 **Content-Type:** `application/json`
 
 
@@ -58,7 +58,7 @@
 - **Status Code:** `403 Forbidden`
 ```json
 {
-  "detail": "Only guest can update this booking"
+  "detail": "Only host can update this booking"
 }
 ```
 

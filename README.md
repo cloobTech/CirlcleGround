@@ -17,7 +17,6 @@ Base Url or local development
 - [Register Customer](docs/api/auth/register_customer.md)
 - [Register Admin](docs/api/auth/register_admin.md)
 - [Request Token](docs/api/auth/request_token.md)
-- [Get Current User](docs/api/auth/get_current_user.md)
 - [Set New Password](docs/api/auth/set_new_password.md)
 - [Verify Verification token](docs/api/auth/verify_verification_token.md)
 
@@ -33,6 +32,10 @@ Base Url or local development
 - [Upload Images](docs/api/spaces/upload_images.md)
 - [Update Newly Created Space](docs/api/spaces/update_newly_created_space.md)
 - [Get All Spaces](docs/api/spaces/get_all_spaces.md)
+- [Add to wishist](docs/api/spaces/add_to_wishlist.md)
+- [Reomve from wishist](docs/api/spaces/remove_from_wishlist.md)
+
+
 
 </details>
 <!-- Location -->
@@ -51,11 +54,8 @@ Base Url or local development
 
 - [Create Booking](docs/api/booking/create_booking.md)
 - [Delete Booking](docs/api/booking/delete_booking.md)
-- [Get User Booking](docs/api/booking/get_user_booking.md)
 - [Update Booking](docs/api/booking/update_booking.md)
-- [My Pending Bookings](docs/api/booking/my_pending_bookings.md)
-- [My Completed Bookings](docs/api/booking/my_completed_bookings.md)
-- [User Bookings](docs/api/booking/user_pending_bookings.md)
+- [Update User Bookings By host](docs/api/booking/update_booking_by_host.md)
 
 </details>
 
@@ -81,7 +81,13 @@ Base Url or local development
 </details>
 
 
+<!-- User -->
+<details>
+<summary>User</summary>
 
-
-
+- [Get User Bookings](docs/api/user/get_user_bookings.md)
+- [Get User Profile](docs/api/user/get_user_profile.md)
+- [Get User Spaces](docs/api/user/get_user_spaces.md)
+- [Update User Profile](docs/api/user/update_user_profile.md)
+- [Get User Wishlist](docs/api/user/get_user_wishlist.md)
 </details>

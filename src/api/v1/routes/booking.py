@@ -25,14 +25,14 @@ async def delete_booking(booking_id: str, current_user: User = Depends(get_curre
 
 
 @booking_router.patch("/{booking_id}")
-async def update_booking(booking_id: str, data: UpdateBookingSchema,
-                         current_user: User = Depends(get_current_user), booking_service: BookingService = Depends(get_booking_service)):
+async def update_booking(booking_id: str, data: UpdateBookingSchema, current_user: User = Depends(get_current_user), booking_service: BookingService = Depends(get_booking_service)):
+                    
     response = await booking_service.update_booking(booking_id=booking_id, user_id=current_user.id, data=data)
     return response
 
 
 @booking_router.patch("/{booking_id}/by-host")
-async def update_booking_by_host(booking_id: str, data: UpdateBookingSchemaByHost,
-                                 current_user: User = Depends(get_current_user), booking_service: BookingService = Depends(get_booking_service)):
+async def update_booking_by_host(booking_id: str, data: UpdateBookingSchemaByHost, current_user: User = Depends(get_current_user), booking_service: BookingService = Depends(get_booking_service)):
+    
     response = await booking_service.update_booking_by_host(booking_id=booking_id, user_id=current_user.id, data=data)
     return response

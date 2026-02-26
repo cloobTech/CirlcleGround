@@ -65,7 +65,6 @@ class AuthService:
                         details={"recommendations": "Phone number is required"}
                     )
                 try:
-                    # provide a default region if your users are mostly in one country, e.g. "US"
                     num = phonenumbers.parse(login_details.phone_number, "NG")
                     if phonenumbers.is_valid_number(num):
                         phonenumber = phonenumbers.format_number(

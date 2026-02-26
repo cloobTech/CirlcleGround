@@ -1,5 +1,5 @@
 from src.unit_of_work.unit_of_work import UnitOfWork
-from src.core.exceptions import EntityNotFound, UniqueViolationError
+from src.core.exceptions import EntityNotFound, UniqueViolationError, PermissionDeniedError
 
 
 class WishListService:
@@ -13,6 +13,13 @@ class WishListService:
                 if not space:
                     raise EntityNotFound(
                         message="Space not found", details={"recommendation": "Check space details"}
+                    )
+                if space.host_id == user_id:
+                    raise PermissionDeniedError(
+                        message="You can not add your own space to wishlist",
+                        details={   
+                            "recommendation": "Pass a diferent user_id"
+                        }
                     )
                 wishlist = await self.uow_factory.wishlist_repo.create(user_id, space_id)
                 return wishlist
