@@ -1,8 +1,10 @@
 from typing import TYPE_CHECKING
 from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, Text, Enum
+from sqlalchemy import Computed, ForeignKey, Index, Text, Enum
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from src.enums.enums import SpaceType, SpaceCategory, SpaceStatus
+from src.storage.types import TSVectorType
 
 # from models.association import space_amenity_link
 
@@ -26,6 +28,10 @@ if TYPE_CHECKING:
 
 class Space(Basemodel, Base):
     __tablename__ = "spaces"
+    __table_args__ = (
+        Index('ix_spaces_search_vector',
+              'search_vector', postgresql_using='gin'),
+    )
 
     location_id: Mapped[str] = mapped_column(
         ForeignKey("locations.id"), nullable=False)
@@ -49,6 +55,24 @@ class Space(Basemodel, Base):
     num_of_toilets: Mapped[int] = mapped_column(nullable=False, default=0)
     num_of_parking_spaces: Mapped[int] = mapped_column(
         nullable=False, default=0)
+
+    if Base.metadata.info.get("bind") and Base.metadata.info["bind"].dialect.name == "postgresql":
+        search_vector: Mapped[str] = mapped_column(
+            TSVECTOR,
+            nullable=False,
+            server_default=Computed(
+                "to_tsvector('english', "
+                "coalesce(name, '') || ' ' || "
+                "coalesce(description, '') || ' ' || "
+                "coalesce(space_type::text, '') || ' ' || "
+                "coalesce(category::text, '')"
+                ")",
+                persisted=True
+            ),
+        )
+    else:
+        # SQLite fallback
+        search_vector: Mapped[str] = mapped_column(nullable=True)
 
     host: Mapped["User"] = relationship(back_populates="spaces")
 

@@ -81,4 +81,11 @@ async def remove_from_wishlist(space_id: str, uow: UnitOfWork = Depends(get_uow)
     response = await wishlist_service.remove_wishlist(user_id=current_user.id, space_id=space_id)
     return response
 
+
+@space_router.get("/search")
+async def search_space(search_string: str, service: SpaceService = Depends(get_space_service)):
+    print(search_string)
+    response = await service.search_spaces(query=search_string)
+    return response
+
 # TODO: add calendar  view

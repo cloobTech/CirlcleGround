@@ -62,3 +62,9 @@ class SpaceService:
             "id": space.id,
             "message": "Space updated successfully"
         }
+
+    async def search_spaces(self, query: str, limit: int = 10):
+        """Search for spaces based on a query string."""
+        async with self.uow_factory as uow:
+            spaces = await uow.space_repo.search_spaces(query=query, limit=limit)
+        return spaces
