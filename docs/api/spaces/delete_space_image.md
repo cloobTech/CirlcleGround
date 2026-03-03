@@ -1,7 +1,7 @@
-# Delete Multiple Spaces Images
+# Delete Space Image
 
-**Endpoint:** `DELETE /api/v1/spaces/{space_ids}/images`
-**Description:** This endpoint allows users to delete more than one images from a space in a single request. This is useful for bulk operations and cleaning up unwanted images.
+**Endpoint:** `DELETE /api/v1/spaces/{space_id}/images/{image_id}`
+**Description:** This endpoint allows users to delete  one image from a space in a  request.
 **Content-Type:** `application/json`
 
 
@@ -9,7 +9,7 @@
 
 | Name        | Type   | Required | Description                                     |
 | ----------- | ------ | -------- | ----------------------------------------------- |
-| `image_ids` | list   | Yes      | list of the space_id of the different spaces    |
+| `image_id`  | string | Yes      | image_id of image to e deleted from a space                |
 
 
 ## Response
@@ -18,7 +18,7 @@
 - **Status Code:** `200 OK`
 ```json
 {
-  "message": "Images deleted successfully",
+  "message": "Image deleted successfully",
 }
 ```
 
@@ -29,7 +29,7 @@
 
 ```json
 {
-  "detail": "image_ids cannot be empty"
+  "detail": "image_id cannot be empty"
 }
 ```
 #### Unauthorized
@@ -45,7 +45,7 @@
 - **Status Code:** `403 Forbidden`
 ```json
 {
-  "detail": "You do not have permission to delete images from this space"
+  "detail": "You do not have permission to delete image from this space"
 }
 ```
 
@@ -61,6 +61,6 @@
 - **Status Code:** `500 Internal Server Error`
 ```json
 {
-  "detail": "An error occurred while deleting the images"
+  "detail": "An error occurred while deleting the image"
 }
 ```

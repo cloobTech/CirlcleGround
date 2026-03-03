@@ -45,7 +45,7 @@ The request should be made with `Content-Type: application/json` and include the
   "password": "strongpassword",
   "location": "Lagos, Nigeria",
   "latitude": 0.724363,
-  "longitude": 3.758866,
+  "longitude": 3.758866
 }
 ```
 ## Response

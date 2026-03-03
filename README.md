@@ -26,12 +26,12 @@ Base Url or local development
 <summary>Spaces</summary>
 
 - [Create Space](docs/api/spaces/create_spaces.md)
-- [Update A New Space](docs/api/spaces/update_newly_created_space.md)
-- [Delete Multiple Spaces](docs/api/spaces/delete_multiple_spaces.md)
-- [Delete Space](docs/api/spaces/delete_space.md)
+- [Get Space Bookings](docs/api/spaces/get_space_bookings.md)
+- [Delete Multiple Space Images](docs/api/spaces/delete_multiple_spaces_images.md)
+- [Delete Space Image](docs/api/spaces/delete_space_image.md)
 - [Upload Images](docs/api/spaces/upload_images.md)
-- [Update Newly Created Space](docs/api/spaces/update_newly_created_space.md)
-- [Get All Spaces](docs/api/spaces/get_all_spaces.md)
+- [Update New Space](docs/api/spaces/update_new_space.md)
+- [Get All Space Available Space](docs/api/spaces/get_all_space_available_dates.md)
 - [Add to wishist](docs/api/spaces/add_to_wishlist.md)
 - [Reomve from wishist](docs/api/spaces/remove_from_wishlist.md)
 - [Search Space](docs/api/spaces/search_space.md)
@@ -44,7 +44,7 @@ Base Url or local development
 <summary>Location</summary>
 
 - [Seacrh Location](docs/api/location/search_location.md)
-- [Add Location](docs/api/location/add_location.md)
+- [Create Location](docs/api/location/create_location.md)
 
 </details>
 

@@ -2,7 +2,7 @@
 
 ## Enpoint
 
-`GET /locations/search`
+`GET /api/v1/locations/search`
 
 ## Description
 
@@ -16,7 +16,7 @@ This request should be made with `Content-Type: application/json` header and inc
 
 | Name      | Type   | Required | Description                       |
 | --------- | ------ | -------- | --------------------------------- |
-| `address` | string | Yes      | Address or location to search for |
+| `search_sting` | string | Yes      | User-provided address or location to search for |
 
 ## Response
 

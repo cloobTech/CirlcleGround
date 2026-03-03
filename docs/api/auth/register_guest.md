@@ -62,7 +62,7 @@ The request should be made with `Content-Type: application/json` and include the
   "name": "string",
   "phone_number": "string",
   "location": "string",
-  "is_active": true,
+  "is_active": true
 }
 ```
 

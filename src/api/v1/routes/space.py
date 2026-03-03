@@ -62,7 +62,7 @@ async def get_space_bookings(space_id: str, uow: UnitOfWork = Depends(get_uow), 
 
 
 @space_router.get("/{space_id}/available-dates")
-async def get_all_spaces(space_id: str, uow: UnitOfWork = Depends(get_uow)):
+async def get_space_available_dates(space_id: str, uow: UnitOfWork = Depends(get_uow)):
     booking_service = BookingService(uow)
     response = await booking_service.get_space_available_dates(space_id=space_id)
     return response

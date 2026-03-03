@@ -1,8 +1,8 @@
-# Add Location
+# Create Location
 
 ## Endpoint
 
-`POST /services/location_service`
+`POST /api/v1/locations/`
 
 ## Description
 

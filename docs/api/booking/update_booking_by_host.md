@@ -1,4 +1,4 @@
-# Update Booking
+# Update Booking By host
 
 **Endpoint:** `PATCH /api/v1/bookings/{booking_id}/by-host`
 **Description:** This endpoint allows a host to update a booking.
