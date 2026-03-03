@@ -1,6 +1,6 @@
 # Update Booking
 
-**Endpoint:** `PUT /api/v1/bookings/{booking_id}`
+**Endpoint:** `PATCH /api/v1/bookings/{booking_id}`
 **Description:** This endpoint allows an authenticateed user to update a booking they created.
 **Content-Type:** `application/json`
 

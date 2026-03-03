@@ -49,6 +49,8 @@ class User(Basemodel, Base, SoftDeleteMixin):
 
     is_super_admin: Mapped[bool] = mapped_column(default=False, nullable=False)
 
+
+
     bookings: Mapped[list["Booking"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"

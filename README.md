@@ -34,6 +34,7 @@ Base Url or local development
 - [Get All Spaces](docs/api/spaces/get_all_spaces.md)
 - [Add to wishist](docs/api/spaces/add_to_wishlist.md)
 - [Reomve from wishist](docs/api/spaces/remove_from_wishlist.md)
+- [Search Space](docs/api/spaces/search_space.md)
 
 
 
