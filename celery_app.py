@@ -13,9 +13,9 @@ celery_app.conf.update(
     result_serializer='json',
     timezone='UTC',
     enable_utc=True,
-    include=['src.tasks.email_task', 'src.tasks.image_upload'
-             ]
-)
+    include=['src.tasks.email_task', 'src.tasks.image_upload',
+             'src.tasks.notification_task'],
 
+)
 
 # celery_app.autodiscover_tasks(["src.tasks"])

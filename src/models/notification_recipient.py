@@ -15,7 +15,7 @@ class NotificationRecipient(Basemodel, Base):
     notification_id: Mapped[str] = mapped_column(
         ForeignKey("notifications.id"), primary_key=True
     )
-    user_id: Mapped[str] = mapped_column(
+    recipient_id: Mapped[str] = mapped_column(
         ForeignKey("users.id"), primary_key=True
     )
     is_read: Mapped[bool] = mapped_column(nullable=False, default=False)

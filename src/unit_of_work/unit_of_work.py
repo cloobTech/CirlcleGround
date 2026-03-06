@@ -63,6 +63,7 @@ class UnitOfWork:
             session)
 
     def collect_event(self, event: DomainEvent) -> None:
+        # print(f"Collecting event: {event}")
         self._pending_events.append(event)
 
     async def __aenter__(self):

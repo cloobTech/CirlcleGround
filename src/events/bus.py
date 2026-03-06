@@ -1,7 +1,10 @@
 import asyncio
 import inspect
 from typing import Type, Dict, List, Callable, Awaitable, Union, Any, TypeVar, Generic
+import logging
 from src.events.base import DomainEvent
+
+logger = logging.getLogger(__name__)
 
 E = TypeVar("E", bound=DomainEvent)
 
@@ -32,10 +35,6 @@ class EventBus(Generic[E]):
         await asyncio.gather(*tasks, return_exceptions=True)
 
     def publish_sync(self, event: E):
-        """Synchronously publish an event to all subscribers.
-
-        Use this in non‑async contexts (e.g., Celery tasks, scripts).
-        """
         handlers = self._subscribers.get(type(event), [])
         sync_tasks = []
         async_tasks = []
@@ -46,25 +45,23 @@ class EventBus(Generic[E]):
             else:
                 sync_tasks.append(handler)
 
-        # Run sync handlers directly (they are just Python functions)
+        # Run sync handlers with error logging
         for handler in sync_tasks:
-            handler(event)
+            try:
+                logger.exception(
+                    "Sync handler failed for event %s", event, exc_info=True)
+            except Exception:
+                logger.exception("Sync handler failed for event %s", event)
+                # Option: continue or re-raise depending on criticality
 
-        # Run async handlers by creating a new event loop and running them
+        # Run async handlers with error logging
         if async_tasks:
             try:
-                # Try to get the running loop – if one exists, we can't use asyncio.run()
-                loop = asyncio.get_running_loop()
-                # We are already in an async context – this method should not be called
-                # from sync code if a loop is running. Fallback: run in a thread?
-                # For simplicity, we'll raise a clear error.
-                raise RuntimeError(
-                    "publish_sync called from an async context. "
-                    "Use await publish() instead."
-                )
-            except RuntimeError:
-                # No running loop – safe to use asyncio.run()
                 asyncio.run(self._run_async_handlers(async_tasks))
+            except Exception:
+                # _run_async_handlers returns exceptions as values, so this shouldn't happen
+                # but guard anyway
+                logger.exception("Error during async handler execution")
 
     async def _run_async_handlers(self, coros):
         """Helper to run a list of coroutines concurrently."""

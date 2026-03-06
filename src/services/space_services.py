@@ -1,6 +1,11 @@
-from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation, SpaceQueryParams
+from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation
+from src.schemas.notification import CreateNotification
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import StoreAlreadyExistsError
+from src.events.notification_events import NotificationCreatedEvent
+from src.enums.enums import NotificationType
+from src.events.user_events import UserCreatedEvent
+from src.events.organization_events import OrganizationCreatedEvent
 
 
 class SpaceService:
@@ -11,6 +16,19 @@ class SpaceService:
         space_data = data.space
         async with self.uow_factory as uow:
             new_space = await uow.space_repo.create_space(host_id=host_id, data=space_data)
+
+            uow.collect_event(NotificationCreatedEvent(
+                data=CreateNotification(
+                    title="New Space Created",
+                    message=f"A new space '{new_space.name}' has been created by host {host_id}.",
+                    sender_id=host_id,
+                    notification_type=NotificationType.SPACE_CREATION,
+                    resource_id=new_space.id
+                ),
+                event_type="NOTIFICATION_CREATED",
+                # Notify the host about the new space creation
+                recipient_ids=[host_id]
+            ))
 
         return {
             "id": new_space.id,

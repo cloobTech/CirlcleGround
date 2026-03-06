@@ -7,7 +7,7 @@ from typing import Type, TypeVar, Generic
 ModelType = TypeVar("ModelType", bound=Base)
 
 
-class BaseRepository(Generic[ModelType]):
+class SyncBaseRepository(Generic[ModelType]):
 
     def __init__(self, model: Type[ModelType], session: Session):
         self.session = session

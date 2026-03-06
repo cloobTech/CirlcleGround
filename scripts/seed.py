@@ -45,17 +45,19 @@ async def seed_data():
         space_data = CreateSpaceSchema(space=space)
         space_repo = SpaceRepository(session)
         new_space = await space_repo.create_space(host_id=user.id, data=space)
-        print(new_space.id)
-        # print(new_space.name)
-        # update_space = UpdateSpaceAtCreation(**UPDATE_NEW_SPACE)
+   
+        update_space = UpdateSpaceAtCreation(**UPDATE_NEW_SPACE)
         # await space_service.update_new_space(space_id=new_space.id, data=update_space)
 
-        # space_image_repo = SpaceImageRepository(session)
-        # for image in SPACE_IMAGE:
-        #     await space_image_repo.create(space_id=new_space.id, order=image["order"])
+ 
+        print(" =============================== Updated Space ===================================")
 
-        # # await space_repo.update(UPDATE_NEW_SPACE)
-        # # await space_repo.add_images(SPACE_IMAGE)
+        space_image_repo = SpaceImageRepository(session)
+        for image in SPACE_IMAGE:
+            await space_image_repo.create(space_id=new_space.id, order=image["order"])
+
+        # await space_repo.update(id=new_space.id, data=UPDATE_NEW_SPACE)
+        # await space_repo.add_images(SPACE_IMAGE)
         # print(" =============================== Space created ===================================")
 
         await session.commit()

@@ -26,3 +26,7 @@ class UserService:
     async def get_user_wishlist(self, user_id: str):
         async with self.uow_factory:
             return await self.uow_factory.wishlist_repo.list_user_wishlist(user_id)
+
+    async def get_user_notifications(self, user_id: str):
+        async with self.uow_factory:
+            return await self.uow_factory.notification_repo.get_user_notifications(user_id)

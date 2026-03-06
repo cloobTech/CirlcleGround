@@ -22,12 +22,14 @@ class Basemodel:
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.now(timezone.utc))
+        DateTime, default=datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     def __init__(self, *args, **kwargs):
         """
             instantiation of new BaseModel Class
         """
+        if not getattr(self, "id", None):
+            self.id = str(uuid4())
         if kwargs:
             self.__set_attrs(kwargs)
         else:

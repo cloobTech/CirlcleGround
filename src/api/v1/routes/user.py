@@ -11,13 +11,13 @@ user_router = APIRouter(prefix="/api/v1/users", tags=["Users"])
 
 @user_router.get("/me")
 async def get_user_profile(current_user: User = Depends(get_current_user)):
-    
+
     return current_user
 
 
 @user_router.put("")
-async def update_user_profile(user_data: UpdateUserSchema, current_user: User = Depends(get_current_user),user_service: UserService = Depends(get_user_service)):
-                              
+async def update_user_profile(user_data: UpdateUserSchema, current_user: User = Depends(get_current_user), user_service: UserService = Depends(get_user_service)):
+
     response = await user_service.update_user(user_data, user_id=current_user.id)
     return response
 
@@ -40,4 +40,10 @@ async def get_user_bookings(current_user: User = Depends(get_current_user), user
 async def get_user_wishlist(current_user: User = Depends(get_current_user), user_service: UserService = Depends(get_user_service)):
 
     response = await user_service.get_user_wishlist(user_id=current_user.id)
+    return response
+
+
+@user_router.get("/me/notifications")
+async def get_user_notifications(current_user: User = Depends(get_current_user), user_service: UserService = Depends(get_user_service)):
+    response = await user_service.get_user_notifications(user_id=current_user.id)
     return response

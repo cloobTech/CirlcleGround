@@ -118,3 +118,4 @@ class NotificationType(str, Enum):
     BOOKING_CONFIRMED = "booking_confirmed"
     CHECK_IN_REMINDER = "check_in_reminder"
     CHECK_OUT_REMINDER = "check_out_reminder"
+    SPACE_CREATION = "space_creation"
