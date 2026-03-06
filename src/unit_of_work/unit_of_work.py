@@ -17,6 +17,12 @@ from src.repositories.space_operating_hour_repo import SpaceOperatingHourReposit
 from src.repositories.space_blackout_repo import SpaceBlackoutRepository
 from src.repositories.booking_addon_repo import BookingAddonRepository
 from src.repositories.wishlist_repo import WishListRepository
+from src.repositories.notification_repo import NotificationRepository
+from src.repositories.notification_recipient_repo import NotificationRecipientRepository
+from src.repositories.conversation_repo import ConversationRepository
+from src.repositories.message_repo import MessageRepository
+from src.repositories.conversation_participant_repo import ConversationParticipantRepository
+
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
 from sqlalchemy.exc import IntegrityError
@@ -48,6 +54,13 @@ class UnitOfWork:
         self.space_blackout_repo = SpaceBlackoutRepository(session)
         self.booking_addon_repo = BookingAddonRepository(session)
         self.wishlist_repo = WishListRepository(session)
+        self.notification_repo = NotificationRepository(session)
+        self.notification_recipient_repo = NotificationRecipientRepository(
+            session)
+        self.conversation_repo = ConversationRepository(session)
+        self.message_repo = MessageRepository(session)
+        self.conversation_participant_repo = ConversationParticipantRepository(
+            session)
 
     def collect_event(self, event: DomainEvent) -> None:
         self._pending_events.append(event)
@@ -65,14 +78,12 @@ class UnitOfWork:
                 return False
 
             await self.session.commit()
-            
+
         except IntegrityError as e:
             await self.session.rollback()
             self._pending_events.clear()
             raise UniqueViolationError() from e
         except Exception:
-            print(exc_type, exc, tb)
-            print("rollback")
             await self.session.rollback()
             self._pending_events.clear()
             raise

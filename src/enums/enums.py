@@ -1,12 +1,12 @@
 from enum import Enum
 
 
-class ActiveStatus(Enum):
+class ActiveStatus(str, Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
 
 
-class DaysOfTheWeek(Enum):
+class DaysOfTheWeek(str, Enum):
     SUNDAY = "sunday"
     MONDAY = "monday"
     TUESDAY = "tuesday"
@@ -98,6 +98,7 @@ class BookingPaymentStatus(str, Enum):
     REFUNDED = "refunded"
     PARTIALLY_PAID = "partially_paid"
 
+
 class AmenityCategory(str, Enum):
     BASIC = "basic"
     WORKSPACE = "workspace"
@@ -107,3 +108,13 @@ class AmenityCategory(str, Enum):
     OUTDOOR = "outdoor"
     PARKING = "parking"
     CUSTOM = "custom"
+
+
+class NotificationType(str, Enum):
+    BOOKING_REQUESTED = "booking_requested"
+    BOOKING_ACCEPTED = "booking_accepted"
+    BOOKING_DECLINED = "booking_declined"
+    BOOKING_CANCELLED = "booking_cancelled"
+    BOOKING_CONFIRMED = "booking_confirmed"
+    CHECK_IN_REMINDER = "check_in_reminder"
+    CHECK_OUT_REMINDER = "check_out_reminder"

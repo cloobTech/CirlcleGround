@@ -7,4 +7,5 @@ class OrganizationCreatedEvent(DomainEvent):
     admin_name: str
     organization_name: str
     admin_email: str
-    year: int = Field(default_factory=lambda: datetime.now().year, description="The year the organization was created")
+    year: int = Field(default_factory=lambda: datetime.now().year,
+                      description="The year the organization was created")

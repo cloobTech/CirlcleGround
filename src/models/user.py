@@ -10,6 +10,8 @@ if TYPE_CHECKING:
     from src.models.reviews import Review
     from src.models.space import Space
     from src.models.wish_list import WishList
+    from src.models.notification import Notification
+    from src.models.notification_recipient import NotificationRecipient
 
 
 class User(Basemodel, Base, SoftDeleteMixin):
@@ -49,8 +51,6 @@ class User(Basemodel, Base, SoftDeleteMixin):
 
     is_super_admin: Mapped[bool] = mapped_column(default=False, nullable=False)
 
-
-
     bookings: Mapped[list["Booking"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
@@ -67,6 +67,16 @@ class User(Basemodel, Base, SoftDeleteMixin):
     )
 
     wishlist_items: Mapped[list["WishList"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    sent_notifications: Mapped[list["Notification"]] = relationship(
+        back_populates="sender",
+        cascade="all, delete-orphan"
+    )
+
+    notification_recipients: Mapped[list["NotificationRecipient"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
     )
