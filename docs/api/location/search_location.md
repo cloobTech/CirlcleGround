@@ -16,7 +16,7 @@ This request should be made with `Content-Type: application/json` header and inc
 
 | Name      | Type   | Required | Description                       |
 | --------- | ------ | -------- | --------------------------------- |
-| `search_sting` | string | Yes      | User-provided address or location to search for |
+| `search_string` | string | Yes      | User-provided address or location to search for |
 
 ## Response
 

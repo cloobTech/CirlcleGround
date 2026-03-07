@@ -1,7 +1,7 @@
 # Get User Bookings
 
 **Endpoint:** `GET /api/v1/users/me/bookings`
-**Description:** This endpoint allows users to get all available spaces
+**Description:** This endpoint allows users to get all user bookings.
 
 **Content-Type:** `application/json`
 
@@ -16,7 +16,7 @@
 ### Request Parameters
 | Name                | Type    | Required | Description                                                    |
 |---------------------| --------| -------- | -------------------------------------------------------------- |
-| `status`  | string | Optional      | filter bookings by status.        |
+| `status`            | string  | Optional | filter bookings by status.                                     |
 
 
 ## Response
@@ -65,6 +65,7 @@
   "detail": "Invalid request parameters"
 }
 ```
+
 #### Unauthorized
 
 - **Status Code:** `401 Unauthorized`

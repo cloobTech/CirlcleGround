@@ -5,7 +5,7 @@ from src.services.sync_notification_recipients import SyncNotificationRecipientS
 
 
 
-notification_recipient_router = APIRouter(prefix="/api/v1/recipient_notifications", tags=["Recipient Notification"])
+notification_recipient_router = APIRouter(prefix="/api/v1/notification_recipient", tags=["Recipient Notification"])
 
 @notification_recipient_router.patch("/{notification_id}/update-notification")
 def update_user_notification(

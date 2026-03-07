@@ -81,6 +81,15 @@ Base Url or local development
 
 </details>
 
+<!-- Notification Recipient -->
+<details>
+<summary>Notification Recipient</summary>
+
+- [Update User Notification](docs/api/notification_recipient/update_user_notification.md)
+- [Delete User Notification](docs/api/notification_recipient/delete_user_notification.md)
+
+</details>
+
 
 <!-- User -->
 <details>
@@ -91,4 +100,5 @@ Base Url or local development
 - [Get User Spaces](docs/api/user/get_user_spaces.md)
 - [Update User Profile](docs/api/user/update_user_profile.md)
 - [Get User Wishlist](docs/api/user/get_user_wishlist.md)
+- [Get User Notifications](docs/api/user/get_user_notifications.md)
 </details>
