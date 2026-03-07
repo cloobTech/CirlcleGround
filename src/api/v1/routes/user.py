@@ -47,3 +47,4 @@ async def get_user_wishlist(current_user: User = Depends(get_current_user), user
 async def get_user_notifications(current_user: User = Depends(get_current_user), user_service: UserService = Depends(get_user_service)):
     response = await user_service.get_user_notifications(user_id=current_user.id)
     return response
+

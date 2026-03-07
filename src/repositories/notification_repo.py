@@ -18,3 +18,4 @@ class NotificationRepository(BaseRepository[Notification]):
         )
         result = await self.session.execute(stmt)
         return result.scalars().all()
+

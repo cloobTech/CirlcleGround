@@ -1,5 +1,6 @@
+from datetime import datetime
 from typing import TYPE_CHECKING
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.models.basemodel import Basemodel, Base
 
@@ -19,6 +20,9 @@ class NotificationRecipient(Basemodel, Base):
         ForeignKey("users.id"), primary_key=True
     )
     is_read: Mapped[bool] = mapped_column(nullable=False, default=False)
+
+    read_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
 
     notification: Mapped["Notification"] = relationship(
         back_populates="recipients"
