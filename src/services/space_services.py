@@ -6,6 +6,7 @@ from src.events.notification_events import NotificationCreatedEvent
 from src.enums.enums import NotificationType
 from src.events.user_events import UserCreatedEvent
 from src.events.organization_events import OrganizationCreatedEvent
+from src.notification_factory.space_notification_factory import SpaceNotificationFactory
 
 
 class SpaceService:
@@ -17,18 +18,7 @@ class SpaceService:
         async with self.uow_factory as uow:
             new_space = await uow.space_repo.create_space(host_id=host_id, data=space_data)
 
-            uow.collect_event(NotificationCreatedEvent(
-                data=CreateNotification(
-                    title="New Space Created",
-                    message=f"A new space '{new_space.name}' has been created by host {host_id}.",
-                    sender_id=host_id,
-                    notification_type=NotificationType.SPACE_CREATION,
-                    resource_id=new_space.id
-                ),
-                event_type="NOTIFICATION_CREATED",
-                # Notify the host about the new space creation
-                recipient_ids=[host_id]
-            ))
+            uow.collect_event(SpaceNotificationFactory.space_created(new_space, host_id))
 
         return {
             "id": new_space.id,

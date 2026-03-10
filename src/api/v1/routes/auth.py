@@ -1,14 +1,12 @@
 from fastapi import Depends, APIRouter
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import BackgroundTasks
-from pydantic import EmailStr
 from src.auth.services import AuthService
 from src.auth.schema import VerificationForm
 from src.models.user import User
 from src.schemas.user_schema import CreateUserSchema, LoginUser
 from src.auth.schema import TokenResponse
-from src.api.v1.dependencies import get_auth_service, get_current_user, require_super_admin, get_token_utils, get_user_service
-from src.utils.token_utils import TokenUtils
+from src.api.v1.dependencies import get_auth_service, get_current_user, require_super_admin
+
 
 
 auth_router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])

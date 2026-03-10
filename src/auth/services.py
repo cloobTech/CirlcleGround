@@ -109,10 +109,9 @@ class AuthService:
                         "recommendations": "Ensure user passes the correct email"
                     })
             token = await token_utils.user_verfication_token(user)
-            expires_at = datetime.now(timezone.utc) + timedelta(minutes=15)
             updated_data = {
                 "verification_token": token,
-                "verification_token_expires_at": expires_at
+                "verification_token_expires_at": user.verification_token_expires_at
             }
 
             await self.uow_factory.user_repo.update(id=user.id, data=updated_data)

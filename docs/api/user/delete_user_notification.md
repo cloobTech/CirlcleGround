@@ -1,7 +1,7 @@
 # Delete User Notification
 
 ## Endpoint
-`DELETE /api/v1/notification_recipient/{notification_id}`
+`DELETE /api/v1/users/{notification_id}`
 
 ---
 

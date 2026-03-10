@@ -1,6 +1,6 @@
 # Update User Notification
 ## Endpoint
-1`POST /api/v1/notification_recipient/{notification_id}/update-notification`
+1`PATCH /api/v1/users/{notification_id}`
 
 ## Description
 
@@ -19,7 +19,7 @@ This should be made with `Content-Type: application/json` and include the follow
 
 | Parameter               | Type   | Required | Description                             |Example/Notes          |
 |-------------------------|--------|----------|-----------------------------------------|-----------------------|
-|`notification_id`        |string  |Yes       |ID of the notification                  |`"uuid-1234"`            |
+|`notification_id`        |string  |Yes       |ID of the notification                   |`"uuid-1234"`          |
 
 
 

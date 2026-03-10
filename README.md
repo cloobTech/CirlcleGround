@@ -81,20 +81,14 @@ Base Url or local development
 
 </details>
 
-<!-- Notification Recipient -->
-<details>
-<summary>Notification Recipient</summary>
-
-- [Update User Notification](docs/api/notification_recipient/update_user_notification.md)
-- [Delete User Notification](docs/api/notification_recipient/delete_user_notification.md)
-
-</details>
-
 
 <!-- User -->
 <details>
 <summary>User</summary>
 
+- [Update User Notification](docs/api/user/update_user_notification.md)
+- [Delete User Notification](docs/api/user/delete_user_notification.md)
+- [Delete Multiple User Notifications](docs/api/user/delete_multiple_user_notifications.md)
 - [Get User Bookings](docs/api/user/get_user_bookings.md)
 - [Get User Profile](docs/api/user/get_user_profile.md)
 - [Get User Spaces](docs/api/user/get_user_spaces.md)
