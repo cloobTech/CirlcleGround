@@ -18,5 +18,4 @@ class SpaceNotificationFactory:
             recipient_ids=[host_id]
         )
     
-    @staticmethod
-    def space
+

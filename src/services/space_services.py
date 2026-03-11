@@ -18,7 +18,6 @@ class SpaceService:
         async with self.uow_factory as uow:
             new_space = await uow.space_repo.create_space(host_id=host_id, data=space_data)
 
-            uow.collect_event(SpaceNotificationFactory.space_created(new_space, host_id))
 
         return {
             "id": new_space.id,
@@ -65,6 +64,7 @@ class SpaceService:
                 await uow.space_operating_hour_repo.create(space.id, operation_hour)
 
             space.status = data.status
+            uow.collect_event(SpaceNotificationFactory.space_created(space, space.host_id))
 
         return {
             "id": space.id,

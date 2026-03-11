@@ -3,6 +3,7 @@ from src.schemas.booking_schema import CreateBookingSchema, UpdateBookingSchema,
 from src.core.exceptions import EntityNotFound, ConflictError, PermissionDeniedError
 from src.models.booking import Booking
 from src.enums.enums import UserRole, BookingStatus
+from src.notification_factory.booking_notification_factory import BookingNotificationFactory
 
 
 class BookingService:
@@ -54,13 +55,16 @@ class BookingService:
                     message="Space already booked for this period",
                     details={"recommendation": "Check booking details"},
                 )
-            new_booking = Booking(
+            booking = Booking(
                 **booking_data.model_dump(), guest_id=guest_id)
 
             for addon_id in booking_data.addon_ids:
-                await uow.booking_addon_repo.create(new_booking.id, addon_id)
-
-            return await self.uow_factory.booking_repo.create(new_booking)
+                await uow.booking_addon_repo.create(booking.id, addon_id)
+            
+            
+            new_booking = await self.uow_factory.booking_repo.create(booking)
+            uow.collect_event(BookingNotificationFactory.booking_requested(new_booking.id, guest_id, space, space.host_id))
+            return new_booking
 
     async def delete_booking(self, booking_id: str, user_id: str):
         async with self.uow_factory:

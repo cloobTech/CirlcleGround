@@ -119,3 +119,7 @@ class NotificationType(str, Enum):
     CHECK_IN_REMINDER = "check_in_reminder"
     CHECK_OUT_REMINDER = "check_out_reminder"
     SPACE_CREATION = "space_creation"
+    PAYMENT_SUCCESS = "payment_success"
+    PAYMENT_FAILED = "payment_failed"
+    EMAIL_VERIFIED = "email_verified"
+
