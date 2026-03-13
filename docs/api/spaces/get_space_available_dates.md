@@ -1,7 +1,7 @@
-# Get All Space Available Dates
+# Get Space Available Dates
 
 **Endpoint:** `GET /api/v1/spaces/{space_id}/available-dates`
-**Description:** This endpoint allows users to get all available dates for a particular space
+**Description:** This endpoint allows users to get available dates for a particular space
 
 **Content-Type:** `application/json`
 

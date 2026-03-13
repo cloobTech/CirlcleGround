@@ -6,7 +6,7 @@
 
 ## Description
 
-This endpoint validates a password reset token and updates the user’s password.
+This endpoint updates the user’s password.
 
 ## Request
 
@@ -16,9 +16,8 @@ This request should be made with `Content-Type: application/json` and include th
 
 | Name        | Type   | Required | Description                                                                         |
 | ----------- | ------ | -------- | ----------------------------------------------------------------------------------- |
-| `token`  | string | Yes      | Password reset token                                                           |
-| `password`  | string | Yes      | The password of the user.                                                           |
-| `confirm_password`  | string | Yes      | Must match the password of the user.  
+| `new_password`  | string | Yes      | The password of the user.                                                           |
+
 
 ## Response
 

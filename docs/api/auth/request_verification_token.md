@@ -1,13 +1,13 @@
-# Request Password Reset Token
+# Request Verification Token
 
 ## Endpoint
-`POST /api/v1/auth/request-password-token`
+`POST /api/v1/auth/request-verification-token`
 
 ---
 
 ### Description
-This endpoint initiates the password recovery flow.  
-A reset token is generated and sent to the user’s registered email or phone number.
+This endpoint allows user to request a verification token.  
+A reset token is generated and sent to the user’s registered email.
 
 ---
 

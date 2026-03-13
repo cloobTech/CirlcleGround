@@ -4,6 +4,15 @@
 **Description:** update a new space with all related data (pricings, addons, use cases, rules, amenities).  
 **Content-Type:** `application/json`
 
+
+### Headers
+
+| Name            | Required | Description                      |
+|-----------------|----------|----------------------------------|
+| Authorization   | Yes      | Bearer access token              |
+
+
+
 ### Request Parameters
 
 | Parameter                     | Type             | Required | Description                     | Example / Notes                                                                       |

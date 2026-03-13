@@ -1,11 +1,11 @@
 # Verify Verification Token
 ## Endpoint
 
-`POST /api/v1/auth/verify-verification-token`
+`POST /api/v1/auth/verify-email`
 
 ## Description
 
-This endpoint allows user to input the verification token sent via email and validates it.
+This endpoint allows user to input the verification token sent via email to verify email.
 
 ## Request
 

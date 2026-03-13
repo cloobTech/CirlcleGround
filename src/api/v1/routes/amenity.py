@@ -20,7 +20,7 @@ async def create_amenity(
     return response
 
 
-@amenity_router.delete("/bulk_delete_amenities")
+@amenity_router.delete("/")
 async def bulk_delete_amenities(
     amenities_id: DeleteMultipleAmenities,
     current_user: User = Depends(get_current_user),

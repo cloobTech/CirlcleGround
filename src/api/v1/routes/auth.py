@@ -11,8 +11,8 @@ from src.api.v1.dependencies import get_auth_service, get_current_user, require_
 auth_router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
 
 
-@auth_router.post("/register")
-async def create_guest_user(
+@auth_router.post("/")
+async def register_guest_user(
     user_data: CreateUserSchema,
     auth_service: AuthService = Depends(get_auth_service)
 
@@ -22,7 +22,7 @@ async def create_guest_user(
 
 
 @auth_router.post("/admin")
-async def add_admin_user(
+async def register_admin_user(
     user_data: CreateUserSchema,
     current_user: User = Depends(require_super_admin),
     auth_service: AuthService = Depends(get_auth_service),
@@ -52,7 +52,7 @@ async def forgot_password(
     email: VerificationForm,
     auth_service: AuthService = Depends(get_auth_service)
 ):
-    response = await auth_service.request_password_reset_token(email.email)
+    response = await auth_service.request_verification_token(email.email)
     return response
 
 
@@ -71,7 +71,7 @@ async def request_verification_token(
     auth_service: AuthService = Depends(get_auth_service)
 
 ):
-    response = await auth_service.request_password_reset_token(email.email)
+    response = await auth_service.request_verification_token(email.email)
     return response
 
 
@@ -85,7 +85,7 @@ async def verify_email(
     return response
 
 
-@auth_router.post("/reset_password")
+@auth_router.post("/set-new-password")
 async def set_new_password(
     new_password: str,
     current_user: User = Depends(get_current_user),

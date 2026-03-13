@@ -79,4 +79,3 @@ def delete_multiple_user_notifications(
 ):
     deleted_recipient_notifications = service.delete_multiple_user_notifications(notification_ids, recipient_id=current_user.id)
     return deleted_recipient_notifications
-

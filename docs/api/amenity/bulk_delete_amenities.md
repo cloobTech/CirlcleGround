@@ -1,6 +1,6 @@
-# Delete Multiple Amenities
+# Bulk Delete Amenities
 
-**Endpoint:** `DELETE /api/v1/amenities/bulk_delete_amenities`
+**Endpoint:** `DELETE /api/v1/amenities/`
 **Description:** This endpoint allows users to delete  multiple amenities from the database in a  request.
 **Content-Type:** `application/json`
 

@@ -1,7 +1,7 @@
 # Delete Space Amenity
 
 **Endpoint:** `DELETE /api/v1/space_amenities/{space_amenity_id}`
-**Description:** This endpoint allows users to delete  one space amenity from the database in a  request.
+**Description:** This endpoint allows user to delete  one space amenity from the database in a  request.
 **Content-Type:** `application/json`
 
 

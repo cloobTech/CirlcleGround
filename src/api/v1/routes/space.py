@@ -22,7 +22,7 @@ async def create_new_space(space_data: CreateSpaceSchema, service: SpaceService 
 
 @space_router.put("/{space_id}")
 async def update_new_space(space_id: str, update_data: UpdateSpaceAtCreation, service: SpaceService = Depends(get_space_service), user: User = Depends(get_current_user)):
-    response = await service.update_new_space(space_id=space_id, data=update_data)
+    response = await service.update_new_space(user_id=user.id, space_id=space_id, data=update_data)
     return response
 
 

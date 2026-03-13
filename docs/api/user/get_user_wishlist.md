@@ -1,7 +1,7 @@
 # Get User Profile
 
 ## Endpoint
-`GET /api/v1/user/me`
+`GET /api/v1/users/me/wishlist`
 
 ---
 

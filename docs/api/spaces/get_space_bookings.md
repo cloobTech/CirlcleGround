@@ -1,7 +1,7 @@
 # Get Space Bookings
 
 **Endpoint:** `GET /api/v1/spaces/{space_id}/bookings`
-**Description:** This endpoint allows admin and super admin to get all bookings for a particular space
+**Description:** This endpoint allows admin, super admin or host to get all bookings for a particular space
 
 **Content-Type:** `application/json`
 
@@ -11,6 +11,14 @@
 | Name        | Type   | Required | Description                                     |
 | ----------- | ------ | -------- | ----------------------------------------------- |
 | `space_id` | list   | Yes      | ID of the space    |
+
+### Headers
+
+| Name            | Required | Description                      |
+|-----------------|----------|----------------------------------|
+| Authorization   | Yes      | Bearer access token              |
+
+---
 
 
 ## Response
