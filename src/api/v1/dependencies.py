@@ -14,7 +14,7 @@ from src.auth.services import AuthService
 from src.services.space_services import SpaceService
 from src.services.user_services import UserService
 from src.services.location_service import LocationService
-from src.services.sync_notification_recipients import SyncNotificationRecipientService
+# from src.services.sync_notification_services import N
 from src.utils.token_utils import TokenUtils
 from typing import AsyncGenerator
 
@@ -46,8 +46,8 @@ def get_space_service(uow: UnitOfWork = Depends(get_uow)):
 def get_location_service(uow: UnitOfWork = Depends(get_uow)):
     return LocationService(uow)
 
-def get_notification_recipient_service(uow: UnitOfWork = Depends(get_uow)):
-    return SyncNotificationRecipientService(uow)
+# def get_notification_recipient_service(uow: UnitOfWork = Depends(get_uow)):
+#     return SyncNotificationRecipientService(uow)
 
 
 def get_token_utils(uow: UnitOfWork = Depends(get_uow)):

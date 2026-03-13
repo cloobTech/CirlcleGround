@@ -1,11 +1,6 @@
 from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation
-from src.schemas.notification import CreateNotification
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import StoreAlreadyExistsError
-from src.events.notification_events import NotificationCreatedEvent
-from src.enums.enums import NotificationType
-from src.events.user_events import UserCreatedEvent
-from src.events.organization_events import OrganizationCreatedEvent
 from src.notification_factory.space_notification_factory import SpaceNotificationFactory
 
 

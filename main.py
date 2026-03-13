@@ -4,6 +4,7 @@
 # from src.api.v1.dependencies import get_uow
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from src.api.v1.routes.booking import booking_router
 from src.api.v1.routes.auth import auth_router
@@ -12,6 +13,7 @@ from src.api.v1.routes.space import space_router
 from src.api.v1.routes.amenity import amenity_router
 from src.api.v1.routes.space_amenities import space_amenities_router
 from src.api.v1.routes.location import location_router
+from src.api.v1.routes.websocket import ws_router
 from src.api.v1.register_exceptions import register_exception_handlers
 from src.core.pydantic_confirguration import config
 from src.events.bootstrap import bootstrap_events_initializer
@@ -40,6 +42,17 @@ app = FastAPI(
 
 register_exception_handlers(app)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    # allow_credentials=True,
+    allow_credentials=False,
+    # allow_methods=["GET", "POST", "PUT", "DELETE"],
+    # allow_headers=["Authorization", "Content-Type"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(user_router)
 
@@ -54,6 +67,8 @@ app.include_router(space_amenities_router)
 app.include_router(amenity_router)
 
 app.include_router(booking_router)
+
+app.include_router(ws_router)
 
 
 # async def main():

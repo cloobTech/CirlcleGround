@@ -14,7 +14,7 @@ class Notification(Basemodel, Base):
     __tablename__ = "notifications"
 
     sender_id: Mapped[str] = mapped_column(
-        ForeignKey("users.id"), nullable=False
+        ForeignKey("users.id"), nullable=True
     )
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     notification_type: Mapped[NotificationType] = mapped_column(

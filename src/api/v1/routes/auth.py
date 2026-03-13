@@ -8,11 +8,10 @@ from src.auth.schema import TokenResponse
 from src.api.v1.dependencies import get_auth_service, get_current_user, require_super_admin
 
 
-
 auth_router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
 
 
-@auth_router.post("/")
+@auth_router.post("/register")
 async def create_guest_user(
     user_data: CreateUserSchema,
     auth_service: AuthService = Depends(get_auth_service)

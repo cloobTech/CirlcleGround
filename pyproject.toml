@@ -25,5 +25,6 @@ dependencies = [
     "resend>=2.19.0",
     "sqlalchemy>=2.0.45",
     "uvicorn>=0.40.0",
+    "websockets>=16.0",
     "yagmail>=0.15.293",
 ]

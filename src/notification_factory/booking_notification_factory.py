@@ -1,12 +1,13 @@
 from src.schemas.notification import CreateNotification
 from src.events.notification_events import NotificationCreatedEvent
 from src.enums.enums import NotificationType
+from src.models.space import Space
 
 
 class BookingNotificationFactory:
 
     @staticmethod
-    def booking_requested(booking_id: str, guest_id: str, space: str, host_id: str):
+    def booking_requested(booking_id: str, guest_id: str, space: Space, host_id: str):
         return NotificationCreatedEvent(
             data=CreateNotification(
                 title="New Booking Request",
@@ -21,7 +22,7 @@ class BookingNotificationFactory:
     
 
     @staticmethod
-    def booking_accepted(booking_id: str, guest_id: str, space: str, host_id: str):
+    def booking_accepted(booking_id: str, guest_id: str, space: Space, host_id: str):
         return NotificationCreatedEvent(
             data=CreateNotification(
                 title="Booking Accepted",
@@ -35,7 +36,7 @@ class BookingNotificationFactory:
         )
     
     @staticmethod
-    def booking_declined(booking_id: str, guest_id: str, space: str, host_id: str):
+    def booking_declined(booking_id: str, guest_id: str, space: Space, host_id: str):
         return NotificationCreatedEvent(
             data=CreateNotification(
                 title="Booking Declined",
@@ -49,7 +50,7 @@ class BookingNotificationFactory:
         )
     
     @staticmethod
-    def booking_confirmed(booking_id: str, guest_id: str, space: str, host_id: str):
+    def booking_confirmed(booking_id: str, guest_id: str, space: Space, host_id: str):
         return NotificationCreatedEvent(
             data=CreateNotification(
                 title="Booking Confirmed",
@@ -63,11 +64,11 @@ class BookingNotificationFactory:
         )
     
     @staticmethod
-    def booking_cancelled(booking_id: str, guest_id: str, space: str, host_id: str):
+    def booking_cancelled(booking_id: str, guest_id: str, space: Space, host_id: str):
         return NotificationCreatedEvent(
             data=CreateNotification(
                 title="Booking Cancelled",
-                message=f"Your booking for '{space.name}' has been confirmed",
+                message=f"Your booking for '{space.name}' has been cancelled",
                 sender_id=guest_id,
                 notification_type=NotificationType.BOOKING_CANCELLED,
                 resource_id=booking_id
