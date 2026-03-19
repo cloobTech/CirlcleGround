@@ -1,7 +1,7 @@
 # Search Space
 
 **Endpoint:** `GET /api/v1/spaces/search`
-**Description:** It provides a search implementation for the space model. It smartly detects the database engine in use and applies either PostgreSQL full-text search (after converting user input into Postgres seach format) or SQLite fallback using case-insensitive pattern matching. It converts the user input to 
+**Description:** It provides a search implementation for the space model. It smartly detects the database engine in use and applies either PostgreSQL full-text search (after converting user input into Postgres search format) or SQLite fallback using case-insensitive pattern matching.
 
 **Content-Type:** `application/json`
 

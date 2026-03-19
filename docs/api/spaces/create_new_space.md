@@ -24,6 +24,14 @@
 | `space.num_of_toilets`        | int              | ❌       | Number of toilets               | `1` (default `0`)                                                     |
 | `space.num_of_parking_spaces` | int              | ❌       | Number of parking spots         | `1` (default `0`)                                                     |
 
+### Headers
+
+| Name            | Required | Description                      |
+|-----------------|----------|----------------------------------|
+| Authorization   | Yes      | Bearer access token              |
+
+---
+
 **Request Body:**
 
 ```json

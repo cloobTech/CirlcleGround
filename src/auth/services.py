@@ -98,7 +98,7 @@ class AuthService:
             verified_user.is_email_verified = True
             return verified_user
 
-    async def request_password_reset_token(self, email: EmailStr):
+    async def request_verification_token(self, email: EmailStr):
         async with self.uow_factory:
             token_utils = TokenUtils(self.uow_factory)
             user = await self.uow_factory.user_repo.get_user_by_email(email)

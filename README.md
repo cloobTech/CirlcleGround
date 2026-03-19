@@ -14,24 +14,25 @@ Base Url or local development
 <summary>Authentication</summary>
 
 - [Login User](docs/api/auth/login_user.md)
-- [Register Customer](docs/api/auth/register_customer.md)
+- [Register Guest](docs/api/auth/register_customer.md)
 - [Register Admin](docs/api/auth/register_admin.md)
-- [Request Token](docs/api/auth/request_token.md)
+- [Request Verification Token](docs/api/auth/request_verification_token.md)
 - [Set New Password](docs/api/auth/set_new_password.md)
 - [Verify Verification token](docs/api/auth/verify_verification_token.md)
+- [Verify Email](docs/api/auth/verify_email.md)
 
 </details>
 <!-- Spaces -->
 <details>
 <summary>Spaces</summary>
 
-- [Create Space](docs/api/spaces/create_spaces.md)
+- [Create New Space](docs/api/spaces/create_new_space.md)
 - [Get Space Bookings](docs/api/spaces/get_space_bookings.md)
 - [Delete Multiple Space Images](docs/api/spaces/delete_multiple_spaces_images.md)
 - [Delete Space Image](docs/api/spaces/delete_space_image.md)
 - [Upload Images](docs/api/spaces/upload_images.md)
 - [Update New Space](docs/api/spaces/update_new_space.md)
-- [Get All Space Available Space](docs/api/spaces/get_all_space_available_dates.md)
+- [Get Space Available Dates](docs/api/spaces/get_space_available_dates.md)
 - [Add to wishist](docs/api/spaces/add_to_wishlist.md)
 - [Reomve from wishist](docs/api/spaces/remove_from_wishlist.md)
 - [Search Space](docs/api/spaces/search_space.md)
@@ -43,7 +44,7 @@ Base Url or local development
 <details>
 <summary>Location</summary>
 
-- [Seacrh Location](docs/api/location/search_location.md)
+- [Search Location](docs/api/location/search_location.md)
 - [Create Location](docs/api/location/create_location.md)
 
 </details>
@@ -66,7 +67,7 @@ Base Url or local development
 
 - [Create Amenities](docs/api/amenity/create_amenities.md)
 - [Delete Amenity](docs/api/amenity/delete_amenity.md)
-- [Delete Amenities](docs/api/amenity/delete_amenities.md)
+- [Bulk Delete Amenities](docs/api/amenity/bulk_delete_amenities.md)
 
 
 </details>
@@ -77,7 +78,7 @@ Base Url or local development
 <summary>Space Amenity</summary>
 
 - [Delete Space Amenity](docs/api/space_amenity/delete_space_amenity.md)
-- [Delete Amenities](docs/api/space_amenity/delete_multiple_space_amenities.md)
+- [Bulk Delete Space Amenities](docs/api/space_amenity/bulk_delete_space_amenities.md)
 
 </details>
 

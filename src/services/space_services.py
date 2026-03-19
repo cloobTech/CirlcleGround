@@ -1,8 +1,8 @@
 from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation
 from src.unit_of_work.unit_of_work import UnitOfWork
-from src.core.exceptions import StoreAlreadyExistsError
+from src.core.exceptions import StoreAlreadyExistsError, PermissionDeniedError
 from src.notification_factory.space_notification_factory import SpaceNotificationFactory
-
+from src.enums.enums import UserRole
 
 class SpaceService:
     def __init__(self, uow_factory: UnitOfWork) -> None:
@@ -19,14 +19,21 @@ class SpaceService:
             "message": "Space created successfully "
         }
 
-    async def update_new_space(self, space_id: str, data: UpdateSpaceAtCreation):
+    async def update_new_space(self, user_id: str, space_id: str, data: UpdateSpaceAtCreation):
         """Update a new space with addons"""
         async with self.uow_factory as uow:
+
             space = await uow.space_repo.get_space_by_id(space_id)
             if not space:
                 raise StoreAlreadyExistsError(message="Space not found in database", details={
                     "recommendation": "kindly check space details again"
                 })
+            user = await uow.user_repo.get_by_id(id=user_id)
+            if space.host_id != user_id or user.role not in [UserRole.ADMIN, UserRole.HOST, UserRole.SUPER_ADMIN]:
+                raise PermissionDeniedError(
+                    message="Access denied: Only host or admin can update new space",
+                    details={"recommendation": "Check user details"},
+                )
             # create addons
             for addon in data.addons:
                 await uow.space_addon_repo.create(space.id, addon)

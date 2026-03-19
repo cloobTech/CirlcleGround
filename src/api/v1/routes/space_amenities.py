@@ -9,7 +9,7 @@ space_amenities_router = APIRouter(
     prefix="/api/v1/space_amenities", tags=["Space Amenities"])
 
 
-@space_amenities_router.delete("/bulk_delete_space_amenities")
+@space_amenities_router.delete("/bulk")
 async def bulk_delete_space_amenities(
     space_amenities_id: MultipleSpaceAmenities,
     current_user: User = Depends(get_current_user),
