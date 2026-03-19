@@ -48,6 +48,7 @@ async def get_user_notifications(current_user: User = Depends(get_current_user),
     response = await user_service.get_user_notifications(user_id=current_user.id)
     return response
 
+
 @user_router.patch("/{notification_id}")
 def update_user_notification(
     notification_id: str,
@@ -61,13 +62,15 @@ def update_user_notification(
     )
     return recipient_notification
 
+
 @user_router.delete("/{notification_id}")
 def delete_user_notification(
     notification_id: str,
     current_user: User = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
-    deleted_recipient_notification = service.delete_user_notification(notification_id, recipient_id=current_user.id)
+    deleted_recipient_notification = service.delete_user_notification(
+        notification_id, recipient_id=current_user.id)
     return deleted_recipient_notification
 
 
@@ -77,6 +80,13 @@ def delete_multiple_user_notifications(
     current_user: User = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
-    deleted_recipient_notifications = service.delete_multiple_user_notifications(notification_ids, recipient_id=current_user.id)
+    deleted_recipient_notifications = service.delete_multiple_user_notifications(
+        notification_ids, recipient_id=current_user.id)
     return deleted_recipient_notifications
 
+
+@user_router.get("/me/conversations")
+async def get_user_conversations(current_user: User = Depends(get_current_user), user_service: UserService = Depends(get_user_service)):
+
+    response = await user_service.get_user_conversations(user_id=current_user.id)
+    return response

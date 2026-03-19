@@ -1,3 +1,4 @@
+from datetime import datetime
 from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
@@ -17,7 +18,7 @@ class ConversationParticipant(Basemodel, Base):
     user_id: Mapped[str] = mapped_column(
         ForeignKey("users.id"), primary_key=True
     )
-    last_read_at: Mapped[str] = mapped_column(nullable=True)
+    last_read_at: Mapped[datetime | None] = mapped_column(nullable=True)
 
     user: Mapped["User"] = relationship()
     conversation: Mapped["Conversation"] = relationship(

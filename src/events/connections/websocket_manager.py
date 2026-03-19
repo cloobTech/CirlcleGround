@@ -1,26 +1,35 @@
 from fastapi import WebSocket
+from collections import defaultdict
 
 
-class ConnectionManager:
+class WebSocketManager:
     def __init__(self):
-        self.active_connections: dict[str, list[WebSocket]] = {}
+        # user_id -> set of websocket connections
+        self.active_connections: dict[str, set[WebSocket]] = defaultdict(set)
 
     async def connect(self, user_id: str, websocket: WebSocket):
-        await websocket.accept()
-
-        if user_id not in self.active_connections:
-            self.active_connections[user_id] = []
-
-        self.active_connections[user_id].append(websocket)
+        # websocket.accept() should NOT be here
+        self.active_connections[user_id].add(websocket)
 
     def disconnect(self, user_id: str, websocket: WebSocket):
-        self.active_connections[user_id].remove(websocket)
+        if user_id in self.active_connections:
+            self.active_connections[user_id].discard(websocket)
 
-    async def send_to_users(self, user_ids: list[str], payload: dict):
-        for user_id in user_ids:
-            if user_id in self.active_connections:
-                for ws in self.active_connections.get(user_id, []):
-                    await ws.send_json(payload)
+            # clean up empty user entries
+            if not self.active_connections[user_id]:
+                del self.active_connections[user_id]
+
+    async def send_personal_message(self, user_id: str, message: dict):
+        if user_id not in self.active_connections:
+            return
+
+        for connection in self.active_connections[user_id]:
+            await connection.send_json(message)
+
+    async def broadcast(self, message: dict):
+        for connections in self.active_connections.values():
+            for connection in connections:
+                await connection.send_json(message)
 
 
-manager = ConnectionManager()
+manager = WebSocketManager()

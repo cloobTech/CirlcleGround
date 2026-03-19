@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import select, update, and_
 from src.models.basemodel import Base
 from typing import Type, TypeVar, Generic
 
@@ -63,7 +63,7 @@ class BaseRepository(Generic[ModelType]):
         result = await self.session.scalars(stmt)
         return list(result.all())
 
-    async def update(self, id: str, filters: dict | None = None, data: dict | None = None) -> bool:
+    async def update(self, id: str | None = None, filters: dict | None = None, data: dict | None = None) -> bool:
         if not data:
             return False
 
@@ -76,11 +76,17 @@ class BaseRepository(Generic[ModelType]):
                 key: value for key, value in data.items() if key not in IGNORE_LIST
             }
 
+        updated_dict['updated_at'] = datetime.now(timezone.utc)
+
         stmt = update(self.model).values(**updated_dict)
         if id:
             stmt = stmt.where(getattr(self.model, "id") == id)
         elif filters:
-            stmt = stmt.filter_by(**filters)
+            conditions = [
+                getattr(self.model, key) == value
+                for key, value in filters.items()
+            ]
+            stmt = stmt.where(and_(*conditions))
         else:
             raise ValueError(
                 "You must provide either id or filters to update.")

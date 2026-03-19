@@ -4,4 +4,4 @@ from src.schemas.messaging import MessageSchema
 
 class MessageCreatedEvent(DomainEvent):
     message: MessageSchema
-    recipient_ids: list[str]
+    recipient_id: str

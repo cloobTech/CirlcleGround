@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 from src.models.basemodel import Basemodel, Base
-from sqlalchemy.orm import Mapped,  relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
     from src.models.conversation_participant import ConversationParticipant
@@ -9,6 +9,8 @@ if TYPE_CHECKING:
 
 class Conversation(Basemodel, Base):
     __tablename__ = "conversations"
+
+    direct_chat_key: Mapped[str] = mapped_column(nullable=False, unique=True)
 
     participants: Mapped[list["ConversationParticipant"]] = relationship(
         back_populates="conversation",

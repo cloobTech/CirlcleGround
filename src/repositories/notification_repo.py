@@ -9,7 +9,7 @@ class NotificationRepository(BaseRepository[Notification]):
     def __init__(self, session: AsyncSession):
         super().__init__(Notification, session)
 
-    async def get_user_notification(self, user_id: str):
+    async def get_user_notifications(self, user_id: str):
         stmt = (
             select(Notification)
             .join(NotificationRecipient, NotificationRecipient.notification_id == Notification.id)

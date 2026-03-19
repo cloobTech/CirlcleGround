@@ -53,11 +53,14 @@ def get_location_service(uow: UnitOfWork = Depends(get_uow)):
 def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
     return TokenUtils(uow)
 
+
 def get_booking_service(uow: UnitOfWork = Depends(get_uow)):
     return BookingService(uow)
 
+
 def get_amenity_service(uow: UnitOfWork = Depends(get_uow)):
     return AmenityService(uow)
+
 
 def get_space_amenity_service(uow: UnitOfWork = Depends(get_uow)):
     return SpaceAmenityService(uow)
@@ -77,6 +80,28 @@ async def get_current_user(
     user_id = payload.get("sub")
     if user_id is None:
         raise credential_exceptions
+    async with uow:
+        user = await uow.user_repo.get_by_id(user_id)
+
+    if not user:
+        raise credential_exceptions
+    return UserProfile.model_validate(user)
+
+
+async def get_current_user_ws(token: str, uow: UnitOfWork) -> UserProfile:
+    """This function is similar to get_current_user but is designed for WebSocket connections where we can't use Depends. It takes the token and UnitOfWork as parameters directly.
+    """
+    credential_exceptions = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate token",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    payload = decode_access_token(token, credential_exceptions)
+    user_id = payload.get("sub")
+    if user_id is None:
+        raise credential_exceptions
+
     async with uow:
         user = await uow.user_repo.get_by_id(user_id)
 
