@@ -18,6 +18,9 @@ class EntityNotFound(CircleGround):
     def __init__(self, message="Entity not found", details=None):
         super().__init__(message=message, details=details)
 
+class EntityAlreadyExist(CircleGround):
+    def __init__(self, message="Entity already exist", details=None):
+        super().__init__(message=message, details=details)
 
 class UserAlreadyExistsError(CircleGround):
     def __init__(self, message="User already exist", details=None):

@@ -123,3 +123,6 @@ class NotificationType(str, Enum):
     PAYMENT_FAILED = "payment_failed"
     EMAIL_VERIFIED = "email_verified"
 
+class ReviewType(str, Enum):
+    HOST_TO_GUEST_USER = "host_to_guest_user"
+    GUEST_USER_TO_SPACE = "guest_user_to_space"

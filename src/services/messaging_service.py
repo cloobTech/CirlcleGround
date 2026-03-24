@@ -33,7 +33,7 @@ class MessagingService:
                 conversation_id=conversation.id, user_id=recipient_id
             )
 
-        return conversation.id
+            return conversation.id
 
     async def send_message(self, sender_id: str,
                            conversation_id: str,

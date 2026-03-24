@@ -17,6 +17,9 @@ class SpaceAddon(Basemodel, Base):
     price: Mapped[float] = mapped_column(nullable=False)
     currency: Mapped[str] = mapped_column(default="NGN")
 
+
+
+
     space: Mapped['Space'] = relationship(
         back_populates="space_addons",
 

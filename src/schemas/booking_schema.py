@@ -16,7 +16,7 @@ class CreateBookingSchema(BaseModel):
     start_time: datetime
     end_time: datetime
     total_price: float
-    addon_ids: list[str]
+    # addon_ids: list[str]
 
 
 class BookingHistorySchema(BaseModel):

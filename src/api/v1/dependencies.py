@@ -14,6 +14,7 @@ from src.auth.services import AuthService
 from src.services.space_services import SpaceService
 from src.services.user_services import UserService
 from src.services.location_service import LocationService
+from src.services.review_services import ReviewService
 # from src.services.sync_notification_services import N
 from src.utils.token_utils import TokenUtils
 from typing import AsyncGenerator
@@ -65,6 +66,8 @@ def get_amenity_service(uow: UnitOfWork = Depends(get_uow)):
 def get_space_amenity_service(uow: UnitOfWork = Depends(get_uow)):
     return SpaceAmenityService(uow)
 
+def get_review_service(uow: UnitOfWork = Depends(get_uow)):
+    return ReviewService(uow)
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),

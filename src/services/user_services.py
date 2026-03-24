@@ -19,7 +19,7 @@ class UserService:
     async def get_user_spaces(self, user_id: str, params: SpaceQueryParams):
         async with self.uow_factory as uow:
             spaces = await uow.space_repo.get_user_spaces(user_id, params)
-        return spaces
+            return spaces
 
     async def get_user_bookings(self, guest_id: str, params: BookingQueryParams):
         async with self.uow_factory:
@@ -58,7 +58,7 @@ class UserService:
                 )
             await uow.notification_recipient_repo.delete(notification_recipient.id)
             return {
-                "message": "User's notification deleted",
+                "message": "User's notification deleted"
             }
 
     async def delete_multiple_user_notifications(self, notification_ids: list[str], recipient_id: str):

@@ -56,8 +56,14 @@ class User(Basemodel, Base, SoftDeleteMixin):
         cascade="all, delete-orphan"
     )
 
-    reviews: Mapped[list["Review"]] = relationship(
-        back_populates="user",
+    reviews_written: Mapped[list["Review"]] = relationship(
+        back_populates="reviewer",
+        foreign_keys="[Review.reviewer_id]",
+        cascade="all, delete-orphan"
+    )
+    reviews_received: Mapped[list["Review"]] = relationship(
+        back_populates="reviewee",
+        foreign_keys="[Review.reviewee_id]",
         cascade="all, delete-orphan"
     )
 

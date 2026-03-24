@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from src.repositories.base import BaseRepository
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.space_rule import SpaceRule
@@ -11,3 +12,9 @@ class SpaceRuleRepository(BaseRepository):
     async def create(self, space_id: str, data: SpaceRuleSchema) -> SpaceRule:
         space_rule = SpaceRule(space_id=space_id, **data.model_dump())
         return await super().create(space_rule)
+    
+
+    async def get_space_rules(self, space_id: str):
+        stmt = select(self.model).where(self.model.space_id == space_id)
+        result = await self.session.execute(stmt)
+        return result.scalars().all()

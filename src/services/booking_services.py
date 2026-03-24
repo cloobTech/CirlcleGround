@@ -58,8 +58,8 @@ class BookingService:
             booking = Booking(
                 **booking_data.model_dump(), guest_id=guest_id)
 
-            for addon_id in booking_data.addon_ids:
-                await uow.booking_addon_repo.create(booking.id, addon_id)
+            # for addon_id in booking_data.addon_ids:
+            #     await uow.booking_addon_repo.create(booking.id, addon_id)
             
             
             new_booking = await self.uow_factory.booking_repo.create(booking)

@@ -1,6 +1,7 @@
 from fastapi import Depends, APIRouter, UploadFile
-from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation
+from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation, SpaceAddonSchema
 from src.schemas.space_image_schema import DeleteSpaceImage
+from src.schemas.reviews_schema import SendReviewSchema
 from src.models.user import User
 from src.services.space_services import SpaceService
 from src.services.space_image_service import SpaceImageService
@@ -20,6 +21,16 @@ async def create_new_space(space_data: CreateSpaceSchema,
     response = await service.create_space(host_id=user.id, data=space_data)
     return response
 
+@space_router.post("/{space_id}/addons")
+async def create_space_addon(
+    space_id: str,
+    space_addon_data: SpaceAddonSchema,
+    space_service: SpaceService = Depends(get_space_service)
+):
+    response = await space_service.create_space_addons(space_id, space_addon_data)
+    return response
+
+# @space_router.post("/{}")
 
 @space_router.put("/{space_id}")
 async def update_new_space(space_id: str, update_data: UpdateSpaceAtCreation, service: SpaceService = Depends(get_space_service), user: User = Depends(get_current_user)):
@@ -88,5 +99,7 @@ async def search_space(search_string: str, service: SpaceService = Depends(get_s
     print(search_string)
     response = await service.search_spaces(query=search_string)
     return response
+
+
 
 # TODO: add calendar  view

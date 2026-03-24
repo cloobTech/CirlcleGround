@@ -13,6 +13,7 @@ class PydanticConfiguration(BaseSettings):
     MAIL_PASSWORD: str = "password"
     DEV_ENV: str = 'development'
     DATABASE_URL: str = ""
+    UPDATE_WINDOW_MINUTES: int = 60
 
 
     model_config = SettingsConfigDict(

@@ -109,9 +109,10 @@ class Space(Basemodel, Base):
         back_populates="space", cascade="all, delete-orphan")
 
     # NOT CHECKED YET
-
     reviews: Mapped[list["Review"]] = relationship(
-        back_populates="space", cascade="all, delete-orphan")
+        back_populates="space", cascade="all, delete-orphan"
+    )
+
 
     space_amenities: Mapped[list["SpaceAmenity"]] = relationship(
         back_populates="spaces",

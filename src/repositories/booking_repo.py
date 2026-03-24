@@ -1,8 +1,10 @@
 from src.repositories.base import BaseRepository
 from src.models.booking import Booking
+from src.models.space import Space
 from src.enums.enums import BookingStatus
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from src.schemas.booking_schema import BookingQueryParams
 
 
@@ -16,6 +18,16 @@ class BookingRepository(BaseRepository[Booking]):
             stmt = stmt.where(Booking.status == params.status)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
+    
+    async def get_booking(self, booking_id: str):
+        stmt = (
+            select(Booking)
+            .options(selectinload(Booking.space))
+            .where(Booking.id == booking_id)
+        )
+        result = await self.session.execute(stmt)
+        return result.scalar_one_or_none()
+    
 
     async def get_space_bookings(self, space_id: str) -> list[Booking]:
         stmt = select(Booking).where(Booking.space_id == space_id)
@@ -61,3 +73,16 @@ class BookingRepository(BaseRepository[Booking]):
         )
         result = await self.session.execute(stmt)
         return result.scalars().all()
+    
+    async def get_user_and_host_completed_booking(self, guest_id: str, host_id: str, space_id: str):
+        stmt = (
+            select(self.model)
+            .join(Booking.space)
+            .where(
+                self.model.guest_id == guest_id,
+                self.model.space_id == space_id,
+                Space.host_id == host_id
+            )
+        )
+        result = await self.session.execute(stmt)
+        return result.scalar_one_or_none

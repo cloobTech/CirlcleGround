@@ -22,6 +22,7 @@ from src.repositories.notification_recipient_repo import NotificationRecipientRe
 from src.repositories.conversation_repo import ConversationRepository
 from src.repositories.message_repo import MessageRepository
 from src.repositories.conversation_participant_repo import ConversationParticipantRepository
+from src.repositories.review_repo import ReviewRepository
 
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
@@ -61,6 +62,7 @@ class UnitOfWork:
         self.message_repo = MessageRepository(session)
         self.conversation_participant_repo = ConversationParticipantRepository(
             session)
+        self.review_repo = ReviewRepository(session)
 
     def collect_event(self, event: DomainEvent) -> None:
         # print(f"Collecting event: {event}")

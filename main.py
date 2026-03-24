@@ -15,6 +15,7 @@ from src.api.v1.routes.space_amenities import space_amenities_router
 from src.api.v1.routes.location import location_router
 from src.api.v1.routes.message import message_router
 from src.api.v1.routes.websocket import ws_router
+from src.api.v1.routes.review import review_router
 from src.api.v1.register_exceptions import register_exception_handlers
 from src.core.pydantic_confirguration import config
 from src.events.bootstrap import bootstrap_events_initializer
@@ -72,6 +73,8 @@ app.include_router(booking_router)
 app.include_router(ws_router)
 
 app.include_router(message_router)
+
+app.include_router(review_router)
 
 # async def main():
 #     background_tasks = BackgroundTasks()

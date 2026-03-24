@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from src.enums.enums import SpaceType, SpaceCategory, SpaceStatus, SpacePriceType, BookingStatus
 from datetime import datetime, time
 
@@ -80,3 +80,18 @@ class SpaceQueryParams(BaseModel):
     booking_status: BookingStatus | None = None
     include_bookings: bool = False
     space_status: SpaceStatus | None = None
+
+
+class CreateSpaceBlackout(BaseModel):
+    
+    start_datetime: datetime
+    end_datetime: datetime
+    reason: str
+
+class ReadSpaceBlackout(BaseModel):
+    id: str
+    start_datetime: datetime
+    end_datetime: datetime
+    reason: str
+
+model_config = ConfigDict(from_attributes=True)

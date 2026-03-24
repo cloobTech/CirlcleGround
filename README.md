@@ -36,6 +36,7 @@ Base Url or local development
 - [Add to wishist](docs/api/spaces/add_to_wishlist.md)
 - [Reomve from wishist](docs/api/spaces/remove_from_wishlist.md)
 - [Search Space](docs/api/spaces/search_space.md)
+- [Create Space Addons](docs/api/spaces/create_space_addons.md)
 
 
 
@@ -82,6 +83,17 @@ Base Url or local development
 
 </details>
 
+
+<!-- Messages -->
+<details>
+<summary>Messages</summary>
+
+- [Delete Message](docs/api/space_amenity/delete_message.md)
+- [Start Conversation](docs/api/space_amenity/start_conversation.md)
+- [Update Message](docs/api/space_amenity/update_message.md)
+- [Mark messages as read](docs/api/space_amenity/mark_messages_as_read.md)
+
+</details>
 
 <!-- User -->
 <details>

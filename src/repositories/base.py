@@ -30,10 +30,15 @@ class BaseRepository(Generic[ModelType]):
         return list(result.all())
 
     async def get_by_id(self, id: str):
-        result = await self.session.get(self.model, id)
+        stmt = select(self.model).where(self.model.id == id)
+
+        if hasattr(self.model, "is_deleted"):
+            stmt = stmt.where(self.model.is_deleted.is_(False))
+
+        result = await self.session.scalar(stmt)
         return result
 
-    async def delete(self, id, soft: bool = False) -> bool:
+    async def delete(self, id: str, soft: bool = False) -> bool:
         obj = await self.get_by_id(id)
         if not obj:
             return False
@@ -43,7 +48,6 @@ class BaseRepository(Generic[ModelType]):
             setattr(obj, "deleted_at", datetime.now(timezone.utc))
         else:
             await self.session.delete(obj)
-
         return True
 
     async def restore(self, obj: ModelType) -> ModelType:

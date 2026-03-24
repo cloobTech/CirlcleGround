@@ -1,4 +1,5 @@
-from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation
+from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation, SpaceAddonSchema, SpaceRuleSchema, CreateSpaceBlackout, ReadSpaceBlackout, SpaceOperationHourSchema
+from src.schemas.reviews_schema import ReadReview
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import StoreAlreadyExistsError, PermissionDeniedError
 from src.notification_factory.space_notification_factory import SpaceNotificationFactory
@@ -14,10 +15,52 @@ class SpaceService:
             new_space = await uow.space_repo.create_space(host_id=host_id, data=space_data)
 
 
-        return {
-            "id": new_space.id,
-            "message": "Space created successfully "
-        }
+            return {
+                "id": new_space.id,
+                "message": "Space created successfully "
+            }
+    
+    async def create_space_addons(self, space_id: str, data: SpaceAddonSchema):
+        async with self.uow_factory as uow:
+            space_addon = await uow.space_addon_repo.create(space_id, data)
+        
+            return {
+                "id": space_addon.id,
+                "message": "Space addons created successfully"
+            }
+    
+    async def create_space_rules(self, space_id: str, space_rules: SpaceRuleSchema):
+        async with self.uow_factory as uow:
+            space_rules = await uow.space_rule_repo.create(space_id, space_rules)
+            return{
+                "space_rules": space_rules
+            }
+    
+    async def create_space_blackout(self, space_id: str, data: CreateSpaceBlackout):
+        async with self.uow_factory as uow:
+            space_blackout = await uow.space_blackout_repo.create(space_id, data)
+            return ReadSpaceBlackout.model_validate(space_blackout)
+    
+    async def create_space_operating_hour(self, space_id: str, data: SpaceOperationHourSchema):
+        async with self.uow_factory as uow:
+            operating_hours = await uow.space_operating_hour_repo.create(space_id, data)
+            return operating_hours
+    
+    
+
+    async def get_space_operating_hour(self, space_id: str):
+        async with self.uow_factory as uow:
+            space_operating_hours = await uow.space_operating_hour_repo.get_space_operating_hour(space_id)
+            return space_operating_hours
+    
+    async def get_space_blackout(self, space_id: str):
+        async with self.uow_factory as uow:
+            space_blackout = await uow.space_blackout_repo.get_space_blackout(space_id)
+            return space_blackout
+    
+    async def get_space_rules(self, space_id: str):
+        async with self.uow_factory as uow:
+            space_rule = await uow.
 
     async def update_new_space(self, user_id: str, space_id: str, data: UpdateSpaceAtCreation):
         """Update a new space with addons"""
@@ -68,13 +111,14 @@ class SpaceService:
             space.status = data.status
             uow.collect_event(SpaceNotificationFactory.space_created(space, space.host_id))
 
-        return {
-            "id": space.id,
-            "message": "Space updated successfully"
-        }
+            return {
+                "id": space.id,
+                "message": "Space updated successfully"
+            }
 
     async def search_spaces(self, query: str, limit: int = 10):
         """Search for spaces based on a query string."""
         async with self.uow_factory as uow:
             spaces = await uow.space_repo.search_spaces(query=query, limit=limit)
-        return spaces
+            return spaces
+    
