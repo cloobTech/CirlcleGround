@@ -1,0 +1,30 @@
+[project]
+name = "circleground-backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "alembic>=1.18.0",
+    "celery[redis]>=5.6.0",
+    "email-validator>=2.3.0",
+    "fastapi>=0.127.1",
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "passlib[bcrypt]>=1.7.4",
+    "pgvector>=0.4.2",
+    "phonenumbers>=9.0.21",
+    "pillow>=12.1.1",
+    "pwdlib[argon2]>=0.3.0",
+    "pydantic-settings>=2.12.0",
+    "pyjwt>=2.10.1",
+    "python-dotenv>=1.2.1",
+    "python-jose>=3.5.0",
+    "python-multipart>=0.0.22",
+    "resend>=2.19.0",
+    "sqlalchemy>=2.0.45",
+    "uvicorn>=0.40.0",
+    "websockets>=16.0",
+    "yagmail>=0.15.293",
+]
