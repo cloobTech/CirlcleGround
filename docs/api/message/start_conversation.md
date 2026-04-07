@@ -6,6 +6,7 @@
 This module provides real-time messaging using WebSockets. It supports:
 
 ---
+**Web socket endpoint:** `/api/v1/websocket/messages`
 
 
 ### Query Parameters

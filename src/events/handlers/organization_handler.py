@@ -13,3 +13,6 @@ async def handle_organization_created(event: OrganizationCreatedEvent):
         context={"organization_name": organization.organization_name,
                  "year": organization.year, "admin_name": organization.admin_name}
     )
+
+
+

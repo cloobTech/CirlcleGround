@@ -96,10 +96,11 @@ Base Url or local development
 <details>
 <summary>Messages</summary>
 
-- [Delete Message](docs/api/space_amenity/delete_message.md)
-- [Start Conversation](docs/api/space_amenity/start_conversation.md)
-- [Update Message](docs/api/space_amenity/update_message.md)
-- [Mark messages as read](docs/api/space_amenity/mark_messages_as_read.md)
+- [Delete Message](docs/api/message/delete_message.md)
+- [Start Conversation](docs/api/message/start_conversation.md)
+- [Update Message](docs/api/message/update_message.md)
+- [Mark messages as read](docs/api/message/mark_messages_as_read.md)
+- [Send message](docs/api/message/send_message.md)
 
 </details>
 
