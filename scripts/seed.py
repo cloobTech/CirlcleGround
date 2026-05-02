@@ -9,7 +9,7 @@ from src.repositories.space_image_repo import SpaceImageRepository
 from src.repositories.space_repo import SpaceRepository
 from src.services.space_services import SpaceService
 from src.unit_of_work.unit_of_work import UnitOfWork
-from src.auth.security import hash_password
+from src.auth.security import hash
 from src.schemas.space_schema import CreateSpaceSchema, UpdateSpaceAtCreation, SpaceImageSchema, SpaceSchema
 
 
@@ -29,15 +29,15 @@ async def seed_data():
         await amenity_repo.bulk_create(amenities)
         print(" =============================== Amenities created ===================================")
 
-        user_repo = UserRepository(session)
-        user = User(**REGISTER_USER)
-        user.password = hash_password(user.password)
-        await user_repo.create(user)
-        print(" =============================== User created ===================================")
+        # user_repo = UserRepository(session)
+        # user = User(**REGISTER_USER)
+        # user.password = hash_password(user.password)
+        # await user_repo.create(user)
+        # print(" =============================== User created ===================================")
 
         user_repo = UserRepository(session)
         user = User(**REGISTER_SUPER_ADMIN)
-        user.password = hash_password(user.password)
+        user.password = hash(user.password)
         await user_repo.create(user)
         print(" =============================== Super Admin User created ===================================")
 

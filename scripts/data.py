@@ -41,6 +41,7 @@ REGISTER_SUPER_ADMIN = {
 
 CREATE_SPACE = {
     "location_id": "loc_001",
+    "price_per_hour": 30000,
     "name": "Modern Event Hall",
     "description": "A spacious and well-lit hall suitable for events, meetings, and celebrations.",
     "price": 50000,

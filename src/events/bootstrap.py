@@ -12,3 +12,4 @@ def bootstrap_events_initializer():
     event_bus.subscribe(NotificationCreatedEvent, handle_notification_created)
     event_bus.subscribe(UserCreatedEvent, handle_user_created)
     event_bus.subscribe(OrganizationCreatedEvent, handle_organization_created)
+    

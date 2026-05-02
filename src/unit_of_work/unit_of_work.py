@@ -24,6 +24,10 @@ from src.repositories.message_repo import MessageRepository
 from src.repositories.activity_log_repo import ActivityLogRepository
 from src.repositories.conversation_participant_repo import ConversationParticipantRepository
 from src.repositories.review_repo import ReviewRepository
+from src.repositories.wallet_repository import WalletRepository
+from src.repositories.wallet_transaction_repo import WalletTransactionRepository
+from src.repositories.bank__account_repo import BankAccountRepository
+from src.repositories.bank_repo import BankRepository
 
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
@@ -65,6 +69,10 @@ class UnitOfWork:
             session)
         self.review_repo = ReviewRepository(session)
         self.activity_repo = ActivityLogRepository(session)
+        self.wallet_repo = WalletRepository(session)
+        self.wallet_transaction_repo = WalletTransactionRepository(session)
+        self.bank_account_repo = BankAccountRepository(session)
+        self.bank_repo = BankRepository(session)
         
 
     def collect_event(self, event: DomainEvent) -> None:

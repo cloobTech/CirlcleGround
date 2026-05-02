@@ -50,6 +50,38 @@ Base Url or local development
 
 </details>
 
+<!-- Bank -->
+<summary>Bank</summary>
+
+- [Create Bank](docs/api/bank/create_bank.md)
+
+</details>
+
+<!-- Bank Account -->
+<summary>Bank Account</summary>
+
+- [Add bank account](docs/api/bank_account/add_bank_account.md)
+
+</details>
+
+<!-- Webhook -->
+<summary>Webhook</summary>
+
+- [Paystack Webhook Handler](docs/api/webhook/webhook.md)
+
+</details>
+
+<!-- Paystack -->
+<summary>Paystack</summary>
+
+- [Create Recipient (Paystack)](docs/integrations/paystack/create_recipient.md)
+- [Get Supported Banks (Paystack)](docs/integrations/paystack/get_banks.md)
+- [Initialize Transfer (Paystack)](docs/integrations/paystack/initialize_transfer.md)
+- [Initialize Payment (Paystack)](docs/integrations/paystack/initialize_payment.md)
+- [Resolve Bank Account (Paystack)](docs/integrations/paystack/resolve_bank.md)
+
+</details>
+
 
 <!-- Booking -->
 <details>

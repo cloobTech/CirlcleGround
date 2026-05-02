@@ -5,6 +5,7 @@ from src.models.user import User
 from pydantic import EmailStr
 
 
+
 class UserRepository(BaseRepository[User]):
 
     def __init__(self, session: AsyncSession) -> None:

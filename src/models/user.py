@@ -12,6 +12,9 @@ if TYPE_CHECKING:
     from src.models.wish_list import WishList
     from src.models.notification import Notification
     from src.models.notification_recipient import NotificationRecipient
+    from src.models.wallet import Wallet
+    from src.models.payments import Payment
+    from src.models.bank_account import BankAccount
 
 
 class User(Basemodel, Base, SoftDeleteMixin):
@@ -29,7 +32,7 @@ class User(Basemodel, Base, SoftDeleteMixin):
 
     role: Mapped[UserRole] = mapped_column(
         Enum(UserRole),
-        default=UserRole.GUEST_USER
+        default=UserRole.HOST
     )
 
     is_email_verified: Mapped[bool] = mapped_column(default=False)
@@ -86,3 +89,8 @@ class User(Basemodel, Base, SoftDeleteMixin):
         back_populates="user",
         cascade="all, delete-orphan"
     )
+
+    wallet: Mapped["Wallet"] = relationship(back_populates="user", cascade="all, delete-orphan")
+    payments: Mapped["Payment"] = relationship(back_populates="user", cascade="all, delete-orphan")
+    bank_account: Mapped["BankAccount"] = relationship(back_populates="user", cascade="all, delete-orphan")
+    

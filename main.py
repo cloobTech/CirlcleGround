@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from src.api.v1.routes.booking import booking_router
 from src.api.v1.routes.auth import auth_router
+from src.api.v1.routes.webhook import wb_router
 from src.api.v1.routes.user import user_router
 from src.api.v1.routes.space import space_router
 from src.api.v1.routes.amenity import amenity_router
@@ -15,8 +16,13 @@ from src.api.v1.routes.space_amenities import space_amenities_router
 from src.api.v1.routes.location import location_router
 from src.api.v1.routes.message import message_router
 from src.api.v1.routes.websocket import ws_router
+from src.api.v1.routes.payment import payment_router
+from src.api.v1.routes.wallet_transaction import wallet_transaction_router
 from src.api.v1.routes.review import review_router
 from src.api.v1.routes.activity_log import activity_log_router
+from src.api.v1.routes.bank_account import bank_account_router
+from src.api.v1.routes.bank import bank_router
+
 from src.api.v1.register_exceptions import register_exception_handlers
 from src.core.pydantic_confirguration import config
 from src.events.bootstrap import bootstrap_events_initializer
@@ -69,6 +75,10 @@ app.include_router(space_amenities_router)
 
 app.include_router(amenity_router)
 
+app.include_router(payment_router)
+
+app.include_router(wallet_transaction_router)
+
 app.include_router(booking_router)
 
 app.include_router(ws_router)
@@ -78,6 +88,12 @@ app.include_router(message_router)
 app.include_router(review_router)
 
 app.include_router(activity_log_router)
+
+app.include_router(bank_router)
+
+app.include_router(wb_router)
+
+app.include_router(bank_account_router)
 
 # async def main():
 #     background_tasks = BackgroundTasks()

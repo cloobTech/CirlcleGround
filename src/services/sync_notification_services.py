@@ -1,7 +1,7 @@
 from src.models.notification_recipient import NotificationRecipient
 from src.unit_of_work.sync_uow import SyncUnitOfWork
 from src.schemas.notification import CreateNotification
-from src.core.exceptions import EntityNotFound, PermissionDeniedError
+
 
 
 class SyncNotificationService:

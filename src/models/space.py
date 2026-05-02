@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from decimal import Decimal
 from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Computed, ForeignKey, Index, Text, Enum
@@ -39,7 +40,7 @@ class Space(Basemodel, Base):
         ForeignKey("users.id"), nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
-    price: Mapped[float] = mapped_column(nullable=False)
+    price_per_hour: Mapped[Decimal] = mapped_column(nullable=False)
     max_guests: Mapped[int] = mapped_column(nullable=False)
     space_type: Mapped[SpaceType] = mapped_column(
         Enum(SpaceType), nullable=False, default=SpaceType.OTHERS)

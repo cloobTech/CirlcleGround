@@ -1,7 +1,8 @@
 from src.repositories.base import BaseRepository
 from src.models.booking import Booking
 from src.models.space import Space
-from src.enums.enums import BookingStatus
+from src.models.payments import Payment
+from src.enums.enums import BookingStatus, BookingPaymentStatus
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
@@ -22,8 +23,11 @@ class BookingRepository(BaseRepository[Booking]):
     async def get_booking(self, booking_id: str):
         stmt = (
             select(Booking)
-            .options(selectinload(Booking.space))
-            .where(Booking.id == booking_id)
+            .options(
+                selectinload(Booking.space),
+                selectinload(Booking.payments)
+            )
+            .where(Booking.id == booking_id).order_by(self.model.created_at.desc())
         )
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
@@ -85,4 +89,12 @@ class BookingRepository(BaseRepository[Booking]):
             )
         )
         result = await self.session.execute(stmt)
-        return result.scalar_one_or_none
+        return result.scalar_one_or_none()
+    
+    # async def get_actionable_booking(self, booking_id: str):
+    #     stmt = select(self.model).where(
+    #         self.model.booking_id == booking_id,
+    #         self.model.status.in_([BookingPaymentStatus.PENDING, PaymentStatus.UNPAID])
+    #     )
+    #     result = await self.session.execute(stmt)
+    #     return result.scalar_one_or_none()

@@ -9,12 +9,15 @@ from src.schemas.user_schema import CreateUserSchema, LoginUser, ReadUser
 from src.schemas.activity_log_schema import ActivityLogSchema
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.core.exceptions import InvalidCredentialsError
-from src.auth.security import verify_password, hash_password
+from src.auth.security import verify_password, hash
 from src.auth.jwt import retrieve_token
 from src.services.user_services import UserService
 from src.enums.enums import UserRole, ResourceType, ActivityType
 from src.core.exceptions import PermissionDeniedError, UserNotFound, UserAlreadyExistsError, InvalidResetTokenError
 from src.utils.token_utils import TokenUtils
+from src.schemas.wallet_schema import CreateWallet
+from src.enums.enums import Currency
+from src.utils.numbers import normalize_phone_numbers
 
 
 class AuthService:
@@ -24,6 +27,7 @@ class AuthService:
 
         
     async def create_user(self, user_data: CreateUserSchema):
+    
         """Register a new user"""
         async with self.uow_factory:
             token_utils = TokenUtils(self.uow_factory)
@@ -33,12 +37,22 @@ class AuthService:
                     "recommendation": "user should provide a different email"
                 })
 
-            user_data.password = hash_password(user_data.password)
+            user_data.password = hash(user_data.password)
             data = user_data.model_dump()
             user = User(**data)
             verification_token = await token_utils.user_verfication_token(user, expiry_time=10)
             created_user = await self.uow_factory.user_repo.create(user)
-            print(created_user.role)
+            if user.role == UserRole.HOST:
+                if not user_data.wallet_pin:
+                    raise ValueError("Wallet pin is required for host users")
+                phone_number = normalize_phone_numbers(user.phone_number)
+                data = CreateWallet(
+                    user_id=user.id,
+                    currency=Currency.NGN,
+                    account_number=phone_number,
+                    wallet_pin=hash(user_data.wallet_pin)
+                )  
+                await self.uow_factory.wallet_repo.create_wallet(data)
             await self.uow_factory.activity_repo.log_activity(
                 ActivityLogSchema(
                     user_id=created_user.id,
@@ -51,8 +65,7 @@ class AuthService:
             # celery task (send verification token to user via mail)
             if verification_token:
                 self.uow_factory.collect_event(UserCreatedEvent(
-                    first_name=user.first_name, last_name=user.last_name, email=user.email, token=verification_token, event_type="NEW_USER_CREATED"))
-            
+                    first_name=user.first_name, last_name=user.last_name, email=user.email, token=verification_token, event_type="NEW_USER_CREATED"))            
             return ReadUser.model_validate(created_user)
 
     async def create_admin(self, user_data: CreateUserSchema, current_user: User):
@@ -149,7 +162,7 @@ class AuthService:
             user = await self.uow_factory.user_repo.get_by_id(user_id)
             if not user:
                 raise UserNotFound(message="User not found")
-            password = hash_password(new_password)
+            password = hash(new_password)
             await self.uow_factory.user_repo.update(id=user_id, data={"password": password})
             return {
                 "status": "success",

@@ -1,9 +1,11 @@
 from pydantic import BaseModel, Field, ConfigDict
 from src.enums.enums import SpaceType, SpaceCategory, SpaceStatus, SpacePriceType, BookingStatus
 from datetime import datetime, time
+from decimal import Decimal
 
 
 class SpaceSchema(BaseModel):
+    price_per_hour: Decimal
     location_id: str
     name: str
     description: str

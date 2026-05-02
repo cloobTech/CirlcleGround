@@ -9,7 +9,7 @@ from src.enums.enums import BookingStatus, BookingPaymentStatus
 if TYPE_CHECKING:
     from src.models.user import User
     from src.models.reviews import Review
-    # from src.models.payments import Payment
+    from src.models.payments import Payment
     from src.models.space import Space
     from src.models.booking_history import BookingStatusHistory
     from src.models.booking_addon import BookingAddon
@@ -25,10 +25,11 @@ class Booking(Basemodel, Base):
     end_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     cancelled_time: Mapped[DateTime] = mapped_column(DateTime, nullable=True)
     currency: Mapped[str] = mapped_column(nullable=False, default="NGN")
+    payment_status: Mapped[BookingStatus] = mapped_column(
+        Enum(BookingPaymentStatus), default=BookingPaymentStatus.UNPAID)
     total_price: Mapped[float] = mapped_column(nullable=False)
-    payment_status: Mapped[BookingPaymentStatus] = mapped_column(
-        Enum(BookingPaymentStatus), default=BookingPaymentStatus.UNPAID
-    )
+    amount_paid: Mapped[float] = mapped_column(nullable=True)
+ 
 
     # relationships
     user: Mapped["User"] = relationship(
@@ -46,10 +47,10 @@ class Booking(Basemodel, Base):
     reviews: Mapped[list["Review"]] = relationship(
     back_populates="booking", cascade="all, delete-orphan")
 
-    # booking_addons: Mapped[list["BookingAddon"]] = relationship(
-    #     back_populates="booking",
-    # )
+    booking_addons: Mapped[list["BookingAddon"]] = relationship(
+        back_populates="booking",
+    )
 
-    # payment: Mapped["Payment"] = relationship(
-    #     back_populates="booking", )
+    payments: Mapped[list["Payment"]] = relationship(
+        back_populates="booking")
     # review:Mapped["Review"] = relationship(back_populates="booking", uselist=False)

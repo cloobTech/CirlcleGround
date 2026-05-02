@@ -22,3 +22,5 @@ from src.models.conversation_participant import ConversationParticipant
 from src.models.message import Message
 from src.models.notification import Notification
 from src.models.notification_recipient import NotificationRecipient
+from src.models.wallet import Wallet
+from src.models.wallet_transaction import WalletTransaction

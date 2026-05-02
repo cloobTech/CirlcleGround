@@ -78,7 +78,10 @@ def permission_denied_handler(request: Request, exc: Exception):
 
 
 def unique_violation_handler(request: Request, exc: Exception):
-
+    # print(exc.args)
+    # print(exc.__cause__)
+    # print(exc.message)
+    # print(exc.details)
     return JSONResponse(
         status_code=status.HTTP_409_CONFLICT,
         content=ErrorResponse(

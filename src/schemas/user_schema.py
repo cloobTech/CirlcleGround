@@ -18,7 +18,8 @@ class CreateUserSchema(BaseUser):
     location: str | None = None
     latitude: float | None = None
     longitude: float | None = None
-    role: UserRole = UserRole.GUEST_USER
+    role: UserRole = UserRole.HOST
+    wallet_pin: str | None = None
 
     @model_validator(mode="before")
     def phone_number_format(cls, values):

@@ -5,6 +5,7 @@ from src.models.booking import Booking
 from src.schemas.activity_log_schema import ActivityLogSchema
 from src.enums.enums import UserRole, BookingStatus, ResourceType, ActivityType
 from src.notification_factory.booking_notification_factory import BookingNotificationFactory
+from src.utils.price_utils import calculate_booking_price
 
 
 class BookingService:
@@ -56,13 +57,21 @@ class BookingService:
                     message="Space already booked for this period",
                     details={"recommendation": "Check booking details"},
                 )
-            booking = Booking(
-                **booking_data.model_dump(), guest_id=guest_id)
+            total_price = calculate_booking_price(
+                price_per_hour=space.price_per_hour,
+                start_time=booking_data.start_time,
+                end_time=booking_data.end_time
+            )
 
-            # for addon_id in booking_data.addon_ids:
-            #     await uow.booking_addon_repo.create(booking.id, addon_id)
-            
-            
+            booking = Booking(
+                **booking_data.model_dump(),
+                guest_id=guest_id,
+                total_price=total_price
+            )
+
+            for addon_id in booking_data.addon_ids:
+                await uow.booking_addon_repo.create(booking.id, addon_id)
+
             new_booking = await self.uow_factory.booking_repo.create(booking)
             uow.collect_event(BookingNotificationFactory.booking_requested(new_booking.id, guest_id, space, space.host_id))
             await self.uow_factory.activity_repo.log_activity(

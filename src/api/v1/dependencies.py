@@ -16,6 +16,10 @@ from src.services.user_services import UserService
 from src.services.location_service import LocationService
 from src.services.review_services import ReviewService
 from src.services.activity_log_services import ActivityLogService
+from src.services.payment_service import PaymentService
+from src.services.wallet_transaction_service import WalletTransactionService
+from src.services.bank_account_service import BankAccountService
+from src.services.bank_service import BankService
 # from src.services.sync_notification_services import N
 from src.utils.token_utils import TokenUtils
 from typing import AsyncGenerator
@@ -48,10 +52,6 @@ def get_space_service(uow: UnitOfWork = Depends(get_uow)):
 def get_location_service(uow: UnitOfWork = Depends(get_uow)):
     return LocationService(uow)
 
-# def get_notification_recipient_service(uow: UnitOfWork = Depends(get_uow)):
-#     return SyncNotificationRecipientService(uow)
-
-
 def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
     return TokenUtils(uow)
 
@@ -59,16 +59,26 @@ def get_token_utils(uow: UnitOfWork = Depends(get_uow)):
 def get_booking_service(uow: UnitOfWork = Depends(get_uow)):
     return BookingService(uow)
 
+def get_payment_service(uow: UnitOfWork = Depends(get_uow)):
+    return PaymentService(uow)
+
+def get_wallet_transaction_service(uow: UnitOfWork = Depends(get_uow)):
+    return WalletTransactionService(uow)
 
 def get_amenity_service(uow: UnitOfWork = Depends(get_uow)):
     return AmenityService(uow)
-
 
 def get_space_amenity_service(uow: UnitOfWork = Depends(get_uow)):
     return SpaceAmenityService(uow)
 
 def get_review_service(uow: UnitOfWork = Depends(get_uow)):
     return ReviewService(uow)
+
+def get_bank_service(uow: UnitOfWork = Depends(get_uow)):
+    return BankService(uow)
+
+def get_bank_account_service(uow: UnitOfWork = Depends(get_uow)):
+    return BankAccountService(uow)
 
 def get_activity_log_service(uow: UnitOfWork = Depends(get_uow)):
     return ActivityLogService(uow)

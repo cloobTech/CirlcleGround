@@ -136,4 +136,5 @@ class SpaceService:
         async with self.uow_factory as uow:
             spaces = await uow.space_repo.search_spaces(query=query, limit=limit)
             return spaces
+        
     

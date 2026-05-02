@@ -21,7 +21,14 @@ class PaymentStatus(str, Enum):
     FAILED = "failed"
     CANCELLED = "cancelled"
     REFUNDED = "refunded"
+    UNPAID = "unpaid"
 
+class PaymentMethod(str, Enum):
+    CARD = "card"
+    TRANSFER = "transfer"
+
+class Provider(str, Enum):
+    PAYSTACK = "paystack"
 
 class BookingStatus(str, Enum):
     PENDING = "pending"
@@ -33,6 +40,32 @@ class BookingStatus(str, Enum):
     INACTIVE = "inactive"
     CHECKED_IN = "checked_in"
     CHECKED_OUT = "checked_out"
+
+class WalletTransactionPurpose(str, Enum):
+    TOP_UP = "top_up"
+    WITHDRAWAL = "withdrawal"
+    REFUND = "refund"
+    BOOKING_PAYMENT = "booking_payment"
+    TRANSFER = "transfer"
+
+class WalletTransactionStatus(str, Enum):
+    PENDING = "pending"
+    SUCCESS = "success"
+    FAILED = "failed"
+
+class TransactionType(str, Enum):
+    DEBIT = "debit"
+    CREDIT = "credit"
+
+class Currency(str, Enum):
+    NGN = "ngn"
+    USD = "usd"
+
+class PaymentAction(str, Enum):
+    STOP = "stop"
+    REUSE = "reuse"
+    CREATE_NEW = "create_new"
+    CREATE_BALANCE = "create_balance" 
 
 
 class UserRole(str, Enum):
@@ -97,6 +130,8 @@ class BookingPaymentStatus(str, Enum):
     PAID = "paid"
     REFUNDED = "refunded"
     PARTIALLY_PAID = "partially_paid"
+    DECLINED = "declined"
+    
 
 
 class AmenityCategory(str, Enum):

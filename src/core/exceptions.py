@@ -31,6 +31,9 @@ class UserNotFound(CircleGround):
     def __init__(self, message="Service provider not found", details=None):
         super().__init__(message=message, details=details)
 
+class ValidationError(CircleGround):
+    def __init__(self, message="Error while validation input",details=None):
+        super().__init__(message=message, details=details)
 
 class PermissionDeniedError(CircleGround):
     def __init__(self, message="Permission denied", details=None):
@@ -76,6 +79,38 @@ class PasswordMismatchError(CircleGround):
     def __init__(self, message="Password mismatch", details=None):
         super().__init__(message=message, details=details)
 
+class PaystackTransferInitializationError(CircleGround):
+    def __init__(self, message="Paystack transfer initialization failed", details=None):
+        super().__init__(message=message, details=details)
+    
+class PaystackVerificationError(CircleGround):
+    def __init__(self, message="Paystack verification failed", details=None):
+        super().__init__(message=message, details=details)
+
+class PaystackPaymentInitializationError(CircleGround):
+    def __init__(self, message="Paystack initialization failed", details=None):
+        super().__init__(message=message, details=details)
+
+class PaystackResponseError(CircleGround):
+    def __init__(self, message="Invalid response received from paystack", details=None):
+        super().__init__(message=message, details=details)
+
+class PaystackConnectionError(CircleGround):
+    def __init__(self, message="Unable to connect to paystack", details=None):
+        super().__init__(message=message, details=details)
+
+class PaystackTimeoutError(CircleGround):
+    def __init__(self, message="Paystack request timed out", details=None):
+        super().__init__(message=message, details=details)
+
+class BankResolveError(CircleGround):
+    def __init__(self, message="Unable to resolve bank", details=None):
+        super().__init__(message=message, details=details)
+
+
+class FetchBankError(CircleGround):
+    def __init__(self, message="Error while fetching banks", details=None):
+        super().__init__(message=message, details=details)
 
 class InvalidResetTokenError(CircleGround):
     def __init__(self, message="Invalid or expired reset token", details=None):

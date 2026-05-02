@@ -1,7 +1,20 @@
 from pydantic import BaseModel
+from decimal import Decimal
 
 
-class MakePaymentSchema(BaseModel):
-    booking_id: str
-    amount: str
-    payment_status: str
+
+    
+    
+
+
+class WithdrawalSchema(BaseModel):
+    host_id: str
+    amount:  Decimal
+    bank_code: str
+    account_number: str
+    account_name: str
+    request_id: str | None = None
+
+
+
+    
