@@ -1,9 +1,11 @@
 from datetime import datetime
 from typing import TYPE_CHECKING
+from decimal import Decimal
 from src.models.basemodel import Basemodel, Base
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import ForeignKey, Enum, DateTime
 from src.enums.enums import BookingStatus, BookingPaymentStatus
+
 
 
 if TYPE_CHECKING:
@@ -27,8 +29,8 @@ class Booking(Basemodel, Base):
     currency: Mapped[str] = mapped_column(nullable=False, default="NGN")
     payment_status: Mapped[BookingStatus] = mapped_column(
         Enum(BookingPaymentStatus), default=BookingPaymentStatus.UNPAID)
-    total_price: Mapped[float] = mapped_column(nullable=False)
-    amount_paid: Mapped[float] = mapped_column(nullable=True)
+    total_price: Mapped[Decimal] = mapped_column(nullable=False)
+    amount_paid: Mapped[Decimal] = mapped_column(default=0, nullable=True)
  
 
     # relationships
@@ -42,14 +44,13 @@ class Booking(Basemodel, Base):
         cascade="all, delete-orphan"
 
     )
-    
 
     reviews: Mapped[list["Review"]] = relationship(
     back_populates="booking", cascade="all, delete-orphan")
 
-    booking_addons: Mapped[list["BookingAddon"]] = relationship(
-        back_populates="booking",
-    )
+    # booking_addons: Mapped[list["BookingAddon"]] = relationship(
+    #     back_populates="booking",
+    # )
 
     payments: Mapped[list["Payment"]] = relationship(
         back_populates="booking")

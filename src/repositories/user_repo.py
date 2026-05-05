@@ -19,10 +19,6 @@ class UserRepository(BaseRepository[User]):
     async def get_multiple_users_by_ids(self, user_ids: list[str]):
         result = await self.session.execute(select(self.model).where(self.model.id.in_(user_ids)))
         return result.scalars().all()
-    
-    # async def get_profile(self, user_id: str):
-    #     result = await self.session.execute(select(self.model).where(self.model.id == user_id))
-    #     return result.scalar_one_or_none()
 
     async def get_user_by_email(self, email: EmailStr):
         result = await self.session.execute(select(self.model).where(self.model.email == email))

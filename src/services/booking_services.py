@@ -69,8 +69,8 @@ class BookingService:
                 total_price=total_price
             )
 
-            for addon_id in booking_data.addon_ids:
-                await uow.booking_addon_repo.create(booking.id, addon_id)
+            # for addon_id in booking_data.addon_ids:
+            #     await uow.booking_addon_repo.create(booking.id, addon_id)
 
             new_booking = await self.uow_factory.booking_repo.create(booking)
             uow.collect_event(BookingNotificationFactory.booking_requested(new_booking.id, guest_id, space, space.host_id))

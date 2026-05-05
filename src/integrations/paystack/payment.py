@@ -3,7 +3,7 @@ from decimal import Decimal
 from pydantic import EmailStr
 from src.core.pydantic_confirguration import config
 from src.schemas.paystack_client_schema import InitializePaymentResponseSchema, PaymentStatusResponseSchema
-from src.core.exceptions import  PaystackVerificationError, PaystackConnectionError, PaystackPaymentInitializationError, PaystackResponseError, PaystackTimeoutError,
+from src.core.exceptions import  PaystackVerificationError, PaystackConnectionError, PaystackPaymentInitializationError, PaystackResponseError, PaystackTimeoutError
 
 
 
@@ -78,52 +78,52 @@ class PaystackClient:
     async def get_payment_status(self, reference: str):
         url = config.PAYSTACK_PAYMENT_URL/{reference}
         
-            try:
-                async with httpx.AsyncClient(timeout=20) as client:
-                    response = await client.get(
-                        url=url,
-                        headers=self.headers(),
-                    )
-
-                    response.raise_for_status()
-
-                    data: dict = response.json()
-
-            except httpx.TimeoutException as exc:
-                raise PaystackTimeoutError(
-                    message="Paystack verification request timed out."
-                ) from exc
-
-            except httpx.HTTPStatusError as exc:
-                raise PaystackVerificationError(
-                    message=f"Paystack HTTP error: {exc.response.text}"
-                ) from exc
-
-            except httpx.RequestError as exc:
-                raise PaystackConnectionError(
-                    message="Unable to connect to Paystack."
-                ) from exc
-
-            except ValueError as exc:
-                raise PaystackResponseError(
-                    message="Invalid response received from Paystack."
-                ) from exc
-
-            if not data.get("status"):
-                raise PaystackVerificationError(
-                    message=data.get(
-                        "message",
-                        "Paystack payment verification failed.",
-                    )
+        try:
+            async with httpx.AsyncClient(timeout=20) as client:
+                response = await client.get(
+                    url=url,
+                    headers=self.headers(),
                 )
 
-            payment_data = data["data"]
+                response.raise_for_status()
 
-            return PaymentStatusResponseSchema(
-                status=payment_data["status"],
-                email=payment_data["customer"]["email"],
-                reference=payment_data["reference"],
-                amount=Decimal(payment_data["amount"]) / 100,
+                data: dict = response.json()
+
+        except httpx.TimeoutException as exc:
+            raise PaystackTimeoutError(
+                message="Paystack verification request timed out."
+            ) from exc
+
+        except httpx.HTTPStatusError as exc:
+            raise PaystackVerificationError(
+                message=f"Paystack HTTP error: {exc.response.text}"
+            ) from exc
+
+        except httpx.RequestError as exc:
+            raise PaystackConnectionError(
+                message="Unable to connect to Paystack."
+            ) from exc
+
+        except ValueError as exc:
+            raise PaystackResponseError(
+                message="Invalid response received from Paystack."
+            ) from exc
+
+        if not data.get("status"):
+            raise PaystackVerificationError(
+                message=data.get(
+                    "message",
+                    "Paystack payment verification failed.",
+                )
             )
+
+        payment_data = data["data"]
+
+        return PaymentStatusResponseSchema(
+            status=payment_data["status"],
+            email=payment_data["customer"]["email"],
+            reference=payment_data["reference"],
+            amount=Decimal(payment_data["amount"]) / 100,
+        )
 
 paystack_payment_client = PaystackClient()

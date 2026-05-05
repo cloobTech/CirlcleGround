@@ -4,7 +4,6 @@ from src.core.exceptions import EntityNotFound, PermissionDeniedError, Validatio
 from src.enums.enums import PaymentAction, BookingStatus, PaymentStatus, WalletTransactionPurpose, BookingPaymentStatus, WalletTransactionStatus, TransactionType
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.integrations.paystack.payment import paystack_payment_client
-
 from src.utils.payment_logic import decide_payment_action
 
 
@@ -37,16 +36,9 @@ class PaymentService:
             latest_payment = booking.payments[0] if booking.payments else None
 
             if latest_payment and latest_payment.payment_status == PaymentStatus.PENDING:
-                raise Exception("You have a pending transaction, please wait for it to complete")
+                raise Exception("Booking has a pending transaction, please wait for it to complete")
             
-            total_price = booking.total_price
-            minimum_payable_price = total_price / 2
-
-            if amount_paid < minimum_payable_price:
-                raise ValidationError(
-                    message="Amount is below minimum allowed value",
-                    details={"recommendation": f"Minimum payable price is {minimum_payable_price}"}
-                )
+            
             if amount_paid > booking.total_price:
                 raise ValidationError(
                     message="Amount is above booking price",
@@ -60,8 +52,16 @@ class PaymentService:
                     "status": "skipped",
                     "message": "Payment already completed"
                 }
-            print("Got here")
+            
             if payment_action == PaymentAction.CREATE_NEW:
+                total_price = booking.total_price
+                minimum_payable_price = total_price / 2
+
+                if amount_paid < minimum_payable_price:
+                    raise ValidationError(
+                        message="Amount is below minimum allowed value",
+                        details={"recommendation": f"Minimum payable price is {minimum_payable_price}"}
+                    )
                 payment = await uow.payment_repo.create_payment(
                     payload={
                         "booking_id": booking_id,
@@ -70,7 +70,7 @@ class PaymentService:
                         "amount": amount_paid,
                     }
                 )
-                print("Payment created")
+                
                 amount = amount_paid
 
             elif payment_action == PaymentAction.CREATE_BALANCE:
@@ -79,15 +79,24 @@ class PaymentService:
                 
                 payment = latest_payment
                 payment.reference = reference
+                
                 amount = booking.total_price - booking.amount_paid
+                minimum_payable_price = amount / 2
+                if amount_paid < minimum_payable_price:
+                    raise ValidationError(
+                        message="Amount is bellow allowed value",
+                        details={
+                            "recommendation": f"Minimum payable price is {minimum_payable_price}"
+                        }
+                    )
 
             else:
                 raise ValueError(f"Unhandled payment action: {payment_action}")
-        print("About to return url")
+        
 
         result = await paystack_payment_client.initialize_payment(reference, email, amount)
         
-        return result["authorization_url"]
+        return result.authorization_url
         
 
     async def handle_booking_success(self, reference: str):
@@ -112,16 +121,23 @@ class PaymentService:
                 "reference": reference
             })
             
-            if payment.booking.total_price == payment.amount:
+            payment.booking.amount_paid += payment.amount
+
+
+            if payment.booking.amount_paid >= payment.booking.total_price:
                 payment.booking.status = BookingStatus.CONFIRMED
                 payment.booking.payment_status = BookingPaymentStatus.PAID
-                payment.booking.amount_paid = payment.amount
-            elif payment.booking.total_price > payment.amount:
+                payment.payment_status = PaymentStatus.SUCCESS
+
+            elif 0 < payment.booking.amount_paid < payment.booking.total_price:
                 payment.booking.status = BookingStatus.PENDING
                 payment.booking.payment_status = BookingPaymentStatus.PARTIALLY_PAID
-                payment.booking.amount_paid = payment.amount
+                payment.payment_status = PaymentStatus.SUCCESS
 
-            payment.payment_status = PaymentStatus.SUCCESS
+            else:
+                payment.booking.status = BookingStatus.PENDING
+                payment.booking.payment_status = BookingPaymentStatus.UNPAID
+           
 
             return{
                 "status": "success"

@@ -32,7 +32,7 @@ class User(Basemodel, Base, SoftDeleteMixin):
 
     role: Mapped[UserRole] = mapped_column(
         Enum(UserRole),
-        default=UserRole.HOST
+        default=UserRole.GUEST_USER
     )
 
     is_email_verified: Mapped[bool] = mapped_column(default=False)
