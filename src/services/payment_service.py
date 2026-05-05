@@ -80,11 +80,18 @@ class PaymentService:
                 payment = latest_payment
                 payment.reference = reference
                 
+                if booking.amount_paid + amount_paid > booking.total_price:
+                    raise ValidationError(
+                        message="Amount is above allowed value",
+                        details={
+                            "recommendation": f"Maximum payable price is {booking.total_price}"
+                        }
+                    )
                 amount = booking.total_price - booking.amount_paid
                 minimum_payable_price = amount / 2
                 if amount_paid < minimum_payable_price:
                     raise ValidationError(
-                        message="Amount is bellow allowed value",
+                        message="Amount is below allowed value",
                         details={
                             "recommendation": f"Minimum payable price is {minimum_payable_price}"
                         }
