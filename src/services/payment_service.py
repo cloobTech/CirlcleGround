@@ -39,10 +39,12 @@ class PaymentService:
                 raise Exception("Booking has a pending transaction, please wait for it to complete")
             
             
-            if amount_paid > booking.total_price:
+            if booking.amount_paid + amount_paid > booking.total_price:
                 raise ValidationError(
-                    message="Amount is above booking price",
-                    details={"recommendation": f"Total booking price is {booking.total_price}"}
+                    message="Amount is above allowed value",
+                    details={
+                        "recommendation": f"Maximum payable price is {booking.total_price}"
+                    }
                 )
 
             payment_action = decide_payment_action(booking.payment_status)
@@ -80,13 +82,7 @@ class PaymentService:
                 payment = latest_payment
                 payment.reference = reference
                 
-                if booking.amount_paid + amount_paid > booking.total_price:
-                    raise ValidationError(
-                        message="Amount is above allowed value",
-                        details={
-                            "recommendation": f"Maximum payable price is {booking.total_price}"
-                        }
-                    )
+                
                 amount = booking.total_price - booking.amount_paid
                 minimum_payable_price = amount / 2
                 if amount_paid < minimum_payable_price:
@@ -102,7 +98,7 @@ class PaymentService:
         
 
         result = await paystack_payment_client.initialize_payment(reference, email, amount)
-        
+    
         return result.authorization_url
         
 

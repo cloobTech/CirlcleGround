@@ -35,7 +35,7 @@ class WalletTransactionService:
             )
             result = await paystack_payment_client.initialize_payment(reference=reference, email=email, amount=top_up_data.amount)
 
-            return result["authorization_url"]
+            return result.authorization_url
             
     
     async def withdraw(self, user_id: str, withdrawal_data: Withdraw):
@@ -122,4 +122,3 @@ class WalletTransactionService:
             
             payment.payment_status = PaymentStatus.FAILED
             
-
