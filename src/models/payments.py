@@ -21,7 +21,7 @@ class Payment(Basemodel, Base):
     __tablename__ = "payments"
 
     user_id: Mapped[str] = mapped_column(ForeignKey('users.id'), nullable=False)
-    booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id"), nullable=False)
+    booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id"), nullable=True)
     amount: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
     provider: Mapped[str] = mapped_column(Enum(Provider), default=Provider.PAYSTACK)
     reference: Mapped[str] = mapped_column(String(60), nullable=False, default=lambda: str(uuid4()))

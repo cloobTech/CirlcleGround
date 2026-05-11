@@ -14,6 +14,10 @@ class DaysOfTheWeek(str, Enum):
     THURSDAY = "thursday"
     FRIDAY = "friday"
 
+class CardType(str, Enum):
+    MASTER_CARD = "master_card"
+    VERVE = "verve"
+    
 
 class PaymentStatus(str, Enum):
     PENDING = "pending"

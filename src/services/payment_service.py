@@ -97,9 +97,11 @@ class PaymentService:
                 raise ValueError(f"Unhandled payment action: {payment_action}")
         
 
-        result = await paystack_payment_client.initialize_payment(reference, email, amount)
+        result = await paystack_payment_client.initialize_payment(user_id, reference, email, amount)
     
         return result.authorization_url
+    
+    
         
 
     async def handle_booking_success(self, reference: str):
@@ -112,6 +114,7 @@ class PaymentService:
                 return None     
             
             wallet = await uow.wallet_repo.get_wallet_by_user_id(payment.booking.space.host_id)
+            print(wallet)
             wallet.balance += payment.amount
             
             await uow.wallet_transaction_repo.create_wallet_transaction(

@@ -33,7 +33,7 @@ class WalletTransactionService:
                     "reference": reference
                 }
             )
-            result = await paystack_payment_client.initialize_payment(reference=reference, email=email, amount=top_up_data.amount)
+            result = await paystack_payment_client.initialize_payment(user_id=user_id, reference=reference, email=email, amount=top_up_data.amount)
 
             return result.authorization_url
             
@@ -81,16 +81,19 @@ class WalletTransactionService:
             if not transaction:
                 return None
             
+            if transaction.status == WalletTransactionStatus.SUCCESS:
+                return 
+            
             transaction.status = WalletTransactionStatus.SUCCESS
 
             wallet = await uow.wallet_repo.get_by_id(transaction.wallet_id)
             
             wallet.balance += transaction.amount
         
-        return {
-            "status": "success",
-            "message": "Wallet top-up successful"
-        }
+            return {
+                "status": "success",
+                "message": "Wallet top-up successful"
+            }
         
     async def handle_top_up_failed(self, reference: str):
 

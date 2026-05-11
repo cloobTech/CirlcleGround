@@ -17,6 +17,17 @@ REGISTER_USER = {
     "email": "belkid98@gmail.com"
 }
 
+REGISTER_HOST = {
+    "id": "user_1234567",
+    "first_name": "Emmanuel",
+    "last_name": "Bello",
+    "password": "password",
+    "location": "123 Loc",
+    "phone_number": "+233 7248 2022",
+    "email": "emmanuelnwokoma364@gmail.com",
+    "role": "host"
+}
+
 REGISTER_ADMIN = {
     "id": "user_1234",
     "first_name": "Emmanuel",

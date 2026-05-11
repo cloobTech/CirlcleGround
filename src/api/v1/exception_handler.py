@@ -159,6 +159,7 @@ def database_connection_error_handler(request: Request, exc: Exception):
 
 
 def http_exception_handler(request: Request, exc: Exception):
+    
 
     return JSONResponse(
         status_code=exc.status_code if isinstance(

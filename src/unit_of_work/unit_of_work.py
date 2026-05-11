@@ -28,6 +28,7 @@ from src.repositories.wallet_repository import WalletRepository
 from src.repositories.wallet_transaction_repo import WalletTransactionRepository
 from src.repositories.bank__account_repo import BankAccountRepository
 from src.repositories.bank_repo import BankRepository
+from src.repositories.payment_method_repo import PaymentMethodRepository
 
 from src.events.bus import event_bus
 from src.events.base import DomainEvent
@@ -73,6 +74,7 @@ class UnitOfWork:
         self.wallet_transaction_repo = WalletTransactionRepository(session)
         self.bank_account_repo = BankAccountRepository(session)
         self.bank_repo = BankRepository(session)
+        self.payment_method_repo = PaymentMethodRepository(session)
         
 
     def collect_event(self, event: DomainEvent) -> None:
