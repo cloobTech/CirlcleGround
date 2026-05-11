@@ -41,21 +41,6 @@ async def webhook_enpoint(request: Request):
                 elif reference.startswith("BP"):
                     await payment_service.handle_booking_success(reference)
 
-                elif reference.startswith("CA"):
-                    print("CA")
-                    metadata = payload["data"]["metadata"]
-                    authorization = payload["data"]["authorization"]
-
-                    card_payload = PaymentMethodSchema(
-                        user_id=metadata["user_id"],
-                        last_four_digits=authorization["last4"],
-                        authorization_code=authorization["authorization_code"],
-                        expiry_date=f"{authorization['exp_month']}/{authorization['exp_year']}",
-                        reusable=authorization["reusable"],
-                        card_type=authorization["card_type"]
-                    )
-                    print(card_payload)
-                    await payment_method_service.handle_card_authorization_success(card_payload)
 
             elif event == "charge.failed":
                 if reference.startswith("WT"):

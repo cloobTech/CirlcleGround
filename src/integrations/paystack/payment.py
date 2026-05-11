@@ -79,7 +79,7 @@ class PaystackClient:
 
 
     async def get_payment_status(self, reference: str):
-        url = config.PAYSTACK_PAYMENT_URL/{reference}
+        url = f"{config.PAYSTACK_BASE_URL}/transaction/verify{reference}"
         
         try:
             async with httpx.AsyncClient(timeout=20) as client:

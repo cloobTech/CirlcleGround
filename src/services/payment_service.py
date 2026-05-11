@@ -114,7 +114,7 @@ class PaymentService:
                 return None     
             
             wallet = await uow.wallet_repo.get_wallet_by_user_id(payment.booking.space.host_id)
-            print(wallet)
+            # print(wallet)
             wallet.balance += payment.amount
             
             await uow.wallet_transaction_repo.create_wallet_transaction(

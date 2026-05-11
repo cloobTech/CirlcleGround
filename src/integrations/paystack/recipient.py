@@ -13,7 +13,7 @@ class PaystackClient:
     
     async def create_recipient(self, recipient_data: CreateRecipient):
         async with httpx.AsyncClient(timeout=20) as client:
-            url = config.PAYSTACK_RECIPIENT_URL
+            url = f"{config.PAYSTACK_BASE_URL}/transferrecipient"
 
             response = await client.post(url=url, json={
                 "type": "nuban",

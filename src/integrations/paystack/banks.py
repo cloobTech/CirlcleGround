@@ -14,7 +14,7 @@ class PaystackClient:
         }
     
     async def get_banks(self, currency: str = "NGN"):
-        url = config.PAYSTACK_BANK_CODES_URL
+        url = f"{config.PAYSTACK_BASE_URL}/bank"
 
         try:
             async with httpx.AsyncClient(timeout=20) as client:
@@ -65,7 +65,7 @@ class PaystackClient:
         ]
     
     async def resolve_bank(self, account_number: str, bank_code: str):
-        url = config.PAYSTACK_BANK_RESOLVE_URL
+        url = f"{config.PAYSTACK_BASE_URL}/bank/resolve"
         params = {
             "account_number": account_number,
             "bank_code": bank_code

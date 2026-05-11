@@ -39,7 +39,7 @@ class WalletTransactionService:
             
     
     async def withdraw(self, user_id: str, withdrawal_data: Withdraw):
-        print(user_id)
+        # print(user_id)
         async with self.uow_factory as uow:
             reference = f"BP-{uuid4().hex[:12].upper()}"
             wallet = await uow.wallet_repo.get_wallet_by_user_id(user_id)

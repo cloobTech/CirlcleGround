@@ -1,11 +1,9 @@
 import httpx
 from decimal import Decimal
-from pydantic import EmailStr
 from src.core.pydantic_confirguration import config
-from src.schemas.paystack_client_schema import CreateRecipient, InitializeTransfer, InitializePaymentResponseSchema, PaymentStatusResponseSchema, PaystackBankResolveResponseSchema
-from src.schemas.bank_schema import CreateBank
+from src.schemas.paystack_client_schema import InitializeTransfer
 from src.enums.enums import WalletTransactionPurpose
-from src.core.exceptions import PaystackTransferInitializationError, PaystackVerificationError, FetchBankError, PaystackConnectionError, PaystackPaymentInitializationError, PaystackResponseError, PaystackTimeoutError, BankResolveError
+from src.core.exceptions import PaystackTransferInitializationError
 
 
 
@@ -24,7 +22,7 @@ class PaystackClient:
             try:
                 async with httpx.AsyncClient(timeout=20) as client:
                     response = await client.post(
-                        url=config.PAYSTACK_TRANSFER_URL,
+                        url=f"{config.PAYSTACK_BASE_URL}/transfer",
                         headers=self.headers(),
                         json={
                             "source": "balance",
