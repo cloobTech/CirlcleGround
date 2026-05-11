@@ -4,8 +4,7 @@ from src.storage import db
 from src.unit_of_work.unit_of_work import UnitOfWork
 from src.services.payment_service import PaymentService
 from src.services.wallet_transaction_service import WalletTransactionService
-from src.services.payment_method_service import PaymentMethodService
-from src.schemas.payment_method_schema import PaymentMethodSchema
+
 
 
 wb_router = APIRouter(prefix="/api/v1/webhook", tags=["Webhook"])
@@ -32,7 +31,6 @@ async def webhook_enpoint(request: Request):
 
             payment_service = PaymentService(uow)
             wallet_transaction_service = WalletTransactionService(uow)
-            payment_method_service = PaymentMethodService(uow)
 
             if event == "charge.success":
                 if reference.startswith("WT"):

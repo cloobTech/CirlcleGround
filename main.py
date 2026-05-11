@@ -22,7 +22,7 @@ from src.api.v1.routes.review import review_router
 from src.api.v1.routes.activity_log import activity_log_router
 from src.api.v1.routes.bank_account import bank_account_router
 from src.api.v1.routes.bank import bank_router
-from src.api.v1.routes.payment_method import payment_method_router
+
 
 from src.api.v1.register_exceptions import register_exception_handlers
 from src.core.pydantic_confirguration import config
@@ -94,7 +94,6 @@ app.include_router(bank_router)
 
 app.include_router(wb_router)
 
-app.include_router(payment_method_router)
 
 app.include_router(bank_account_router)
 

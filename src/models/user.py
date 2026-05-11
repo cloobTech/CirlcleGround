@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from src.models.wallet import Wallet
     from src.models.payments import Payment
     from src.models.bank_account import BankAccount
-    from src.models.payment_method import PaymentMethod
+
 
 
 class User(Basemodel, Base, SoftDeleteMixin):
@@ -94,5 +94,3 @@ class User(Basemodel, Base, SoftDeleteMixin):
     wallet: Mapped["Wallet"] = relationship(back_populates="user", cascade="all, delete-orphan")
     payments: Mapped["Payment"] = relationship(back_populates="user", cascade="all, delete-orphan")
     bank_account: Mapped["BankAccount"] = relationship(back_populates="user", cascade="all, delete-orphan")
-
-    payment_methods: Mapped[list["PaymentMethod"]] = relationship(back_populates="user", cascade="all, delete-orphan")

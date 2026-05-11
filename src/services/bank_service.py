@@ -15,6 +15,7 @@ class BankService:
     
             if not banks:
                 payload = await paystack_bank_client.get_banks(currency)
+        
                 created_banks = await uow.bank_repo.create_banks(payload)
                 return created_banks
 

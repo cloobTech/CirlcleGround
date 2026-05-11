@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from src.repositories.base import BaseRepository
 from src.models.bank import Bank
-from src.schemas.bank_schema import CreateBank
+
 
 
 class BankRepository(BaseRepository[Bank]):

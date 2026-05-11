@@ -55,14 +55,17 @@ class PaystackClient:
 
         banks = data["data"]
 
-        return [
-            CreateBank(
-                name=bank["name"],
-                code=bank["code"],
-                currency=bank["currency"],
-            )
+        banks_data = [
+            {
+                "name": bank["name"],
+                "code": bank["code"],
+                "currency": bank["currency"]
+            }
             for bank in banks
         ]
+
+        return banks_data
+
     
     async def resolve_bank(self, account_number: str, bank_code: str):
         url = f"{config.PAYSTACK_BASE_URL}/bank/resolve"

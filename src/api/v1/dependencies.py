@@ -20,7 +20,7 @@ from src.services.payment_service import PaymentService
 from src.services.wallet_transaction_service import WalletTransactionService
 from src.services.bank_account_service import BankAccountService
 from src.services.bank_service import BankService
-from src.services.payment_method_service import PaymentMethodService
+
 # from src.services.sync_notification_services import N
 from src.utils.token_utils import TokenUtils
 from typing import AsyncGenerator
@@ -49,8 +49,6 @@ def get_auth_service(uow: UnitOfWork = Depends(get_uow)):
 def get_space_service(uow: UnitOfWork = Depends(get_uow)):
     return SpaceService(uow)
 
-def get_payment_method_service(uow: UnitOfWork = Depends(get_uow)):
-    return PaymentMethodService(uow)
 
 
 def get_location_service(uow: UnitOfWork = Depends(get_uow)):
